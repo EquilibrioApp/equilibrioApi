@@ -7,47 +7,50 @@ import { useNombrePaciente } from '../hooks/useNombrePaciente';
 import { useForm } from '../hooks/usForms';
 import { AppointmentsContext } from '../context/AppointmentsContext';
 
-interface Props
-  extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {}
+interface Props extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {};
 
 export const AppointmentScreen = ({navigation, route}: Props) => {
 
-  const {id = '', idPaciente = '', inicio = '', fin = ''} = route.params;
+  //Parámetros enviados mediante otra pantalla
+  const { idCita = '', nombrePaciente = '', correoPaciente = ''/* , inicio = '', fin = '' */} = route.params;
 
-  const { names } = useNombrePaciente()
-  const { loadAppointmentById } = useContext( AppointmentsContext);
+  const { pacientes } = useNombrePaciente();//Obtiene los nombres de los pacientes
 
-  const { idCita, idPacienteC, inicioC, finC, form, onChange, setFormValue } = useForm({
-      idCita: id,
-      idPacienteC: idPaciente,
-      inicioC: inicio,
-      finC: fin
+  const { loadAppointmentById } = useContext( AppointmentsContext );
+
+  const { id, nombreP, correoP, inicioC, finC, form, onChange, setFormValue } = useForm({
+      id: idCita,
+      nombreP: nombrePaciente,
+      correoP: correoPaciente,
+      inicioC: '',
+      finC: ''
   });
 
   
 
   useEffect(() => {
     navigation.setOptions({
-      title: idPaciente ? idPaciente : 'Nueva cita',
+      title: nombrePaciente ? nombrePaciente : 'Nueva cita',
     });
-  }, []);
-
-  useEffect(() => {
     loadAppointment();
   }, [])
-  
 
   const loadAppointment = async () => {
-    if (id.length === 0) return;
-    const appointment = await loadAppointmentById( id );
+    //Previene error en petición si el id es vacío (nueva cita)
+    if (idCita.length === 0) return;
+    const appointment = await loadAppointmentById( idCita );
+    console.log(form);
     setFormValue({
-      idCita: id,
-      idPacienteC: appointment.idPaciente,
-      inicioC: inicio,
-      finC: fin 
-    })
+      id:  idCita,
+      nombreP: appointment.nombrePaciente,
+      correoP: appointment.correoPaciente,
+      inicioC: appointment.inicio,
+      finC: appointment.fin
+    });
+    console.log(form);
     console.log(appointment);
   }
+  //TODO Función para revisar primer onChange del Picker 
 
   return (
     <View style={styles.container}>
@@ -56,15 +59,20 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
         <Text style={styles.label}>Nombre del Paciente:</Text>
 
         <Picker
-          selectedValue={idPaciente}
-          onValueChange={(value) => onChange(value, 'idPacienteC')}
+          selectedValue={correoP}
+          onValueChange={(value) => {
+              console.log(value);
+              onChange(value, 'correoP');
+            }}
+          
         >
           {
-              names.map( c => (
+              pacientes.map( (paciente, index) => (
                 <Picker.Item 
-                    label={c.nombre} 
-                    value={c.correo}
-                    key = {c.correo} />
+                //TODO Generalizar las variables
+                    label={paciente.nombre}
+                    value={paciente.correo}
+                    key = {index} />
                 
               ))
           }
@@ -75,7 +83,7 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
           placeholder="AAAA-MM-DD"
           style={styles.textInput}
           value = {inicioC}
-          onChange={( value )=> onChange( value, 'inicioC')}
+          onChangeText={( value )=> onChange( value, 'inicioC')}
           underlineColorAndroid="black"
         />
         <Text style={styles.label}>Hora Fin:</Text>
@@ -83,9 +91,10 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
           placeholder="AAAA-MM-DD"
           style={styles.textInput}
           value = {finC}
-          onChange={( value )=> onChange( value, 'finC')}
+          onChangeText={( value )=> onChange( value, 'finC')}
           underlineColorAndroid="black"
         />
+
         <View style={styles.agendar}>
           <TouchableOpacity
             activeOpacity={0.8}

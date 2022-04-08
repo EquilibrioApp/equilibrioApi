@@ -5,7 +5,8 @@ import { AppointmentScreen } from '../screens/AppointmentScreen';
 
 export type AppointmentsStackParams = {
     AppointmentsScreen: undefined,
-    AppointmentScreen: {id?: string, idPaciente?: string, inicio?: string, fin?: string}
+                        //Parámetros que se utilizan en la pantalla
+    AppointmentScreen: {idCita?: string, nombrePaciente?: string, correoPaciente?: string, inicio?: string, fin?: string}
 }
 
 
@@ -27,12 +28,11 @@ export const AppointmentsNavigator = () => {
           <Stack.Screen
             name="AppointmentsScreen"
             component={AppointmentsScreen}
-            options={{title: 'Appointments'}}
+            options={{title: 'Citas Agendadas'}}
           />
           <Stack.Screen
             name="AppointmentScreen"
             component={AppointmentScreen}
-            options={{title: 'Appointment'}}
           />
 
         </Stack.Navigator>

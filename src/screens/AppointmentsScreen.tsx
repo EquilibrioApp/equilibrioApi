@@ -21,7 +21,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
             <TouchableOpacity
               activeOpacity= {0.8}
               style={{marginRight: 20}}
-              onPress={() => navigation.navigate('AppointmentScreen', {})}
+              onPress={ () => navigation.navigate('AppointmentScreen', {}) }
             >
               <Text style={styles.addAppointment}>+</Text>
             </TouchableOpacity>
@@ -34,15 +34,15 @@ export const AppointmentsScreen = ({navigation}: Props) => {
     <View style={{flex: 1, marginHorizontal: 10}}>
       <FlatList
         data={appointments}
-        keyExtractor={p => p.id}
+        keyExtractor={appointment => appointment.id}//id viene del JSON del back
         renderItem={({item}) => (
           <TouchableOpacity
             activeOpacity={0.8}
             // Paso de la informacion al hacer click para otra pantalla
             onPress={
                 () => navigation.navigate('AppointmentScreen', {
-                    id: item.id,
-                    idPaciente: item.idPaciente,
+                    idCita: item.id,
+                    nombrePaciente: item.nombrePaciente,
                     inicio: item.inicio,
                     fin: item.fin
                 })
@@ -50,11 +50,13 @@ export const AppointmentsScreen = ({navigation}: Props) => {
           >
             <>
               <Text style={styles.appointmentDate}>{item.fin}</Text>
-              <Text style={styles.patient}>{item.idPaciente}</Text>
+              <Text style={styles.patient}>{item.nombrePaciente}</Text>
             </>
           </TouchableOpacity>
         )}
-        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+        ItemSeparatorComponent={() => (
+            <View style={styles.itemSeparator}/>
+        )}
       />
     </View>
   );

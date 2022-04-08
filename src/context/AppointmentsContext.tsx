@@ -1,18 +1,18 @@
 import React, {createContext, useState, useEffect} from 'react';
-import calendarApi from '../api/calendarApi';
 import inicioApi from '../api/inicioApi';
 import { AppointmentsDto, Cita } from '../interfaces/appInterfaces';
 
 type AppointmentsContextProps = {
-    loadAppointments: ( iCalUID: string ) => Promise<AppointmentsDto[]>;//TODO Pendiente
-    addAppointment: ( summary: string, atendees: string ) => Promise<void>;
-    updateAppointment: ( idCita: string, fechaInicio: string, fechaTermino: string) => Promise<void>;
+    appointments: Cita[],
+    loadAppointments: ( ) => Promise<void>;//TODO Pendiente
+    addAppointment: ( correo: string, fechaInicio: string, fechaTermino: string ) => Promise<void>;
+    updateAppointment: ( idCita: string, correo: string, fechaInicio: string, fechaTermino: string) => Promise<void>;
     deleteAppointment: ( idCita: string) => Promise<void>;
-    loadAppointmentById: (idCita: string) => Promise<AppointmentsDto>;
+    loadAppointmentById: (id: string) => Promise<Cita>;
   
 }
 
-export const AppointmentsContext = createContext({});
+export const AppointmentsContext = createContext({} as AppointmentsContextProps);
 
 export const AppointmentsProvider = ({children}: any) => {
 
@@ -40,8 +40,8 @@ export const AppointmentsProvider = ({children}: any) => {
   const deleteAppointment = async( idCita: string) => {
 
   }
-  const loadAppointmentById = async(idCita: string): Promise<Cita> => {
-    const resp = await inicioApi.get<Cita>(`calendar/cita/${ idCita }`); /* Manda el Id que reciba de la cita requerida */
+  const loadAppointmentById = async(id: string): Promise<Cita> => {
+    const resp = await inicioApi.get<Cita>(`calendar/cita/${ id }`); /* Manda el Id que reciba de la cita requerida */
     return resp.data;
   }
 

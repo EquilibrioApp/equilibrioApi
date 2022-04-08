@@ -30,7 +30,7 @@ export const UserTypeScreen = ({ navigation }: Props) => {
                 <TouchableOpacity
                     activeOpacity={0.8}
                     style={styles.buttonPaciente}
-                    onPress={() => navigation.navigate('RegisterScreen')}
+                    onPress={() => navigation.navigate('PatientRegisterScreen')}
                 >
                     <Text style={styles.buttonText}>Paciente</Text>
                 </TouchableOpacity>
@@ -41,14 +41,6 @@ export const UserTypeScreen = ({ navigation }: Props) => {
                     onPress={() => navigation.navigate('RegisterScreen')}
                 >
                     <Text style={styles.buttonText}>Especialista</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={styles.buttonAuxiliar}
-                    onPress={() => navigation.navigate('RegisterScreen')}
-                >
-                    <Text style={styles.buttonText}>Auxiliar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
