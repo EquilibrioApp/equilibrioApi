@@ -4,6 +4,7 @@ export const lyricsStyle = StyleSheet.create({
      labelBold : {
         top: 10,
         marginLeft: 15,
+        marginRight:10,
         fontFamily: 'Comfortaa-Bold',
         fontSize: 20,
         fontWeight: '300',
@@ -12,6 +13,7 @@ export const lyricsStyle = StyleSheet.create({
      labelLigh: {
         top: 10,
         marginLeft: 10,
+        marginRight:10,
         fontFamily: 'Comfortaa-Ligh',
         fontSize: 20,
         fontWeight: '300',
@@ -20,6 +22,7 @@ export const lyricsStyle = StyleSheet.create({
      labelRegular: {
         top: 10,
         marginLeft: 10,
+        marginRight:10,
         fontFamily: 'Comfortaa-Regular',
         fontSize: 20,
         fontWeight: '300',

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Alert, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Background } from '../components/Background';
+import { Background } from '../components/MenuExpediente';
 import { EquilibrioLogo } from '../components/EquilibrioLogo';
 import { loginStyles } from '../theme/LoginTheme';
 import { useForm } from '../hooks/usForms';

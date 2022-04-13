@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }: any) => {
 
         } catch (error) {
             /* Se manejan los errores que puedan suceder en el login */
-            console.log(error.response.data);
+            console.log(( error as Error).message);
             dispatch({
                 type: 'addError',
                 payload: /* Falta error.response.data.msg ||*/'Información Incorrecta.'
@@ -109,14 +109,14 @@ export const AuthProvider = ({ children }: any) => {
 
         } catch (error) {
             /* Se manejan los errores que puedan suceder en el login */
-            console.log(error.response.data);
+            console.log(( error as Error).message);
             dispatch({
                 type: 'addError',
-                payload: error.response.data.message || 'Uno de los campos no es correcto.'
+                payload: ( error as Error).message|| 'Uno de los campos no es correcto.'
             })
         }
     };
-
+ 
     const logOut = async () => {
 
         await AsyncStorage.removeItem('token');
