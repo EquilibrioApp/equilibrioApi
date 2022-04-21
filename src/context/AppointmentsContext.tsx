@@ -1,48 +1,54 @@
 import React, {createContext, useState, useEffect} from 'react';
-import calendarApi from '../api/calendarApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import inicioApi from '../api/inicioApi';
-import { AppointmentsDto, Cita } from '../interfaces/appInterfaces';
+import { AppointmentsDto } from '../interfaces/appInterfaces';
 
 type AppointmentsContextProps = {
-    loadAppointments: ( iCalUID: string ) => Promise<AppointmentsDto[]>;//TODO Pendiente
-    addAppointment: ( summary: string, atendees: string ) => Promise<void>;
-    updateAppointment: ( idCita: string, fechaInicio: string, fechaTermino: string) => Promise<void>;
-    deleteAppointment: ( idCita: string) => Promise<void>;
-    loadAppointmentById: (idCita: string) => Promise<AppointmentsDto>;
+    appointments: AppointmentsDto[],
+    loadAppointments: (  ) => Promise<void>;//TODO Pendiente
+    addAppointment: ( correoEspecialista: string, correoPaciente: string ) => Promise<void>;
+    updateAppointment: ( start: string, end: string, id_agenda: string ) => Promise<void>;
+    loadAppointmentById: ( id_agenda: string ) => Promise<AppointmentsDto>;
+    deleteAppointment: ( id_agenda: string ) => Promise<void>;
   
 }
 
-export const AppointmentsContext = createContext({});
+export const AppointmentsContext = createContext({} as AppointmentsContextProps);
 
-export const AppointmentsProvider = ({children}: any) => {
+export const AppointmentsProvider = ({ children }: any) => {
 
-  const [appointments, setAppointments] = useState<Cita[]>([]);
+  const [appointments, setAppointments] = useState<AppointmentsDto[]>([]);
 
   useEffect(() => {
     loadAppointments();
   }, [])
   
   
-  const loadAppointments = async() => {
+  const loadAppointments = async(  ) => {
 
-    const resp = await inicioApi.get<AppointmentsDto>('calendar/listar');
-    // setAppointments([...appointments, ...resp.data.citas]);
-    setAppointments([...resp.data.citas]);
-    console.log(resp.data.citas);
+    const idEspecialista = await AsyncStorage.getItem('id');
 
-  }
-  const addAppointment = async( summary: string, atendees: string ) => {
-
-  }
-  const updateAppointment = async( idCita: string, fechaInicio: string, fechaTermino: string) => {
-
-  }
-  const deleteAppointment = async( idCita: string) => {
+    try {
+      const resp = await inicioApi.get<AppointmentsDto[]>('agenda/123569');
+      setAppointments([...appointments, ...resp.data]);
+      console.log(resp.data);
+    } catch (error) {
+      throw new Error("Error al obtener las citas del especialista en cuestion.");
+    }
 
   }
-  const loadAppointmentById = async(idCita: string): Promise<Cita> => {
-    const resp = await inicioApi.get<Cita>(`calendar/cita/${ idCita }`); /* Manda el Id que reciba de la cita requerida */
-    return resp.data;
+  const addAppointment = async( correoEspecialista: string, correoPaciente: string ) => {
+
+  }
+  const updateAppointment = async( start: string, end: string, id_agenda: string ) => {
+
+  }
+  const deleteAppointment = async( id_agenda: string ) => {
+
+  }
+  const loadAppointmentById = async( id_agenda: string ) => {
+    throw new Error ( 'Not implemented' );
   }
 
 

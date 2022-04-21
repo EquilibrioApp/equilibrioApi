@@ -6,7 +6,7 @@ import { Paciente, PatientNamesResponseDto } from "../interfaces/appInterfaces";
 export const useNombrePaciente = () => {
 
 
-    const [names, setNames] = useState<Paciente[]>([]); 
+    const [pacientes, setNames] = useState<Paciente[]>([]); 
 
     useEffect(() => {
        getNombres();
@@ -18,6 +18,6 @@ export const useNombrePaciente = () => {
         setNames(resp.data.pacientes);
     }
     return {
-        names
+        pacientes
     }
 }

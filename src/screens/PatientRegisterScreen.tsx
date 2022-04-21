@@ -1,5 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useContext, useEffect } from 'react';
+import {StackScreenProps} from '@react-navigation/stack';
+import React, {useContext, useEffect} from 'react';
 import {
   Alert,
   Keyboard,
@@ -8,19 +8,19 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import { Background } from '../components/Background';
-import { Card } from '../components/Card';
-import { EquilibrioLogo } from '../components/EquilibrioLogo';
-import { AuthContext } from '../context/AuthContext';
-import { useForm } from '../hooks/usForms';
-import { loginStyles } from '../theme/LoginTheme';
-import { registerStyles } from '../theme/RegisterTheme';
+import {Background} from '../components/Background';
+import {Card} from '../components/Card';
+import {EquilibrioLogo} from '../components/EquilibrioLogo';
+import {AuthContext} from '../context/AuthContext';
+import {useForm} from '../hooks/usForms';
+import {loginStyles} from '../theme/LoginTheme';
+import {registerStyles} from '../theme/RegisterTheme';
 
 interface Props extends StackScreenProps<any, any> {}
 
-export const RegisterScreen = ({navigation}: Props) => {
+export const PatientRegisterScreen = ({navigation}: Props) => {
   const {signUp, errorMessage, removeError} = useContext(AuthContext);
 
   const {
@@ -41,7 +41,7 @@ export const RegisterScreen = ({navigation}: Props) => {
     onChange,
   } = useForm({
     name: '',
-    userType: '1',
+    userType: '2',
     fathersLastName: '',
     mothersLastName: '',
     email: '',
@@ -199,9 +199,9 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
               /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
+                                loginStyles.inputField,
+                                (Platform.OS === "ios") && loginStyles.inputFieldIOS
+                            ]} */
               selectionColor="grey"
               onChangeText={value => onChange(value, 'sex')}
               value={sex}
@@ -245,9 +245,9 @@ export const RegisterScreen = ({navigation}: Props) => {
               autoCorrect={false}
             />
             {/* Etiqueta para introducir cedula*/}
-            <Text style={loginStyles.label}>Cédula Profesional</Text>
+            <Text style={loginStyles.label}>Nutri-Código</Text>
             <TextInput
-              placeholder="Cédula"
+              placeholder="Nutri-Código"
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
               /* style={[
@@ -255,59 +255,8 @@ export const RegisterScreen = ({navigation}: Props) => {
                                 (Platform.OS === "ios") && loginStyles.inputFieldIOS
                             ]} */
               selectionColor="grey"
-              onChangeText={value => onChange(value, 'cedula')}
-              value={cedula}
-              onSubmitEditing={onRegister}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            {/* Etiqueta para introducir Número del consultorio*/}
-            <Text style={loginStyles.label}>Número exterior del Consultorio</Text>
-            <TextInput
-              placeholder="44120"
-              placeholderTextColor="rgba(0, 0, 0, 0.54)"
-              underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
-              selectionColor="grey"
-              onChangeText={value => onChange(value, 'houseNumber')}
-              value={houseNumber}
-              onSubmitEditing={onRegister}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            {/* Etiqueta para introducir nombre de la calle*/}
-            <Text style={loginStyles.label}>Calle del Consultorio</Text>
-            <TextInput
-              placeholder="Av..."
-              placeholderTextColor="rgba(0, 0, 0, 0.54)"
-              underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
-              selectionColor="grey"
-              onChangeText={value => onChange(value, 'streetName')}
-              value={streetName}
-              onSubmitEditing={onRegister}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            {/* Etiqueta para introducir CP*/}
-            <Text style={loginStyles.label}>Código Postal del Consultorio</Text>
-            <TextInput
-              placeholder="C.P."
-              placeholderTextColor="rgba(0, 0, 0, 0.54)"
-              underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
-              selectionColor="grey"
-              onChangeText={value => onChange(value, 'postalCode')}
-              value={postalCode}
+              onChangeText={value => onChange(value, 'nutriCodigo')}
+              value={nutriCodigo}
               onSubmitEditing={onRegister}
               autoCapitalize="none"
               autoCorrect={false}
