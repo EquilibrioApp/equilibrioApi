@@ -4,9 +4,9 @@ import { AppointmentsScreen } from '../screens/AppointmentsScreen';
 import { AppointmentScreen } from '../screens/AppointmentScreen';
 
 export type AppointmentsStackParams = {
-    AppointmentsScreen: undefined,
-                        //Parámetros que se utilizan en la pantalla
-    AppointmentScreen: {idCita?: string, nombrePaciente?: string, correoPaciente?: string, inicio?: string, fin?: string}
+  //Parámetros que se utilizan en la pantalla
+  AppointmentsScreen: {idEspecialista: string},
+  AppointmentScreen: {id_agenda?: string, idPaciente?: string, idEspecialista?: string, iCalUID?: string, start?: string, end?: string, correoEspecialista?: string, correoPaciente?: string}
 }
 
 

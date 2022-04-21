@@ -9,43 +9,43 @@ import { AppointmentsContext } from '../context/AppointmentsContext';
 
 interface Props extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {};
 
-export const AppointmentScreen = ({navigation, route}: Props) => {
+export const AppointmentScreen = ({ navigation, route }: Props) => {
 
   //Parámetros enviados mediante otra pantalla
-  const { idCita = '', nombrePaciente = '', correoPaciente = ''/* , inicio = '', fin = '' */} = route.params;
+  const { id_agenda = '', idEspecialista = '', start = '', end = '', correoPaciente = '' } = route.params;
 
   const { pacientes } = useNombrePaciente();//Obtiene los nombres de los pacientes
 
   const { loadAppointmentById } = useContext( AppointmentsContext );
 
-  const { id, nombreP, correoP, inicioC, finC, form, onChange, setFormValue } = useForm({
-      id: idCita,
-      nombreP: nombrePaciente,
+  const { id, /* nombreP, */ correoP, inicioC, finC, form, onChange, setFormValue } = useForm({
+      id: id_agenda,
+      // nombreP: nombrePaciente,
       correoP: correoPaciente,
-      inicioC: '',
-      finC: ''
+      inicioC: start,
+      finC: end
   });
 
   
 
   useEffect(() => {
     navigation.setOptions({
-      title: nombrePaciente ? nombrePaciente : 'Nueva cita',
+      title: (correoPaciente) ? correoPaciente : 'Nueva cita',
     });
     loadAppointment();
   }, [])
 
   const loadAppointment = async () => {
     //Previene error en petición si el id es vacío (nueva cita)
-    if (idCita.length === 0) return;
-    const appointment = await loadAppointmentById( idCita );
+    if (id_agenda.length === 0) return;
+    const appointment = await loadAppointmentById( id_agenda );
     console.log(form);
     setFormValue({
-      id:  idCita,
-      nombreP: appointment.nombrePaciente,
+      id:  id_agenda,
+      // nombreP: appointment.nombrePaciente,
       correoP: appointment.correoPaciente,
-      inicioC: appointment.inicio,
-      finC: appointment.fin
+      inicioC: appointment.start,
+      finC: appointment.end
     });
     console.log(form);
     console.log(appointment);

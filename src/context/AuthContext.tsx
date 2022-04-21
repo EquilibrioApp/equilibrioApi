@@ -89,9 +89,11 @@ export const AuthProvider = ({children}: any) => {
     });
     
     console.log(data);
-    console.log(data.result);
+    console.log(data.result.id);
     /* En esta sección se guarda el token en el dispositivo */
     await AsyncStorage.setItem('token', data.token.access_token);
+    await AsyncStorage.setItem('email', data.result.email);
+    await AsyncStorage.setItem('id', data.result.id);
     } catch (error) {
       /* Se manejan los errores que puedan suceder en el login */
       console.log(error);
