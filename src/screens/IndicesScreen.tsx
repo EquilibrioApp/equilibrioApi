@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
+import {stylesButton} from '../components/Button';
 import {Inputstyles} from '../components/Input';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {lyricsStyle} from '../theme/LyricsTheme';
@@ -87,81 +88,90 @@ export const IndicesScreen = ({navigation}: Props) => {
       </View>
 
       <ScrollView style={expedienteStyles.box}>
-        <ScrollView horizontal={true}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              setView(true);
-            }}>
-            <Image
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#148AE7',
+            borderWidth: 1,
+            borderRadius: 20,
+            borderColor: '#FFF',
+            height: 45,
+            width: '80%',
+            marginLeft: 20,
+            marginTop: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          activeOpacity={0.8}
+          onPress={() => {
+            setView(true);
+          }}>
+          <Text style={stylesButton.title}>Agregar medidas</Text>
+          {/* <Image
               style={{height: 50, width: 50, marginTop: 10}}
               source={require('../assets/expediente/Add.png')}
-            />
-          </TouchableOpacity>
+            /> */}
+        </TouchableOpacity>
 
-          {/* Peso 
+        {/* Peso 
             cintura 
             cuello 
             cadera 
             biestiloideo
             femoral */}
 
-          <Modal
-            animationType="fade"
-            onDismiss={() => console.log('close')}
-            onShow={() => console.log('slow')}
-            transparent
-            visible={view}>
-            <View style={Styles.container}>
-              <View style={Styles.subcontainer}>
-                <View style={Styles.headerContainer}>
-                  <TouchableOpacity onPress={() => setView(false)}>
-                    <Image
-                      source={require('../assets/Close.png')}
-                      style={Styles.btnClose}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}></View>
-                <Text style={Inputstyles.title}>Peso</Text>
+        <Modal
+          animationType="fade"
+          onDismiss={() => console.log('close')}
+          onShow={() => console.log('slow')}
+          transparent
+          visible={view}>
+          <View style={Styles.container}>
+            <View style={Styles.subcontainerExpediente}>
+              <View style={Styles.headerContainerExpediente}>
+                <TouchableOpacity onPress={() => setView(false)}>
+                  <Image
+                    source={require('../assets/Close.png')}
+                    style={Styles.btnClose}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={{}}>
+                <Text style={Inputstyles.titleMode}>Peso:</Text>
                 <TextInput
-                  style={Inputstyles.text}
-                  placeholder=" Nombre del paciente"
-                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                  underlineColorAndroid="black"
-                  {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-                />
-                <Text style={Inputstyles.title}>Sexo</Text>
-
-                <Text style={Inputstyles.title}>Altura (cm)</Text>
-                <TextInput
-                  style={Inputstyles.text}
-                  placeholder=" Altura"
+                  style={Inputstyles.textMode}
+                  placeholder=" "
                   placeholderTextColor="rgba(0, 0, 0, 0.54)"
                   underlineColorAndroid="black"
                   keyboardType="numeric"
-                  {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-                  maxLength={3}
+                  {...navigation}
+                  maxLength={5}
+                   // Inherit any props passed to it; e.g., multiline, numberOfLines below
                 />
-
-                <SafeAreaView style={styles.container}>
-                  <View style={styles.container}>
-                    <Text style={Inputstyles.title}>Birth Date :</Text>
-                  </View>
-                </SafeAreaView>
-
-                <Button
-                  title="Guardar"
-                  onPress={() => navigation.navigate('IndicesScreen')}
-                />
+                <Text style={Inputstyles.titleEtiqueta}>kg</Text>
               </View>
+              <ScrollView horizontal={true} /* style = {{marginTop:-250}} */>
+                <Text style={Inputstyles.titleMode}>Peso:</Text>
+                <TextInput
+                  style={Inputstyles.textMode}
+                  placeholder=" "
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  underlineColorAndroid="black"
+                  keyboardType="numeric"
+                  {...navigation}
+                  maxLength={5}
+                   // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                />
+                <Text style={Inputstyles.titleEtiqueta}>kg</Text>
+              </ScrollView>
+
+              <Button
+                title="Guardar"
+                onPress={() => navigation.navigate('IndicesScreen')}
+              />
             </View>
-          </Modal>
+          </View>
+        </Modal>
+        <ScrollView horizontal={true}>
           <Text style={lyricsStyle.labelBold}>Estatura:</Text>
           <TextInput
             placeholder=" Altura"

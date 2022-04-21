@@ -3,8 +3,8 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 function Button(title: any, action: any) {
   return (
-    <TouchableOpacity style={styles.btn} onPress={action}>
-      <Text style={styles.title}>{title}</Text>
+    <TouchableOpacity style={stylesButton.btn} onPress={action}>
+      <Text style={stylesButton.title}>{title}</Text>
     </TouchableOpacity>
   );
 }
@@ -13,7 +13,7 @@ function Button(title: any, action: any) {
 
 export default Button;
 
-const styles = StyleSheet.create({
+export const stylesButton = StyleSheet.create({
   btn: {
     borderWidth: 1,
     borderColor: '#FFF',

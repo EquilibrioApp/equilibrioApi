@@ -6,15 +6,30 @@ export const Styles = StyleSheet.create({
         backgroundColor: 'rgba(1,1,1, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
+        // marginTop: 22
     },
     subcontainer: {
         height: '80%',
         width: '90%',
         backgroundColor: '#fff',
         paddingHorizontal: 10,
+        marginTop: 22
     },
     headerContainer: {
         height: 45,
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+    },
+    subcontainerExpediente: {
+        height: '60%',
+        width: '90%',
+        backgroundColor: '#fff',
+        paddingHorizontal: 10,
+    },
+    headerContainerExpediente: {
+        height: 50,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-end',
