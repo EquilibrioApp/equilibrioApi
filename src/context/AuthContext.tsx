@@ -185,3 +185,4 @@ export const AuthProvider = ({children}: any) => {
     </AuthContext.Provider>
   );
 };
+
