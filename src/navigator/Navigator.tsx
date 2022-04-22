@@ -10,6 +10,12 @@ import {UserTypeScreen} from '../screens/UserTypeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { AppointmentsNavigator } from './AppointmentsNavigator';
 import { PatientRegisterScreen } from '../screens/PatientRegisterScreen';
+import {IndicesScreen} from '../screens/IndicesScreen';
+import {SearchScreen} from '../screens/SearchScreen';
+import {CitaScreen} from '../screens/CitaScreen';
+import {EquivalenciaScreen} from '../screens/EquivalenciaScreen';
+import {AvanceScreen} from '../screens/AvanceScreen';
+import {NotasScreen} from '../screens/NotasScreen';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +47,14 @@ export const MainNavigator = () => {
           : (
               <>
                 <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} />
+                <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
+                <Stack.Screen name="SearchSreen" component={SearchScreen} />
+                <Stack.Screen name="IndicesScreen" component={IndicesScreen} />
+                <Stack.Screen name="CitaScreen" component={CitaScreen} />
+                <Stack.Screen name="EquivalenciaScreen" component={EquivalenciaScreen} />
+                <Stack.Screen name="AvancesScreen" component={AvanceScreen} />
+                <Stack.Screen name="NotasScreen" component={NotasScreen} />
+                <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator}/>
                 <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
               </>
           )
