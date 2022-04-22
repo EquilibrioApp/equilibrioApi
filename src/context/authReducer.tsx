@@ -1,15 +1,17 @@
+import { Result } from "../interfaces/appInterfaces";
+
 export interface AuthState {
     status: 'checking' | 'authenticated' | 'not-authenticated';
     token: string | null;
+    response: Result | null;
     errorMessage: string;
-    username: string;
     password: string;
     email: string;
 }
 
 export type AuthAction =
-    | { type: 'signIn', payload: { token: string } }
-    | { type: 'signUp', payload: { username: string, password: string, email: string, token: string } }
+    | { type: 'signIn', payload: { token: string, response: Result } }
+    | { type: 'signUp', payload: { token: string, response: Result } }
     | { type: 'addError', payload: string }
     /* Sirve para limpiar el error e intente de nuevo */
     | { type: 'removeError' }
@@ -38,17 +40,16 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
                 ...state,
                 errorMessage: '',
                 status: 'authenticated',
-                token: action.payload.token
+                token: action.payload.token,
+                response: action.payload.response
             }
         case 'signUp':
             return {
                 ...state,
                 errorMessage: '',
                 status: 'authenticated',
-                username: action.payload.username,
-                password: action.payload.password,
-                email: action.payload.email,
-                token: action.payload.token
+                token: action.payload.token,
+                response: action.payload.response
             }
         /* Se declara de esta manera pues ambas opciones hacen lo mismo, el estado es no autenticado y el token se borra */
         case 'logOut':

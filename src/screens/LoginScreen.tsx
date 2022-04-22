@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Alert, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+
+import { Card } from '../components/Card';
+import { useForm } from '../hooks/usForms';
+import { loginStyles } from '../theme/LoginTheme';
+import { AuthContext } from '../context/AuthContext';
 import { Background } from '../components/Background';
 import { EquilibrioLogo } from '../components/EquilibrioLogo';
-import { loginStyles } from '../theme/LoginTheme';
-import { useForm } from '../hooks/usForms';
-import { StackScreenProps } from '@react-navigation/stack';
-import { Card } from '../components/Card';
-import { AuthContext } from '../context/AuthContext';
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 //Propiedad para la navegación entre pantallas
 interface Props extends StackScreenProps<any, any> { }
@@ -15,8 +16,8 @@ export const LoginScreen = ({ navigation }: Props) => {
 
     const { signIn, errorMessage, removeError } = useContext(AuthContext);
 
-    const { username, password, onChange } = useForm({
-        username: '',
+    const { email, password, onChange } = useForm({
+        email: '',
         password: ''
     });
 
@@ -35,10 +36,10 @@ export const LoginScreen = ({ navigation }: Props) => {
     }, [errorMessage])
 
     const onLogin = () => {
-        console.log({ username, password });
+        console.log({ email, password });
         Keyboard.dismiss();//Oculta el tecaldo al tocar el botón loginStyles
 
-        signIn({ username, password });
+        signIn({ email, password });
     }
 
     return (
@@ -68,8 +69,8 @@ export const LoginScreen = ({ navigation }: Props) => {
                         ]} */
                         selectionColor="grey"
 
-                        onChangeText={(value) => onChange(value, 'username')}
-                        value={username}
+                        onChangeText={(value) => onChange(value, 'email')}
+                        value={email}
                         onSubmitEditing={onLogin}
 
                         autoCapitalize="none"

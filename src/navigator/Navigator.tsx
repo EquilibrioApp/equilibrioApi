@@ -15,6 +15,7 @@ import {CitaScreen} from '../screens/CitaScreen';
 import {EquivalenciaScreen} from '../screens/EquivalenciaScreen';
 import {AvanceScreen} from '../screens/AvanceScreen';
 import {NotasScreen} from '../screens/NotasScreen';
+import { PatientRegisterScreen } from '../screens/PatientRegisterScreen';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ export const MainNavigator = () => {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="UserTypeScreen" component={UserTypeScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="PatientRegisterScreen" component={PatientRegisterScreen} />
         </>
       ) : (
         <>
@@ -47,10 +49,7 @@ export const MainNavigator = () => {
           <Stack.Screen name="EquivalenciaScreen" component={EquivalenciaScreen} />
           <Stack.Screen name="AvancesScreen" component={AvanceScreen} />
           <Stack.Screen name="NotasScreen" component={NotasScreen} />
-          <Stack.Screen
-            name="AppointmentsNavigator"
-            component={AppointmentsNavigator}
-          />
+          <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator}/>
           <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
         </>
       )}
