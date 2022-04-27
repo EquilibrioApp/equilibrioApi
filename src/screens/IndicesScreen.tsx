@@ -1,11 +1,10 @@
-import {useNavigation} from '@react-navigation/native';
+
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {
   Button,
   Image,
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -134,11 +133,11 @@ export const IndicesScreen = ({navigation}: Props) => {
                     style={Styles.btnClose}
                   />
                 </TouchableOpacity>
+
               </View>
-              <View style={{}}>
-                <Text style={Inputstyles.titleMode}>Peso:</Text>
+                <Text style={Inputstyles.title}>Peso(kg):</Text>
                 <TextInput
-                  style={Inputstyles.textMode}
+                  style={Inputstyles.text}
                   placeholder=" "
                   placeholderTextColor="rgba(0, 0, 0, 0.54)"
                   underlineColorAndroid="black"
@@ -147,22 +146,46 @@ export const IndicesScreen = ({navigation}: Props) => {
                   maxLength={5}
                    // Inherit any props passed to it; e.g., multiline, numberOfLines below
                 />
-                <Text style={Inputstyles.titleEtiqueta}>kg</Text>
-              </View>
-              <ScrollView horizontal={true} /* style = {{marginTop:-250}} */>
-                <Text style={Inputstyles.titleMode}>Peso:</Text>
+                <Text style={Inputstyles.title}>Cuello(cm):</Text>
                 <TextInput
-                  style={Inputstyles.textMode}
+                  style={Inputstyles.text}
                   placeholder=" "
                   placeholderTextColor="rgba(0, 0, 0, 0.54)"
                   underlineColorAndroid="black"
                   keyboardType="numeric"
                   {...navigation}
-                  maxLength={5}
-                   // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                  maxLength={4}
                 />
-                <Text style={Inputstyles.titleEtiqueta}>kg</Text>
-              </ScrollView>
+                <Text style={Inputstyles.title}>Caderas(cm):</Text>
+                <TextInput
+                  style={Inputstyles.text}
+                  placeholder=" "
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  underlineColorAndroid="black"
+                  keyboardType="numeric"
+                  {...navigation}
+                  maxLength={4}
+                />
+                <Text style={Inputstyles.title}>Biestiloideo(cm):</Text>
+                <TextInput
+                  style={Inputstyles.text}
+                  placeholder=" "
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  underlineColorAndroid="black"
+                  keyboardType="numeric"
+                  {...navigation}
+                  maxLength={4}
+                />
+                <Text style={Inputstyles.title}>Femoral(cm):</Text>
+                <TextInput
+                  style={Inputstyles.text}
+                  placeholder=" "
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  underlineColorAndroid="black"
+                  keyboardType="numeric"
+                  {...navigation}
+                  maxLength={4}
+                />
 
               <Button
                 title="Guardar"
@@ -171,6 +194,7 @@ export const IndicesScreen = ({navigation}: Props) => {
             </View>
           </View>
         </Modal>
+        
         <ScrollView horizontal={true}>
           <Text style={lyricsStyle.labelBold}>Estatura:</Text>
           <TextInput

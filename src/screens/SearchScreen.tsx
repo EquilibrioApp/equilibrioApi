@@ -9,6 +9,7 @@ import {
   ScrollView,
   SectionList,
   StyleSheet,
+  FlatList,
   Text,
   TextInput,
   View,
@@ -17,27 +18,20 @@ import DatePicker from 'react-native-datepicker';
 import {Button, Image, SearchBar} from 'react-native-elements';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Inputstyles} from '../components/Input';
-import {AuthContext} from '../context/AuthContext';
-import {useForm} from '../hooks/usForms';
 import {Styles} from '../theme/StyleTheme';
+
+import {ExpedientesContext} from '../context/ExpedientesContext'
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const SearchScreen = ({navigation}: Props) => {
   const [view, setView] = useState(false);
 
-  const {signUp, errorMessage, removeError} = useContext(AuthContext);
-
-  const {nombre, fechaNacimiento, sexo, altura, onChange} = useForm({
-    nombre: '',
-    fechaNacimiento: '',
-    sexo: '',
-    altura: '',
-  });
-
   const [date, setDate] = useState('09-10-2021');
 
   const [selectedValue, setSelectedValue] = useState('');
+
+  const {expediente}=useContext(ExpedientesContext);
 
   return (
     <>
@@ -168,28 +162,14 @@ export const SearchScreen = ({navigation}: Props) => {
           </View>
         </Modal>
 
-        <SectionList
-          sections={[
-            {title: 'D', data: ['Devin', 'Dan', 'Dominic']},
-            {
-              title: 'J',
-              data: [
-                'Jackson',
-                'James',
-                'Jillian',
-                'Jimmy',
-                'Joel',
-                'John',
-                'Julie',
-              ],
-            },
-          ]}
-          renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
-          renderSectionHeader={({section}) => (
-            <Text style={styles.sectionHeader}>{section.title}</Text>
+        <FlatList
+          data={expediente}
+          keyExtractor={(e) => e.id}
+          renderItem={({item}) => (
+            <Text>{item.nombre}</Text>
           )}
-          keyExtractor={(item, index) => 'key' + index}
         />
+        
       </View>
     </>
   );
