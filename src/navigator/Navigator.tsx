@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {LoginScreen} from '../screens/LoginScreen';
 import {RegisterScreen} from '../screens/Register';
@@ -10,11 +11,22 @@ import {UserTypeScreen} from '../screens/UserTypeScreen';
 import { HomeScreen } from '../screens/HomeScreen';
 import { AppointmentsNavigator } from './AppointmentsNavigator';
 import { PatientRegisterScreen } from '../screens/PatientRegisterScreen';
+import { PatientsMainScreen } from '../screens/PatientsMainScreen';
+import { BottomTab } from './BottomTab';
+import { PotentialUserScreen } from '../screens/PotentialUserScreen';
+import { PotentialUserResultScreen } from '../screens/PotentialUserResultScreen';
+import { SearchDoctorByPC } from '../interfaces/appInterfaces';
+import { PotencialUsuarioNavigator } from './PotencialUsuarioNavigator';
+
+
+
 
 const Stack = createStackNavigator();
 
 export const MainNavigator = () => {
   const { status } = useContext(AuthContext);
+
+  const userType = AsyncStorage.getItem('userType');
 
   if (status === 'checking') return <LoadingScreen />;
 
@@ -36,12 +48,14 @@ export const MainNavigator = () => {
               <Stack.Screen name="UserTypeScreen" component={UserTypeScreen} />
               <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
               <Stack.Screen name="PatientRegisterScreen" component={PatientRegisterScreen} />
+              <Stack.Screen name="PotencialUsuarioNavigator" component={PotencialUsuarioNavigator} />
             </>
           ) 
           : (
               <>
-                <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} />
-                <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
+              <Stack.Screen name="PatientsMainScreen" component={BottomTab} />
+              {/* <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} /> */}
+              <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
               </>
           )
       }

@@ -8,9 +8,9 @@ import {AppointmentsProvider} from './src/context/AppointmentsContext';
 const AppState = ({children}: any) => {
   return (
     <AuthProvider>
-      <AppointmentsProvider>
+      {/* <AppointmentsProvider> */}
         {children}
-      </AppointmentsProvider>
+      {/* </AppointmentsProvider> */}
     </AuthProvider>
   );
 };
@@ -19,7 +19,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AppState>
-        <MainNavigator />
+        <MainNavigator/>
       </AppState>
     </NavigationContainer>
   );

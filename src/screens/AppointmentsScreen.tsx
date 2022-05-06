@@ -52,7 +52,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
               }
             >
               <>
-                <Text style={styles.appointmentDate}>{item.end}</Text>
+                <Text style={styles.appointmentDate}>{item.start}</Text>
                 <Text style={styles.patient}>{item.correoPaciente}</Text>
               </>
             </TouchableOpacity>
