@@ -17,6 +17,7 @@ import { PotentialUserScreen } from '../screens/PotentialUserScreen';
 import { PotentialUserResultScreen } from '../screens/PotentialUserResultScreen';
 import { SearchDoctorByPC } from '../interfaces/appInterfaces';
 import { PotencialUsuarioNavigator } from './PotencialUsuarioNavigator';
+import { PatientProfileScreen } from '../screens/PatientProfileScreen';
 
 
 
@@ -54,6 +55,7 @@ export const MainNavigator = () => {
           : (
               <>
               <Stack.Screen name="PatientsMainScreen" component={BottomTab} />
+              <Stack.Screen name="PatientProfileScreen" component={PatientProfileScreen} />
               {/* <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} /> */}
               <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
               </>

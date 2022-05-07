@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -41,29 +42,15 @@ export const PatientsMainScreen = ({navigation}: Props) => {
           style={styles.buttonOpciones}
           onPress={() => navigation.navigate('PatientRegisterScreen')}>
           <Text style={styles.textOpciones}>Registro Rapido</Text>
-          <Image
-                source = {require('../assets/registroRapido.png')}
-                style = {{
-                    width: 50,
-                    height: 50,
-                    alignSelf: 'center',
-                }}
-            />
+          <Feather name="book-open" color={'orange'} size={60} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
           onPress={() => navigation.navigate('PatientRegisterScreen')}>
           <Text style={styles.textOpciones}>Metas vs Avances</Text>
-          <Image
-                source = {require('../assets/meta.png')}
-                style = {{
-                    width: 50,
-                    height: 50,
-                    alignSelf: 'center',
-                    // bottom: 10
-                }}
-            />
+          
+          <Feather name="pie-chart" color={'orange'} size={60} />
         </TouchableOpacity>
       </View>
     </View>
@@ -130,6 +117,7 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 40,
     backgroundColor: '#F5F5F5',
+    alignItems: 'center',
   },
   textOpciones: {
     fontSize: 20,

@@ -90,9 +90,9 @@ export const LoginScreen = ({ navigation }: Props) => {
                         ]} */
                         selectionColor="grey"
 
-                        onChangeText={(value) => onChange(value, 'password')}
-                        value={password}
-                        onSubmitEditing={onLogin}
+                            onChangeText={(value) => onChange(value, 'password')}
+                            value={password}
+                            onSubmitEditing={onLogin}
 
                         autoCapitalize="none"
                         autoCorrect={false}

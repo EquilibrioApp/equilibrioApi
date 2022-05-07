@@ -1,21 +1,38 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {
   Image,
   StyleSheet,
   Text,
   View,
+  FlatList
 } from 'react-native';
-import { TextInput, FlatList } from 'react-native';
 import { SearchBarDoctor } from '../components/SearchBarDoctor';
 import { useDoctorPCSearch } from '../hooks/useDoctorPCSearch';
 import { FindDoctorCard } from '../components/FindDoctorCard';
+import { SearchDoctorByPC } from '../interfaces/appInterfaces';
+import inicioApi from '../api/inicioApi';
+import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const PotentialUserScreen = ({navigation}: Props) => {
 
-  const { doctorsList } = useDoctorPCSearch('44568');
+  const { isLoading, doctorsList, setPostalCode } = useDoctorPCSearch();
+  
+  // const [term, setTerm] = useState('');
+
+  // useEffect(() => {
+  //   if(term.length === 0){
+  //   }
+    
+  // }, [term])
+  
+
+
+  // if (isLoading) {
+  //   return <LoadingScreen/>
+  // }
 
   return (
     <>
@@ -43,7 +60,9 @@ export const PotentialUserScreen = ({navigation}: Props) => {
         <View>
           <Text style={styles.text}>Código Postal: </Text>
           
-          <SearchBarDoctor/>
+          <SearchBarDoctor
+            setPostalCode={setPostalCode}
+          />
         </View>
         <FlatList
             data={ doctorsList }
@@ -62,6 +81,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
     marginTop: 25
   },
   tittle: {
@@ -80,4 +100,5 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: 'grey'
   }
+
 });
