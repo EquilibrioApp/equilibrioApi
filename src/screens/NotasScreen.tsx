@@ -1,102 +1,110 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Button,
+  FlatList,
   Image,
+  Modal,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
+import { Inputstyles } from '../components/Input';
+import { ExpedientesContext } from '../context/ExpedientesContext';
+import { useForm } from '../hooks/usForms';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {lyricsStyle} from '../theme/LyricsTheme';
+import { Styles } from '../theme/StyleTheme';
 
 interface Props extends StackScreenProps<any, any>{}
 
 export const NotasScreen = ({navigation}: Props) => {
+  const [view, setView] = useState(false);
+  const [isSelected, setSelection] = useState(false);
+
+  const {avances, loadAvances } = useContext(ExpedientesContext);
+  
+  const{id, observacion, createdAt, expedienteId, form, onChange }= useForm({
+    id:'',
+    observacion:'',
+    createdAt:'',
+    expedienteId: ''
+  })
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity activeOpacity={0.8} style={{marginRight:20}} onPress={() => {
+          setView(true);
+        }}>
+          <Text>Agregar</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+  
   return (
     <>
-      <View style={expedienteStyles.cardPatiente}>
-        <Text style={expedienteStyles.label}>Nombre: </Text>
-        <Text style={expedienteStyles.label}>Nacimiento: </Text>
-        <Text style={expedienteStyles.label}>Peso inicial: </Text>
-        <Text style={expedienteStyles.label}>Peso actual: </Text>
-      </View>
+      <FlatList
+          data={avances}
+          keyExtractor={e => e.id}
+          renderItem={({item}) => (
+            <TouchableOpacity activeOpacity={0.8} style={{marginRight:20}} onPress={() => {
+              setView(true);
+        
+            }}>
+              <Text style={styles.expedienteName}>{item.createdAt}</Text>
+              console.log(item.createdAt);
+            </TouchableOpacity>
+          )}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+        />
 
-      <View style={{height: 150, width: 500, marginTop: 25}}>
-        <ScrollView style={{left: 33, top: 200, width: 500}} horizontal={true}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={expedienteStyles.buttonBlue}
-            onPress={() => navigation.navigate('IndicesScreen')}
-          >
-            <Text style={expedienteStyles.labelSubMenu}>Antropometría</Text>
-            <Image
-              style={expedienteStyles.image}
-              source={require('../assets/expediente/Vector.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={expedienteStyles.buttonRed}
-            onPress={() => navigation.navigate('CitaScreen')}
-          >
-            <Text style={expedienteStyles.labelSubMenu}>Cita</Text>
-            <Image
-              style={{height: 45, width: 45, top: -15}}
-              source={require('../assets/expediente/Cita.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={expedienteStyles.buttonOrange}
-            onPress={() => navigation.navigate('EquivalenciaScreen')}
-          >
-            <Text style={expedienteStyles.labelSubMenu}>Equivalencia</Text>
-            <Image
-              style={{height: 45, width: 45, top: -15}}
-              source={require('../assets/expediente/HojaDeEquivalencia.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={expedienteStyles.buttonBlue}
-            onPress={() => navigation.navigate('AvanceScreen')}
-          >
-            <Text style={expedienteStyles.labelSubMenu}>AvanceVSMeta</Text>
-            <Image
-              style={{height: 45, width: 45, top: -15}}
-              source={require('../assets/expediente/Metas.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={expedienteStyles.buttonRed}
-            onPress={() => navigation.navigate('NotasScreen')}
-          >
-            <Text style={expedienteStyles.labelSubMenu}>Notas</Text>
-            <Image
-              style={{height: 45, width: 45, top: -15}}
-              source={require('../assets/expediente/Notas.png')}
-            />
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
-      <ScrollView style={expedienteStyles.box}>
-        <ScrollView horizontal={true}>
-          <Text style={lyricsStyle.labelBold}>Notas:</Text>
-          <TextInput
-            placeholder="Altura"
-            placeholderTextColor="rgba(0, 0, 0, 0.54)"
-            underlineColorAndroid="black"
-            keyboardType="numeric"
-            {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
-            maxLength={3}
-          />
-          <Text style={lyricsStyle.labelBold}>cm</Text>
-        </ScrollView>
-      </ScrollView>
+        <Modal
+          animationType="fade"
+          onDismiss={() => console.log('close')}
+          onShow={() => console.log('slow')}
+          transparent
+          visible={view}>
+          <View style={Styles.container}>
+            <View style={Styles.subcontainer}>
+              <View style={Styles.headerContainer}>
+                <TouchableOpacity onPress={() => setView(false)}>
+                  <Image
+                    source={require('../assets/Close.png')}
+                    style={Styles.btnClose}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={require('../assets/Logo.png')}
+                  style={{
+                    width: 80,
+                    height: 110,
+                    marginVertical: 20,
+                  }}
+                />
+              </View>
+              <Text style={Inputstyles.title}>Fecha: {createdAt}</Text>
+
+              <Text style={Inputstyles.title}>Observación {observacion}</Text>
+
+              <Text style={Inputstyles.title}>Altura (cm)</Text>
+              
+            </View>
+          </View>  
+        </Modal>
+    
     </>
   );
 };
@@ -114,3 +122,36 @@ export const NotasScreen = ({navigation}: Props) => {
 //             <Text style={lyricsStyle.labelBold}>cm</Text>
 //           </ScrollView>
 //         </ScrollView> 
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 2,
+  },
+  datePickerStyle: {
+    width: 230,
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(247,247,247,1.0)',
+  },
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
+  },
+  expedienteName: {
+    fontSize: 20,
+    marginHorizontal: 20,
+  },
+  itemSeparator: {
+    borderBottomWidth: 2,
+    marginVertical: 5,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
+  },
+});

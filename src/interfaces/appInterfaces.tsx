@@ -133,11 +133,11 @@ export interface MetaDto {
 export interface ExpedienteDto{
     id:             string;
     sexo:           string;
-    birthDate:      string;
+    birthDate:      Date;
     nombre:         string;
     createdAt:      string;
     updatedAt:      string;
-    alturaPaciente: string;
+    alturaPaciente: number;
     doctor:         Doctor | null;
     avances:        Avance[];
     registros:      Registro[];

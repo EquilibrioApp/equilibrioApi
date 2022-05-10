@@ -7,44 +7,52 @@ import {CitaScreen} from '../screens/CitaScreen';
 import {EquivalenciaScreen} from '../screens/EquivalenciaScreen';
 import {AvanceScreen} from '../screens/AvanceScreen';
 import {NotasScreen} from '../screens/NotasScreen';
+import {MenuExpedienteScreen} from '../screens/MenuExpedienteScreen';
 
 export type ExpedientesStackParams = {
   SearchScreen: undefined;
-  IndicesScreen: {
+  MenuExpedienteScreen: {
     id?: string;
     nombre?: string;
-    birthDate?: Date;
+    birthDate: Date;
     sexo?: string;
     alturaPaciente?: number;
+    doctor?:string;
   };
-  CitaScreen: {
-    id?: string;
-    nombre?: string;
-    birthDate?: Date;
-    sexo?: string;
-    alturaPaciente?: number;
+  IndicesScreen: {
+    // avance?: string;
+    // masaCorporal?: number;
+    // masaGrasa?: number;
+    // masaMagra?: number;
+    // masaOsea?: number;
+    // masaResidual?: number;
+    // masaMuscular?: number;
+    // Peso?: number;
+    // cintura?: number;
+    // cuello?: number;
+    // cadera?: number;
+    // biestiloideo?: number;
+    // femoral?: number;
   };
   EquivalenciaScreen: {
-    id?: string;
+    avance?: string;
     nombre?: string;
     birthDate?: Date;
     sexo?: string;
     alturaPaciente?: number;
   };
   AvancesScreen: {
-    id?: string;
-    nombre?: string;
-    birthDate?: Date;
-    sexo?: string;
-    alturaPaciente?: number;
+    id?: string,
+    observacion?: string,
+    expediente?: string,
   };
   NotasScreen: {
-    id?: string;
-    nombre?: string;
-    birthDate?: Date;
-    sexo?: string;
-    alturaPaciente?: number;
+    //id?: string
   };
+  // CitaScreen: {
+  //   id?: string;
+  //   exercises?: string, expediente?: string
+  // };
 };
 
 const Stack = createStackNavigator<ExpedientesStackParams>();
@@ -61,13 +69,38 @@ export const ExpedientesNavigator = () => {
           shadowColor: 'transparent',
         },
       }}>
-      <Stack.Screen name="SearchScreen" component={SearchScreen} />
+      <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={{title: 'Expedientes'}}
+      />
+      <Stack.Screen
+        name="MenuExpedienteScreen"
+        component={MenuExpedienteScreen}
+        options={{title: 'Menu'}}
+      />
       {/* <Stack.Screen name="SearchScreen" component={SearchScreen} options={{title:'Expedientes'}}/> */}
-      <Stack.Screen name="IndicesScreen" component={IndicesScreen} />
-      <Stack.Screen name="CitaScreen" component={CitaScreen} />
-      <Stack.Screen name="EquivalenciaScreen" component={EquivalenciaScreen} />
-      <Stack.Screen name="AvancesScreen" component={AvanceScreen} />
-      <Stack.Screen name="NotasScreen" component={NotasScreen} />
+      <Stack.Screen
+        name="IndicesScreen"
+        component={IndicesScreen}
+        options={{title: 'Indices'}}
+      />
+      {/* <Stack.Screen
+        name="CitaScreen"
+        component={CitaScreen}
+        options={{title: 'Encuestas'}}
+      /> */}
+      <Stack.Screen
+        name="EquivalenciaScreen"
+        component={EquivalenciaScreen}
+        options={{title: 'Equivalencia'}}
+      />
+      <Stack.Screen
+        name="AvancesScreen"
+        component={AvanceScreen}
+        options={{title: 'AvancesVsMeta'}}
+      />
+      <Stack.Screen name="NotasScreen" component={NotasScreen} options={{title: 'Notas'}}/>
     </Stack.Navigator>
   );
 };
