@@ -1,7 +1,8 @@
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react'
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { PotencialUsuarioStackParams } from '../navigator/PotencialUsuarioNavigator';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 
 interface Props extends StackScreenProps<PotencialUsuarioStackParams, 'PotentialUserResultScreen'> {};
@@ -9,6 +10,18 @@ interface Props extends StackScreenProps<PotencialUsuarioStackParams, 'Potential
 export const PotentialUserResultScreen = ( {navigation, route}: Props ) => {
   
   const { doctor } = route.params;
+
+  const copyCelToClipboard = () => {
+    Clipboard.setString(doctor.user.phoneNumber);
+    Alert.alert('Telefono copiado al portapapeles')
+  };
+  const copyMailToClipboard = () => {
+    Clipboard.setString(doctor.user.email);
+    Alert.alert('Correo copiado al portapapeles')
+  };
+
+
+
   return (
     <View style={styles.container}>
       <Image
@@ -26,10 +39,14 @@ export const PotentialUserResultScreen = ( {navigation, route}: Props ) => {
         <Text style={styles.info}>{doctor.streetName + ' No. ' + doctor.houseNumber}</Text>
         <Text style={styles.tittle}>Código Postal:</Text>
         <Text style={styles.info}>{doctor.postalCode}</Text>
-        <Text style={styles.tittle}>Telélefono de contacto:</Text>
-        <Text style={styles.info}>{doctor.user.phoneNumber}</Text>
-        <Text style={styles.tittle}>Correo electrónico:</Text>
-        <Text style={styles.info}>{doctor.user.email}</Text>
+        <TouchableOpacity onPress={copyCelToClipboard}>
+          <Text style={styles.tittle}>Telélefono de contacto:</Text>
+          <Text style={styles.info}>{doctor.user.phoneNumber}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={copyMailToClipboard}>
+          <Text style={styles.tittle}>Correo electrónico:</Text>
+          <Text style={styles.info}>{doctor.user.email}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )

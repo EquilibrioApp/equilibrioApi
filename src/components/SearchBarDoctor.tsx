@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import {
-  FlatList,
+import React, { useState } from 'react';
+import { 
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useDebouncedValue } from '../hooks/useDebouncedValue';
-import {useDoctorPCSearch} from '../hooks/useDoctorPCSearch';
-import {useForm} from '../hooks/usForms';
-import {FindDoctorCard} from './FindDoctorCard';
 
 interface Props{
   setPostalCode: (value: string) => void;
@@ -20,22 +15,14 @@ export const SearchBarDoctor = ({setPostalCode}: Props) => {
   
   const [textValue, setTextValue] = useState('');
 
-  const debouncedValue = useDebouncedValue( textValue );
+  // const debouncedValue = useDebouncedValue( textValue );
 
-  useEffect(() => {
+  // useEffect(() => {
     
-    return () => {
-      console.log({debouncedValue});
-    }
-  }, [debouncedValue]);
-
-  // const {doctorsList} = useDoctorPCSearch(textValue);
-  // const {doctorsList} = useDoctorPCSearch(textValue);
-  //   const { cp, onChange } = useForm({
-  //     cp: ''
-  // });
-
-  
+  //   return () => {
+  //     console.log({debouncedValue});
+  //   }
+  // }, [debouncedValue]);
 
   return (
     <View style={styles.container}>
@@ -58,26 +45,16 @@ export const SearchBarDoctor = ({setPostalCode}: Props) => {
           <Text style={styles.buttonText}>Buscar</Text>
         </TouchableOpacity>
       </View>
-      {/* <View style={styles.buttonContainer}>
-        <FlatList
-          data={doctorsList}
-          keyExtractor={doctor => doctor.user.id}
-          renderItem={({item}) => <FindDoctorCard doctor={item} />}
-        />
-      </View> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
     marginBottom: 30,
-    // flexDirection: 'row',
   },
   textBackground: {
     backgroundColor: '#F3F1F3',
-    // flexDirection: 'row',
     borderRadius: 50,
     height: 40,
     width: 200,
@@ -103,7 +80,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginLeft: 10,
-    // marginTop: 85
   },
   button: {
     borderWidth: 2,

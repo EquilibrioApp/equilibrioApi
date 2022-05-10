@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {
-  Image,
-  StatusBar,
+import { 
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -25,13 +23,13 @@ export const PatientsMainScreen = ({navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientRegisterScreen')}>
+          onPress={() => navigation.navigate('PatientsNavigator')}>
           <Text style={styles.buttonText}>Agua</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientRegisterScreen')}>
+          onPress={() => navigation.navigate('PatientsNavigator', {screen: 'ExcerciseRegister'})}>
           <Text style={styles.buttonText}>Ejercicio</Text>
         </TouchableOpacity>
       </View>
@@ -40,7 +38,7 @@ export const PatientsMainScreen = ({navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
-          onPress={() => navigation.navigate('PatientRegisterScreen')}>
+          onPress={() => navigation.navigate('WaterMainScreen')}>
           <Text style={styles.textOpciones}>Registro Rapido</Text>
           <Feather name="book-open" color={'orange'} size={60} />
         </TouchableOpacity>

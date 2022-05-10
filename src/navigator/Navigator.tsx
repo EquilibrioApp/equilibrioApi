@@ -8,16 +8,11 @@ import {ProtectedScreen} from '../screens/ProtectedScreen';
 import {AuthContext} from '../context/AuthContext';
 import {LoadingScreen} from '../screens/LoadingScreen';
 import {UserTypeScreen} from '../screens/UserTypeScreen';
-import { HomeScreen } from '../screens/HomeScreen';
-import { AppointmentsNavigator } from './AppointmentsNavigator';
 import { PatientRegisterScreen } from '../screens/PatientRegisterScreen';
-import { PatientsMainScreen } from '../screens/PatientsMainScreen';
 import { BottomTab } from './BottomTab';
-import { PotentialUserScreen } from '../screens/PotentialUserScreen';
-import { PotentialUserResultScreen } from '../screens/PotentialUserResultScreen';
-import { SearchDoctorByPC } from '../interfaces/appInterfaces';
 import { PotencialUsuarioNavigator } from './PotencialUsuarioNavigator';
 import { PatientProfileScreen } from '../screens/PatientProfileScreen';
+import { PatientNavigator } from './PatientNavigator';
 
 
 
@@ -26,8 +21,6 @@ const Stack = createStackNavigator();
 
 export const MainNavigator = () => {
   const { status } = useContext(AuthContext);
-
-  const userType = AsyncStorage.getItem('userType');
 
   if (status === 'checking') return <LoadingScreen />;
 
@@ -55,6 +48,7 @@ export const MainNavigator = () => {
           : (
               <>
               <Stack.Screen name="PatientsMainScreen" component={BottomTab} />
+              <Stack.Screen name="PatientsNavigator" component={PatientNavigator} />
               <Stack.Screen name="PatientProfileScreen" component={PatientProfileScreen} />
               {/* <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} /> */}
               <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />

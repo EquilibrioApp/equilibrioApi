@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {
   Image,
@@ -10,8 +10,6 @@ import {
 import { SearchBarDoctor } from '../components/SearchBarDoctor';
 import { useDoctorPCSearch } from '../hooks/useDoctorPCSearch';
 import { FindDoctorCard } from '../components/FindDoctorCard';
-import { SearchDoctorByPC } from '../interfaces/appInterfaces';
-import inicioApi from '../api/inicioApi';
 import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<any, any> {}
@@ -19,16 +17,6 @@ interface Props extends StackScreenProps<any, any> {}
 export const PotentialUserScreen = ({navigation}: Props) => {
 
   const { isLoading, doctorsList, setPostalCode } = useDoctorPCSearch();
-  
-  // const [term, setTerm] = useState('');
-
-  // useEffect(() => {
-  //   if(term.length === 0){
-  //   }
-    
-  // }, [term])
-  
-
 
   // if (isLoading) {
   //   return <LoadingScreen/>

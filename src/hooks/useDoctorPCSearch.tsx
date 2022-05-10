@@ -4,8 +4,6 @@ import { SearchDoctorByPC } from '../interfaces/appInterfaces';
 import { Alert } from 'react-native';
 
 
-
-
 export const useDoctorPCSearch = () => {
 
     const [isLoading, setisLoading] = useState(true);

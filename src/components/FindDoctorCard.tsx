@@ -1,14 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { SearchDoctorByPC } from '../interfaces/appInterfaces';
+import { PotencialUsuarioStackParams } from '../navigator/PotencialUsuarioNavigator';
 
 
-interface Props {
+interface Props /* extends StackScreenProps<PotencialUsuarioStackParams, 'PotentialUserScreen'> */{
     doctor: SearchDoctorByPC;
 }
 
-export const FindDoctorCard = ({doctor}: Props) => {
+export const FindDoctorCard = ({doctor/* , navigation */}: Props) => {
 
 
   const navigation = useNavigation();

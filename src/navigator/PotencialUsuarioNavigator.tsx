@@ -1,7 +1,5 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AppointmentsScreen } from '../screens/AppointmentsScreen';
-import { AppointmentScreen } from '../screens/AppointmentScreen';
 import { SearchDoctorByPC } from '../interfaces/appInterfaces';
 import { PotentialUserScreen } from '../screens/PotentialUserScreen';
 import { PotentialUserResultScreen } from '../screens/PotentialUserResultScreen';
