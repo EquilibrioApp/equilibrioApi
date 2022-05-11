@@ -30,7 +30,7 @@ export const AppointmentsProvider = ({ children }: any) => {
     const idEspecialista = await AsyncStorage.getItem('id');
 
     try {
-      const resp = await inicioApi.get<AppointmentsDto[]>('agenda/123569');
+      const resp = await inicioApi.get<AppointmentsDto[]>(`agenda/${idEspecialista}`);
       setAppointments([...appointments, ...resp.data]);
       console.log(resp.data);
     } catch (error) {

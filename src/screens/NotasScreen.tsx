@@ -51,6 +51,9 @@ export const NotasScreen = ({route, navigation}: Props) => {
     });
   }, []);
 
+  console.log('Expediente ID ya en notas Screen ' + expedienteId);
+  console.log('Avances: ' + avances);
+
   return (
     <>
       <FlatList
@@ -96,16 +99,11 @@ export const NotasScreen = ({route, navigation}: Props) => {
                 style={{
                   width: 80,
                   height: 110,
-                  marginVertical: 20,
                 }}
               />
             </View>
             <Text style={Inputstyles.title}>{'Fecha' + createdAt}</Text>
-
-            <Text style={Inputstyles.title}>
-              {' '}
-              {'Observación' + observacion}
-            </Text>
+            <Text style={Inputstyles.title}>{'Observación' + observacion}</Text>
           </View>
         </View>
       </Modal>

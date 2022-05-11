@@ -1,4 +1,4 @@
-import {NumericLiteral} from '@babel/types';
+// import {NumericLiteral} from '@babel/types';
 import React, {createContext, useEffect, useState} from 'react';
 import inicioApi from '../api/inicioApi';
 import {Avance, ExpedienteDto} from '../interfaces/appInterfaces';
@@ -25,16 +25,19 @@ export const ExpedientesProvider = ({children}: any) => {
   }, []);
 
   const loadExpediente = async () => {
-    const resp = await inicioApi.get<ExpedienteDto[]>('/expediente'); //TODO cambiar a expediente del especialist
+    const idEspecialista = await AsyncStorage.getItem('id');
+    console.log('idEspecialista: ' + idEspecialista);
+    const resp = await inicioApi.get<ExpedienteDto[]>(`/expediente/pacientes/${idEspecialista}`); //TODO cambiar a expediente del especialist
     setExpediente([...resp.data]);
     // setExpediente(expediente);
     // console.log(expediente);
   };
 
   const loadAvances = async (id: string) => {
-    console.log('Id')
-    console.log(id )
+    
+    console.log('Id que se recibe en el ExpedientesContext: ' + id);
     const resp = await inicioApi.get<Avance[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
+    console.log('Respuesta de la api loadAvances: ' + resp.data);
     setAvances([...resp.data]);
   };
 

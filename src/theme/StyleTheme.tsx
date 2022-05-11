@@ -4,7 +4,7 @@ export const Styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'rgba(1,1,1, 0.5)',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
         // marginTop: 22
     },
@@ -12,8 +12,8 @@ export const Styles = StyleSheet.create({
         height: '80%',
         width: '90%',
         backgroundColor: '#fff',
-        paddingHorizontal: 10,
-        marginTop: 22
+        padding: 10,
+        // marginTop: 22
     },
     headerContainer: {
         height: 45,

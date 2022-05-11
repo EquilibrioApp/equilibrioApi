@@ -24,8 +24,7 @@ import {ExpedientesContext} from '../context/ExpedientesContext';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import { useForm } from '../hooks/usForms';
 
-interface Props
-  extends StackScreenProps<ExpedientesStackParams, 'SearchScreen'> {}
+interface Props extends StackScreenProps<ExpedientesStackParams, 'SearchScreen'> {}
 
 export const SearchScreen = ({navigation}: Props) => {
   const [view, setView] = useState(false);
@@ -204,7 +203,9 @@ export const SearchScreen = ({navigation}: Props) => {
                   alturaPaciente: item.alturaPaciente, //TODO VER ID DEL ESPECIALISTA
                 })
               }>
-              <Text style={styles.expedienteName}>{item.nombre}</Text>
+                <View style={styles.expedienteCard}>
+                  <Text style={styles.expedienteName}>{item.nombre}</Text>
+                </View>
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
@@ -218,6 +219,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 2,
+    alignItems: 'center',
   },
   datePickerStyle: {
     width: 230,
@@ -243,6 +245,16 @@ const styles = StyleSheet.create({
   itemSeparator: {
     borderBottomWidth: 2,
     marginVertical: 5,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomColor: 'white',
   },
+  expedienteCard:{
+    marginHorizontal: 10,
+    backgroundColor: '#4265FF9C',
+    height: 90,
+    width: 350,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  }
 });

@@ -39,7 +39,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
   console.log(id)
 
   return (
-    <>
+    <View style={expedienteStyles.container}>
       <Modal
         animationType="fade"
         onDismiss={() => console.log('close')}
@@ -117,19 +117,11 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
       </Modal>
 
       <View style={expedienteStyles.cardPatiente}>
-        <Text style={expedienteStyles.label}>Numero: {id} </Text>
-        <Text style={expedienteStyles.label}>Nombre: {nombre} </Text>
-        <Text style={expedienteStyles.label}>Naciento: {birthDate}</Text>
-        <Text style={expedienteStyles.label}>
-          Sexo: {Sexo} Altura: {alturaPaciente}cm
-        </Text>
-        <Text style={expedienteStyles.label}>Peso inicial: Peso actual: </Text>
+        <Text style={expedienteStyles.label}>{'Numero: ' + id?.substring(0, 13) + '\nNombre: ' + nombre + '\nNacimiento: ' + birthDate + '\nSexo: ' + Sexo + '\nAltura: ' + alturaPaciente + ' cm' + '\nPeso inicial: Peso actual:' }</Text>
       </View>
 
-      <View style={{height: 150, width: 500, marginTop: 25}}>
-        <ScrollView
-          style={{left: 90, top: 200, width: 500, height: 1000}}
-          horizontal={true}>
+      <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
+        
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonBlue}
@@ -141,6 +133,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
               source={require('../assets/expediente/Vector.png')}
             />
           </TouchableOpacity>
+
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonRed}
@@ -152,12 +145,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
               source={require('../assets/expediente/Cita.png')}
             />
           </TouchableOpacity>
-        </ScrollView>
-      </View>
-      <View style={{height: 150, width: 500, marginTop: 25}}>
-        <ScrollView
-          style={{left: 90, top: 150, width: 500, height: 900}}
-          horizontal={true}>
+      
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonOrange}
@@ -169,6 +157,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
               source={require('../assets/expediente/HojaDeEquivalencia.png')}
             />
           </TouchableOpacity>
+
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonBlue}
@@ -180,18 +169,13 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
               source={require('../assets/expediente/Metas.png')}
             />
           </TouchableOpacity>
-        </ScrollView>
-      </View>
-      <View style={{height: 150, width: 500, marginTop: 25}}>
-        <ScrollView
-          style={{left: 90, top: 100, width: 500, height: 900}}
-          horizontal={true}>
+      
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonRed}
-            onPress={() => navigation.navigate('NotasScreen', {
+            onPress={() => {navigation.navigate('NotasScreen', {
               id:id 
-            })}
+            }); console.log('onPress para viajar a NotasScreen: ' + id)}}
     
           >
             <Text style={expedienteStyles.labelSubMenu}>Notas</Text>
@@ -200,8 +184,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
               source={require('../assets/expediente/Notas.png')}
             />
           </TouchableOpacity>
-        </ScrollView>
       </View>
-    </>
+    </View>
   );
 };

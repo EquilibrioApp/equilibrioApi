@@ -198,3 +198,15 @@ export interface Registro {
     questionEleven: number;
     questionTwelve: number;
 }
+
+export interface User {
+    id:              string;
+    name:            string;
+    userType:        string;
+    fathersLastName: string;
+    mothersLastName: string;
+    email:           string;
+    sex:             string;
+    birthDate:       string;
+    phoneNumber:     string;
+}
