@@ -32,6 +32,8 @@ export const ExpedientesProvider = ({children}: any) => {
   };
 
   const loadAvances = async (id: string) => {
+    console.log('Id')
+    console.log(id )
     const resp = await inicioApi.get<Avance[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
     setAvances([...resp.data]);
   };
