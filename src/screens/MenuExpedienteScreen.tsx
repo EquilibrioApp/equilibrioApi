@@ -36,6 +36,8 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
     });
   }, []);
 
+  console.log(id)
+
   return (
     <>
       <Modal
@@ -188,12 +190,10 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
             activeOpacity={0.8}
             style={expedienteStyles.buttonRed}
             onPress={() => navigation.navigate('NotasScreen', {
-              id:id
-              
+              id:id 
             })}
-            
+    
           >
-            console.log(id);
             <Text style={expedienteStyles.labelSubMenu}>Notas</Text>
             <Image
               style={{height: 45, width: 45, top: -15}}

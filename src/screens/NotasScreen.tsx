@@ -1,108 +1,114 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useContext, useEffect, useState } from 'react';
+import {StackScreenProps} from '@react-navigation/stack';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   Button,
   FlatList,
   Image,
   Modal,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
-import { Inputstyles } from '../components/Input';
-import { ExpedientesContext } from '../context/ExpedientesContext';
-import { useForm } from '../hooks/usForms';
+import {Inputstyles} from '../components/Input';
+import {ExpedientesContext} from '../context/ExpedientesContext';
+import {useForm} from '../hooks/usForms';
+import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {lyricsStyle} from '../theme/LyricsTheme';
-import { Styles } from '../theme/StyleTheme';
+import {Styles} from '../theme/StyleTheme';
 
-interface Props extends StackScreenProps<any, any>{}
+interface Props
+  extends StackScreenProps<ExpedientesStackParams, 'NotasScreen'> {}
 
-export const NotasScreen = ({navigation}: Props) => {
+export const NotasScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
   const [isSelected, setSelection] = useState(false);
 
-  const {avances, loadAvances } = useContext(ExpedientesContext);
-  
-  const{id, observacion, createdAt, expedienteId, form, onChange }= useForm({
-    id:'',
-    observacion:'',
-    createdAt:'',
-    expedienteId: ''
-  })
+  const {avances, loadAvances} = useContext(ExpedientesContext);
+
+  const {id} = route.params;
+
+  const {idAvance, observacion, createdAt, expedienteId, form, onChange} = useForm({
+    idAvance: '',
+    observacion: '',
+    createdAt: '',
+    expedienteId: id,
+  });
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity activeOpacity={0.8} style={{marginRight:20}} onPress={() => {
-          setView(true);
-        }}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{marginRight: 20}}
+          onPress={() => {
+            setView(true);
+          }}>
           <Text>Agregar</Text>
         </TouchableOpacity>
       ),
     });
   }, []);
-  
+
   return (
     <>
       <FlatList
-          data={avances}
-          keyExtractor={e => e.id}
-          renderItem={({item}) => (
-            <TouchableOpacity activeOpacity={0.8} style={{marginRight:20}} onPress={() => {
+        data={avances}
+        keyExtractor={e => e.id}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{marginRight: 20}}
+            onPress={() => {
               setView(true);
-        
             }}>
-              <Text style={styles.expedienteName}>{item.createdAt}</Text>
-              console.log(item.createdAt);
-            </TouchableOpacity>
-          )}
-          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        />
+            <Text style={styles.expedienteName}>{item.createdAt}</Text>
+          </TouchableOpacity>
+        )}
+        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+      />
 
-        <Modal
-          animationType="fade"
-          onDismiss={() => console.log('close')}
-          onShow={() => console.log('slow')}
-          transparent
-          visible={view}>
-          <View style={Styles.container}>
-            <View style={Styles.subcontainer}>
-              <View style={Styles.headerContainer}>
-                <TouchableOpacity onPress={() => setView(false)}>
-                  <Image
-                    source={require('../assets/Close.png')}
-                    style={Styles.btnClose}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+      <Modal
+        animationType="fade"
+        onDismiss={() => console.log('close')}
+        onShow={() => console.log('slow')}
+        transparent
+        visible={view}>
+        <View style={Styles.container}>
+          <View style={Styles.subcontainer}>
+            <View style={Styles.headerContainer}>
+              <TouchableOpacity onPress={() => setView(false)}>
                 <Image
-                  source={require('../assets/Logo.png')}
-                  style={{
-                    width: 80,
-                    height: 110,
-                    marginVertical: 20,
-                  }}
+                  source={require('../assets/Close.png')}
+                  style={Styles.btnClose}
                 />
-              </View>
-              <Text style={Inputstyles.title}>{'Fecha'+ createdAt}</Text>
-
-              <Text style={Inputstyles.title}> {'Observación'+observacion}</Text>
-              
+              </TouchableOpacity>
             </View>
-          </View>  
-        </Modal>
-    
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                source={require('../assets/Logo.png')}
+                style={{
+                  width: 80,
+                  height: 110,
+                  marginVertical: 20,
+                }}
+              />
+            </View>
+            <Text style={Inputstyles.title}>{'Fecha' + createdAt}</Text>
+
+            <Text style={Inputstyles.title}>
+              {' '}
+              {'Observación' + observacion}
+            </Text>
+          </View>
+        </View>
+      </Modal>
     </>
   );
 };
@@ -119,7 +125,7 @@ export const NotasScreen = ({navigation}: Props) => {
 //             />
 //             <Text style={lyricsStyle.labelBold}>cm</Text>
 //           </ScrollView>
-//         </ScrollView> 
+//         </ScrollView>
 
 const styles = StyleSheet.create({
   container: {
