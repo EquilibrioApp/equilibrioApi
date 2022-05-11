@@ -95,11 +95,9 @@ export const NotasScreen = ({navigation}: Props) => {
                   }}
                 />
               </View>
-              <Text style={Inputstyles.title}>Fecha: {createdAt}</Text>
+              <Text style={Inputstyles.title}>{'Fecha'+ createdAt}</Text>
 
-              <Text style={Inputstyles.title}>Observación {observacion}</Text>
-
-              <Text style={Inputstyles.title}>Altura (cm)</Text>
+              <Text style={Inputstyles.title}> {'Observación'+observacion}</Text>
               
             </View>
           </View>  

@@ -47,7 +47,7 @@ export type ExpedientesStackParams = {
     expediente?: string,
   };
   NotasScreen: {
-    //id?: string
+    id?: string
   };
   // CitaScreen: {
   //   id?: string;
