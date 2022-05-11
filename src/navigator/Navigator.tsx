@@ -13,6 +13,7 @@ import { BottomTab } from './BottomTab';
 import { PotencialUsuarioNavigator } from './PotencialUsuarioNavigator';
 import { PatientProfileScreen } from '../screens/PatientProfileScreen';
 import { PatientNavigator } from './PatientNavigator';
+import { ExcerciseMainScreen } from '../screens/ExcerciseMainScreen';
 
 
 
@@ -38,11 +39,12 @@ export const MainNavigator = () => {
             <>
               {/* Fragmento para poder retornar alguna de las dos pantallas. 
                 En una expresion ternaria solo se devueleve un objeto JSX*/}
-              <Stack.Screen name="LoginScreen" component={LoginScreen} />
+              {/* <Stack.Screen name="LoginScreen" component={LoginScreen} />
               <Stack.Screen name="UserTypeScreen" component={UserTypeScreen} />
               <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
               <Stack.Screen name="PatientRegisterScreen" component={PatientRegisterScreen} />
-              <Stack.Screen name="PotencialUsuarioNavigator" component={PotencialUsuarioNavigator} />
+              <Stack.Screen name="PotencialUsuarioNavigator" component={PotencialUsuarioNavigator} /> */}
+              <Stack.Screen name="ExcerciseMainScreen" component={ExcerciseMainScreen} />
             </>
           ) 
           : (
