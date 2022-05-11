@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ListItem } from 'react-native-elements';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import { Inputstyles } from '../components/Input';
 import { ExpedientesContext } from '../context/ExpedientesContext';
@@ -58,7 +57,7 @@ export const NotasScreen = ({navigation}: Props) => {
         
             }}>
               <Text style={styles.expedienteName}>{item.createdAt}</Text>
-              console.log(item.createdAt);
+              {/* console.log(item.createdAt); */}
             </TouchableOpacity>
           )}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
