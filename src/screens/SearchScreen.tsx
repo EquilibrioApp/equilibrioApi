@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   },
   expedienteCard:{
     marginHorizontal: 10,
-    backgroundColor: '#4265FF9C',
+    backgroundColor: '#F5F5F8',
     height: 90,
     width: 350,
     borderRadius: 35,

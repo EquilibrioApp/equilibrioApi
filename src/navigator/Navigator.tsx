@@ -9,11 +9,14 @@ import {PatientRegisterScreen} from '../screens/PatientRegisterScreen';
 import { LoginScreen } from '../screens/LoginScreen';
 import { RegisterScreen } from '../screens/Register';
 import { BottomDoctorTab } from './BottomDoctorBar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
 export const MainNavigator = () => {
   const {status} = useContext(AuthContext);
+
+  // const idUsuario: string = 
 
   if (status === 'checking') return <LoadingScreen />;
 
@@ -39,6 +42,7 @@ export const MainNavigator = () => {
           <Stack.Screen name="DoctorsNavigation" component={BottomDoctorTab} />
           <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
         </>
+        
       )}
     </Stack.Navigator>
   );

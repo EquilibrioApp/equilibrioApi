@@ -72,7 +72,7 @@ export const AvancesCard = ({avances}: Props) => {
 const styles = StyleSheet.create({
     cardContainer: {
         marginHorizontal: 10,
-        backgroundColor: '#4265FF9C',
+        backgroundColor: '#F5F5F5',
         height: 120,
         width: 190,
         marginBottom: 25,
