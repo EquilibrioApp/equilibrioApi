@@ -10,9 +10,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import inicioApi from '../api/inicioApi';
+import { AvancesCard } from '../components/AvancesCard';
 import {Inputstyles} from '../components/Input';
 import {ExpedientesContext} from '../context/ExpedientesContext';
 import {useForm} from '../hooks/usForms';
+import { Avance } from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {lyricsStyle} from '../theme/LyricsTheme';
@@ -24,10 +27,12 @@ interface Props
 export const NotasScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
   const [isSelected, setSelection] = useState(false);
+  const [avances, setAvances] = useState<Avance[]>([]);
 
-  const {avances, loadAvances} = useContext(ExpedientesContext);
+  // const {avances, loadAvances} = useContext(ExpedientesContext);
 
   const {id} = route.params;
+  console.log('Id de route.params: ' + id);
 
   const {idAvance, observacion, createdAt, expedienteId, form, onChange} = useForm({
     idAvance: '',
@@ -36,6 +41,14 @@ export const NotasScreen = ({route, navigation}: Props) => {
     expedienteId: id,
   });
 
+  const loadAvances = async (id: string | undefined)=> {
+    
+    console.log('Id que se recibe en el ExpedientesContext: ' + id);
+    const resp = await inicioApi.get<Avance[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
+    console.log('Respuesta de la api loadAvances: ' + resp.data);
+    setAvances([...resp.data]);
+  };
+  
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -49,65 +62,21 @@ export const NotasScreen = ({route, navigation}: Props) => {
         </TouchableOpacity>
       ),
     });
+    loadAvances(expedienteId);
   }, []);
 
   console.log('Expediente ID ya en notas Screen ' + expedienteId);
-  console.log('Avances: ' + avances);
+  console.log('Avances: ' + avances.length);
 
   return (
-    <>
+    <View style={styles.containerCards}>
       <FlatList
         data={avances}
         keyExtractor={e => e.id}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={{marginRight: 20}}
-            onPress={() => {
-              setView(true);
-            }}>
-            <Text style={styles.expedienteName}>{item.createdAt}</Text>
-          </TouchableOpacity>
-        )}
-        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+        renderItem={({item}) => (<AvancesCard avances={item}/>)}
+        // ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
       />
-
-      <Modal
-        animationType="fade"
-        onDismiss={() => console.log('close')}
-        onShow={() => console.log('slow')}
-        transparent
-        visible={view}>
-        <View style={Styles.container}>
-          <View style={Styles.subcontainer}>
-            <View style={Styles.headerContainer}>
-              <TouchableOpacity onPress={() => setView(false)}>
-                <Image
-                  source={require('../assets/Close.png')}
-                  style={Styles.btnClose}
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                source={require('../assets/Logo.png')}
-                style={{
-                  width: 80,
-                  height: 110,
-                }}
-              />
-            </View>
-            <Text style={Inputstyles.title}>{'Fecha' + createdAt}</Text>
-            <Text style={Inputstyles.title}>{'Observación' + observacion}</Text>
-          </View>
-        </View>
-      </Modal>
-    </>
+    </View>
   );
 };
 
@@ -129,6 +98,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 2,
+  },
+  containerCards: {
+    flex: 1,
+    alignItems: 'center',
+    // flexDirection: 'row'
   },
   datePickerStyle: {
     width: 230,
@@ -154,6 +128,6 @@ const styles = StyleSheet.create({
   itemSeparator: {
     borderBottomWidth: 2,
     marginVertical: 5,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
+    borderBottomColor: 'white',
   },
 });

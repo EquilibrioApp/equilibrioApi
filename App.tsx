@@ -10,7 +10,9 @@ const AppState = ({children}: any) => {
   return (
     <AuthProvider>
       <ExpedientesProvider>
-        <AppointmentsProvider>{children}</AppointmentsProvider>
+        <AppointmentsProvider>
+          {children}
+        </AppointmentsProvider>
       </ExpedientesProvider>
     </AuthProvider>
   );

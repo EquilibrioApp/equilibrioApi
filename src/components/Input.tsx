@@ -33,6 +33,7 @@ export const Inputstyles = StyleSheet.create({
     fontWeight: 'bold',
     // marginVertical: 10,
     marginHorizontal: 40,
+    fontWeight: '100',
   },
   text: {
     marginHorizontal: 10,

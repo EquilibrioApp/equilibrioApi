@@ -1,7 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {Image, Modal, ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import inicioApi from '../api/inicioApi';
 import { Inputstyles } from '../components/Input';
+import { Avance } from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import { Styles } from '../theme/StyleTheme';
@@ -12,8 +14,11 @@ interface Props
 export const MenuExpedienteScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
 
+  const [avances, setAvances] = useState<Avance[]>([]);
+
   const {id, nombre = '', birthDate, sexo, alturaPaciente} = route.params;
 
+  // const id: string = '0359377a-c24d-45e4-a046-0d8f88b7c48e'
   var Sexo = '';
   if (sexo === 'F') {
     Sexo = 'Femenino';
@@ -36,7 +41,13 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
     });
   }, []);
 
-  console.log(id)
+  // const loadAvances = async (id: string) => {
+    
+  //   console.log('Id que se recibe en el ExpedientesContext: ' + id);
+  //   const resp = await inicioApi.get<Avance[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
+  //   console.log('Respuesta de la api loadAvances: ' + resp.data);
+  //   setAvances([...resp.data]);
+  // };
 
   return (
     <View style={expedienteStyles.container}>
@@ -173,9 +184,10 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={expedienteStyles.buttonRed}
-            onPress={() => {navigation.navigate('NotasScreen', {
+            onPress={() => {
+              navigation.navigate('NotasScreen', {
               id:id 
-            }); console.log('onPress para viajar a NotasScreen: ' + id)}}
+            }); }}
     
           >
             <Text style={expedienteStyles.labelSubMenu}>Notas</Text>
