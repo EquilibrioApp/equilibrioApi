@@ -1,38 +1,32 @@
-import {Picker} from '@react-native-picker/picker';
 import {StackScreenProps} from '@react-navigation/stack';
-import {forModalPresentationIOS} from '@react-navigation/stack/lib/typescript/src/TransitionConfigs/CardStyleInterpolators';
 import React, {useContext, useEffect, useState} from 'react';
-import {
-  Keyboard,
+import { 
   Modal,
   SafeAreaView,
-  ScrollView,
-  SectionList,
   StyleSheet,
   FlatList,
   Text,
   TextInput,
   View,
+  TouchableOpacity
 } from 'react-native';
-import DatePicker from 'react-native-datepicker';
-import {Button, Image, SearchBar} from 'react-native-elements';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Inputstyles} from '../components/Input';
+import {Button, Image} from 'react-native-elements';
 import {Styles} from '../theme/StyleTheme';
 
 import {ExpedientesContext} from '../context/ExpedientesContext';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import { useForm } from '../hooks/usForms';
+import inicioApi from '../api/inicioApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Picker } from '@react-native-picker/picker';
+import DatePicker from 'react-native-datepicker';
 
 interface Props extends StackScreenProps<ExpedientesStackParams, 'SearchScreen'> {}
 
 export const SearchScreen = ({navigation}: Props) => {
   const [view, setView] = useState(false);
-
   const [date, setDate] = useState('09-10-2021');
-
   const [selectedValue, setSelectedValue] = useState('');
-
   const {expediente, loadExpediente} = useContext(ExpedientesContext);
   
   const{id, nombre, sexo, birthDate, alturaPaciente, form, onChange }= useForm({
@@ -55,19 +49,31 @@ export const SearchScreen = ({navigation}: Props) => {
     });
   }, []);
 
+  const onAddExpediente = async () => {
+    console.log(form);
+    try {
+      const doctor = await AsyncStorage.getItem('id');
+      const resp = await inicioApi.post(`/expediente`, { sexo, alturaPaciente, nombre, doctor, birthDate });
+      console.log(resp.status);
+      setView(false);
+    } catch (error) {
+      console.log('Respuesta dif de 200');
+    }
+  };
+
   return (
     <>
       <View style={styles.container}>
       
-        <Modal
+        {/* <Modal
           animationType="fade"
           onDismiss={() => console.log('close')}
           onShow={() => console.log('slow')}
           transparent
           visible={view}>
-          <View style={Styles.container}>
-            <View style={Styles.subcontainer}>
-              <View style={Styles.headerContainer}>
+          <View style={styles.containerModal}>
+            <View style={styles.subcontainerModal}>
+              <View style={styles.headerContainerModal}>
                 <TouchableOpacity onPress={() => setView(false)}>
                   <Image
                     source={require('../assets/Close.png')}
@@ -86,21 +92,20 @@ export const SearchScreen = ({navigation}: Props) => {
                   style={{
                     width: 80,
                     height: 110,
-                    marginVertical: 20,
                   }}
                 />
               </View>
-              <Text style={Inputstyles.title}>Nombre del paciente</Text>
+              
+              <Text style={styles.title}>Nombre del paciente</Text>
               <TextInput
-                style={Inputstyles.text}
+                style={styles.inputNota}
                 placeholder=" Nombre del paciente"
                 placeholderTextColor="rgba(0, 0, 0, 0.54)"
                 value={nombre}
                 onChangeText={(value) => onChange(value, 'nombre')}
-                underlineColorAndroid="black"
                 {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
               />
-              <Text style={Inputstyles.title}>Sexo</Text>
+              <Text style={styles.title}>Sexo</Text>
               <Picker
                 selectedValue={selectedValue}
                 style={{height: 50, width: 150, marginLeft: 50}}
@@ -112,12 +117,11 @@ export const SearchScreen = ({navigation}: Props) => {
                 <Picker.Item label="Maculino" value="M" />
               </Picker>
 
-              <Text style={Inputstyles.title}>Altura (cm)</Text>
+              <Text style={styles.title}>Altura (cm)</Text>
               <TextInput
-                style={Inputstyles.text}
-                placeholder=" Altura"
+                style={styles.inputNota}
+                placeholder="Altura"
                 placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                underlineColorAndroid="black"
                 keyboardType="numeric"
                 {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
                 maxLength={3}
@@ -125,9 +129,16 @@ export const SearchScreen = ({navigation}: Props) => {
                 onChangeText={(value) => onChange(value, 'alturaPaciente')}
               />
 
-              <SafeAreaView style={styles.container}>
+              <View style={styles.touchableCrearExpediente}>
+                <TouchableOpacity  onPress={() => console.log('Crear Expediente')}>
+                  <Text style={styles.touchableCrearExpedienteTexto}>
+                    Crear Expediente
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              {/* <SafeAreaView style={styles.container}>
                 <View style={styles.container}>
-                  <Text style={Inputstyles.title}>Fecha de nacimiento:</Text>
+                  <Text style={styles.title}>Fecha de nacimiento:</Text>
                   <DatePicker
                     style={styles.datePickerStyle}
                     date={date}
@@ -173,20 +184,118 @@ export const SearchScreen = ({navigation}: Props) => {
                 </View>
               </SafeAreaView>
 
-              <Button
-                title="Crear expediente"
-                // onPress={() => navigation.navigate('MenuExpedienteScreen', {
-                //   nombre:nombre,
-
-                // })}
-              />
-
-              <Text>
+              {/* <Text>
                 {JSON.stringify(form, null, 5 )}
               </Text>
             </View>
           </View>
-        </Modal>
+        </Modal> */}
+        <Modal animationType="fade" visible={view} transparent={true}>
+        <View style={styles.containerModal}>
+          <View style={styles.subcontainerModal}>
+            <View style={styles.headerContainerModal}>
+              <TouchableOpacity onPress={() => setView(false)}>
+                <Image
+                  source={require('../assets/Close.png')}
+                  style={Styles.btnClose}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                // justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.title}>Nuevo expediente</Text>
+              <Text style={styles.title}>Nombre del paciente</Text>
+              <TextInput
+                style={styles.inputNota}
+                placeholder=" Nombre del paciente"
+                placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                value={nombre}
+                onChangeText={(value) => onChange(value, 'nombre')}
+                {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
+              />
+              <Text style={styles.title}>Sexo</Text>
+              <Picker
+                selectedValue={selectedValue}
+                style={{height: 50, width: 150, marginLeft: 50}}
+                onValueChange={(itemValue, itemIndex) => {
+                  setSelectedValue(itemValue)
+                  onChange(itemValue, 'sexo')
+                }}>
+                <Picker.Item label="Feminino" value="F" />
+                <Picker.Item label="Maculino" value="M" />
+              </Picker>
+
+              <Text style={styles.title}>Altura (cm)</Text>
+              <TextInput
+                style={styles.inputNota}
+                placeholder="Altura"
+                placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                keyboardType="numeric"
+                {...navigation} // Inherit any props passed to it; e.g., multiline, numberOfLines below
+                maxLength={3}
+                value={alturaPaciente}
+                onChangeText={(value) => onChange(value, 'alturaPaciente')}
+              />
+              <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Fecha de nacimiento:</Text>
+                  <DatePicker
+                    style={styles.datePickerStyle}
+                    date={date}
+                    mode="date"
+                    placeholder="select date"
+                    format="YYYY-MM-DD"
+                    minDate="1923-01-01"
+                    maxDate="2006-12-31"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        marginHorizontal: 20,
+                        position: 'absolute',
+                        right: -5,
+                        top: 4,
+                        marginLeft: 0,
+                      },
+                      dateInput: {
+                        marginHorizontal: 30,
+                        height: 40,
+                        width: '90%',
+                        paddingHorizontal: 30,
+                        borderColor: 'gray',
+                        alignItems: 'flex-start',
+                        borderWidth: 0,
+                        borderBottomWidth: 1,
+                      },
+                      placeholderText: {
+                        fontSize: 17,
+                        color: 'gray',
+                      },
+                      dateText: {
+                        fontSize: 17,
+                      },
+                    }}
+        
+                    onDateChange={date => {
+                      setDate(date);
+                      onChange(date, 'birthDate')
+                    }}
+                  />
+                </View>
+              </SafeAreaView>
+              <TouchableOpacity activeOpacity={0.2} style={styles.touchableCrearExpediente} onPress={() => console.log('Crear Expediente')}>
+                  <Text style={styles.touchableCrearExpedienteTexto}>
+                    Agregar Nota
+                  </Text>
+                </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
 
         <FlatList
           data={expediente}
@@ -256,5 +365,60 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-  }
+  },
+  containerModal: {
+    flex: 1,
+    backgroundColor: 'rgba(1,1,1, 0.5)',
+    // justifyContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // padding: 10,
+    // marginTop: 22
+  },
+  subcontainerModal: {
+    height: '90%',
+    width: '95%',
+    backgroundColor: '#fff',
+    padding: 30,
+    borderRadius: 30,
+    alignItems: 'center'
+    // flexWrap: 'wrap',
+  },
+  headerContainerModal: {
+     // height: 45,
+     width: '100%',
+     flexDirection: 'row',
+     justifyContent: 'flex-end',
+     flexWrap: 'wrap',
+     // alignItems: 'center',
+  },
+  inputNota: {
+    borderWidth: 0.3,
+    borderRadius: 10,
+    // height: 200,
+    width: '90%',
+    paddingHorizontal: 10,
+  },
+  touchableCrearExpediente: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 20,
+    padding: 10,
+    marginTop: 20,
+    // marginVertical: 10,
+  },
+  touchableCrearExpedienteTexto: {
+    fontWeight: '100',
+    fontSize: 26,
+    color: '#24FF00',
+    // margin: 10,
+  },
+  title: {
+    color: '#000',
+    fontSize: 20,
+    // fontWeight: 'bold',
+    marginVertical: 10,
+    // marginHorizontal: 40,
+    fontWeight: '100',
+  },
+
 });
