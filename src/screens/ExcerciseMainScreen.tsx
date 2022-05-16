@@ -5,7 +5,6 @@ import {StyleSheet, Image, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Use} from 'react-native-svg';
 import inicioApi from '../api/inicioApi';
-import {useGetExpediente} from '../hooks/useGetExpedientePaciente';
 import {useForm} from '../hooks/usForms';
 import {Ejercicio, Patient, User} from '../interfaces/appInterfaces';
 import {PatientStackParams} from '../navigator/PatientNavigator';
