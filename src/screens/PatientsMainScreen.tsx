@@ -7,10 +7,14 @@ import {
   View,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import { useGetUserInfo } from '../hooks/useGetUserInfo';
 
 interface Props extends StackScreenProps<any, any> {}
 
-export const PatientsMainScreen = ({navigation}: Props) => {
+export const PatientsMainScreen = ({route, navigation}: Props) => {
+
+  const {user} = useGetUserInfo();
+  // const {} = route.params;
   // const {token, logOut} = useContext(AuthContext);
   const [value, setValue] = useState(0);
 
@@ -29,7 +33,7 @@ export const PatientsMainScreen = ({navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientsNavigator', {screen: 'ExcerciseRegister'})}>
+          onPress={() => navigation.navigate('ExcerciseRegister', {UserId: user?.id})}>
           <Text style={styles.buttonText}>Ejercicio</Text>
         </TouchableOpacity>
       </View>
