@@ -13,6 +13,7 @@ interface Props extends StackScreenProps<any, any> {}
 
 export const PatientsMainScreen = ({route, navigation}: Props) => {
 
+
   const {user} = useGetUserInfo();
   // const {} = route.params;
   // const {token, logOut} = useContext(AuthContext);
@@ -42,7 +43,7 @@ export const PatientsMainScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
-          onPress={() => navigation.navigate('WaterMainScreen')}>
+          onPress={() => navigation.navigate('RegisterPatScreen', {UserId: user?.id})}>
           <Text style={styles.textOpciones}>Registro Rapido</Text>
           <Feather name="book-open" color={'orange'} size={60} />
         </TouchableOpacity>

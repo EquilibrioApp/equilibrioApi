@@ -13,10 +13,6 @@ interface Props
   extends StackScreenProps<PatientStackParams, 'ExcerciseRegister'> {}
 
 export const ExcerciseMainScreen = ({route, navigation}: Props) => {
-  const {UserId} = route.params;
- 
-  console.log('USER: ' + UserId);
-
   const [selectedValue, setSelectedValue] = useState('');
 
   const [seconds, setSeconds] = useState(0);
