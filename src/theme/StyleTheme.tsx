@@ -19,10 +19,10 @@ export const Styles = StyleSheet.create({
         // marginTop: 22
     },
     subcontainerModalNotas: {
-        height: 400,
-        width: '90%',
+        height: '70%',
+        width: '95%',
         backgroundColor: '#fff',
-        padding: 30,
+        padding: 10,
         borderRadius: 30,
         // flexWrap: 'wrap',
     },

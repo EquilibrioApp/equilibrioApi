@@ -101,10 +101,6 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
     let biestiloideo = Number(biestiloideo1);
     let cuello = Number(cuello1);
 
-
-
-
-
     try {
       const respNota = await inicioApi.post<AvancesResponseDto>(`/${id}/avance`, {
         observacion,
@@ -357,7 +353,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
             '\nNombre: ' +
             nombre +
             '\nNacimiento: ' +
-            birthDate +
+            birthDate.toString().substring(0, 10) +
             '\nSexo: ' +
             Sexo +
             '\nAltura: ' +
@@ -376,7 +372,11 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={expedienteStyles.buttonBlue}
-          // onPress={() => navigation.navigate('IndicesScreen')}
+          onPress={() => {
+            navigation.navigate('IndicesScreen', {
+              id: id,
+            });
+          }}
         >
           <Text style={expedienteStyles.labelSubMenu}>Antropometría</Text>
           <Image
@@ -414,7 +414,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
           style={expedienteStyles.buttonBlue}
           // onPress={() => navigation.navigate('AvanceScreen')}
         >
-          <Text style={expedienteStyles.labelSubMenu}>AvanceVsMeta</Text>
+          <Text style={expedienteStyles.labelSubMenu}>Avance Vs Meta</Text>
           <Image
             style={{height: 45, width: 45, top: -15}}
             source={require('../assets/expediente/Metas.png')}

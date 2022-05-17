@@ -14,7 +14,7 @@ import inicioApi from '../api/inicioApi';
 import {AvancesCard} from '../components/AvancesCard';
 import {useAddNote} from '../hooks/useAddNote';
 import {useForm} from '../hooks/usForms';
-import {Avance} from '../interfaces/appInterfaces';
+import {Avance as AvancesDto} from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {Styles} from '../theme/StyleTheme';
 
@@ -24,7 +24,7 @@ interface Props
 export const NotasScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
   const [isSelected, setSelection] = useState(false);
-  const [avances, setAvances] = useState<Avance[]>([]);
+  const [avances, setAvances] = useState<AvancesDto[]>([]);
   const {setNote} = useAddNote();
 
   // const {avances, loadAvances} = useContext(ExpedientesContext);
@@ -39,7 +39,7 @@ export const NotasScreen = ({route, navigation}: Props) => {
 
   const loadAvances = async (id: string | undefined) => {
     console.log('Id que se recibe en el ExpedientesContext: ' + id);
-    const resp = await inicioApi.get<Avance[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
+    const resp = await inicioApi.get<AvancesDto[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
     console.log('Respuesta de la api loadAvances: ' + resp.data);
     setAvances([...resp.data]);
   };
