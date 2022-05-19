@@ -22,6 +22,8 @@ export const PatientsSettingsScreen = ({navigation}: Props) => {
         </TouchableOpacity>
       </View>
 
+    
+
       <View style={styles.cardButtons}>
         <TouchableOpacity
           activeOpacity={0.8}
