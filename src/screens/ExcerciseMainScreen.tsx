@@ -59,11 +59,6 @@ export const ExcerciseMainScreen = ({route, navigation}: Props) => {
     }
   }
 
-  useEffect(() => {
-    // loadPatient(UserId);
-    // addExercises();
-  }, []);
-
   const startTimer = () => {
     setCustomInterval(
       setInterval(() => {
@@ -114,7 +109,7 @@ export const ExcerciseMainScreen = ({route, navigation}: Props) => {
             <Text style={styles.textBotton}>Pausar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={clear}>
-            <Text style={styles.textBotton}>Limpiar</Text>
+            <Text style={styles.textBotton}>Guardar</Text>
           </TouchableOpacity>
         </View>
         <View

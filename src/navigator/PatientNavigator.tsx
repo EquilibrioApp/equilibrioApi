@@ -6,6 +6,7 @@ import {PotencialUsuarioNavigator} from './PotencialUsuarioNavigator';
 import {SearchFoodNavigator} from './SearchFoodNavigator';
 import {BottomTab} from './BottomTab';
 import { RegisterPatScreen } from '../screens/RegisterPatScreen';
+import { MetaAvancesScreen } from '../screens/MetasAvancesScreen';
 
 export type PatientStackParams = {
   PatientsMainScreen: undefined;
@@ -16,6 +17,9 @@ export type PatientStackParams = {
   PotencialUsuarioNavigator: undefined;
   SearchFoodNavigator: undefined;
   RegisterPatScreen: {
+    UserId: string;
+  };
+  MetaAvancesScreen: {
     UserId: string;
   };
 };
@@ -34,7 +38,7 @@ export const PatientNavigator = () => {
           shadowColor: 'transparent',
         },
       }}>
-      <Stack.Screen name="PatientsMainScreen" component={BottomTab} />
+      <Stack.Screen name="PatientsMainScreen" component={BottomTab} options={{title: ''}}/>
       <Stack.Screen
         name="WaterRegister"
         component={WaterMainScreen}
@@ -59,6 +63,11 @@ export const PatientNavigator = () => {
         name="SearchFoodNavigator"
         component={SearchFoodNavigator}
         options={{title: 'Recetas'}}
+      />
+      <Stack.Screen
+        name="MetaAvancesScreen"
+        component={MetaAvancesScreen}
+        options={{title: 'Avances'}}
       />
       {/* <Stack.Screen name="PotentialUserResultScreen" component={PotentialUserResultScreen} /> */}
     </Stack.Navigator>

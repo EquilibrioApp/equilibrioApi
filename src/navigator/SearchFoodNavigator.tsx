@@ -6,7 +6,7 @@ import {SearchFoodResultScreen} from '../screens/SearchFootResultScreen';
 
 export type SearchFoodStackParams = {
   SearchFoodScreen: undefined;
-  SearchFoodResultScreen: {food: Recipe};
+  SearchFoodResultScreen: {comida: FoodDto};
 };
 
 const Stack = createStackNavigator<SearchFoodStackParams>();

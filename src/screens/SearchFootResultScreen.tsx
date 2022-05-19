@@ -1,61 +1,76 @@
-import React, { useState } from 'react'
-import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { PotencialUsuarioStackParams } from '../navigator/PotencialUsuarioNavigator';
+import React, {useState} from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
+import {PotencialUsuarioStackParams} from '../navigator/PotencialUsuarioNavigator';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { SearchFoodStackParams } from '../navigator/SearchFoodNavigator';
+import {SearchFoodStackParams} from '../navigator/SearchFoodNavigator';
 
+interface Props
+  extends StackScreenProps<SearchFoodStackParams, 'SearchFoodResultScreen'> {}
 
-interface Props extends StackScreenProps<SearchFoodStackParams, 'SearchFoodResultScreen'> {};
+export const SearchFoodResultScreen = ({navigation, route}: Props) => {
+  const {comida} = route.params;
 
-export const SearchFoodResultScreen = ( {navigation, route}: Props ) => {
-  
-  const { food } = route.params;
-
-  // const copyCelToClipboard = () => {
-  //   Clipboard.setString(food.user.phoneNumber);
-  //   Alert.alert('Telefono copiado al portapapeles')
-  // };
-  // const copyMailToClipboard = () => {
-  //   Clipboard.setString(food.user.email);
-  //   Alert.alert('Correo copiado al portapapeles')
-  // };
-
-
+  const copynutricionUrlToClipboard = () => {
+    Clipboard.setString(comida.recipe.shareAs);
+    Alert.alert('Link copiado al portapapeles')
+  };
+  const copyinstruccionesUrlToClipboard = () => {
+    Clipboard.setString(comida.recipe.url);
+    Alert.alert('Link copiado al portapapeles')
+  };
 
   return (
     <View style={styles.container}>
       <Image
-            source={require('../assets/Logo.png')}
-            style={{
-              width: 80,
-              height: 110,
-              bottom: 35,
-            }}
-          />
+        source={require('../assets/Logo.png')}
+        style={{
+          width: 80,
+          height: 110,
+          bottom: 35,
+        }}
+      />
       <View style={styles.card}>
-        <Text style={styles.tittle}>Nombre del Especialista:</Text>
-        <Text style={styles.info}>{food.label
-        // food.user.name + ' ' + food.user.fathersLastName  + ' ' + food.user.mothersLastName
-      }</Text>
-        {/* <Text style={styles.tittle}>Dirección:</Text>
-        <Text style={styles.info}>{food.streetName + ' No. ' + food.houseNumber}</Text>
-        <Text style={styles.tittle}>Código Postal:</Text>
-        <Text style={styles.info}>{food.postalCode}</Text>
-        <TouchableOpacity onPress={copyCelToClipboard}>
-          <Text style={styles.tittle}>Telélefono de contacto:</Text>
-          <Text style={styles.info}>{food.user.phoneNumber}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={copyMailToClipboard}>
-          <Text style={styles.tittle}>Correo electrónico:</Text>
-          <Text style={styles.info}>{food.user.email}</Text>
-        </TouchableOpacity> */}
+        <Text style={styles.tittle}>{'Receta: '+ comida.recipe.label}</Text>
+        <Text style={styles.info}>{'Calorias: ' + comida.recipe.calories}</Text>
+        <Text style={styles.info}>{'Ingredientes: ' + comida.recipe.ingredientLines}</Text>
       </View>
+      <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={copynutricionUrlToClipboard}>
+            <Text style={styles.textBotton}>Nutrición</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={copyinstruccionesUrlToClipboard} >
+            <Text style={styles.textBotton}>Instrucciones</Text>
+          </TouchableOpacity>
+        </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
+  textBotton: {
+    fontSize: 18,
+    color: '#fff',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#FE7D56',
+    padding: 10,
+    borderRadius: 20,
+  },
+  buttonContainer: {
+    width: '70%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -64,17 +79,17 @@ const styles = StyleSheet.create({
   card: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#2597f4',
-    height: 600,
+    backgroundColor: '#EFEFEF',
+    height: 400,
     width: 350,
     borderRadius: 50,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 6,
     },
     shadowOpacity: 0.39,
-    shadowRadius: 8.30,
+    shadowRadius: 8.3,
 
     elevation: 13,
   },
@@ -83,15 +98,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 20,
     textAlign: 'justify',
-    fontWeight: '100',
-    color: 'white'
+    fontWeight: 'bold',
+    color: '#081723',
   },
   info: {
     fontSize: 20,
     // marginTop: 20,
     textAlign: 'center',
-    fontWeight: '100',
+    fontWeight: 'normal',
     marginBottom: 20,
-    color: 'white'
-  }
+    color: '#0D334F',
+  },
 });

@@ -50,7 +50,7 @@ export const PatientsMainScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
-          onPress={() => navigation.navigate('PatientRegisterScreen')}>
+          onPress={() => navigation.navigate('MetaAvancesScreen', {UserId: user?.id})}>
           <Text style={styles.textOpciones}>Metas vs Avances</Text>
           
           <Feather name="pie-chart" color={'orange'} size={60} />

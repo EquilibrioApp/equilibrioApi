@@ -2,11 +2,11 @@ import {useNavigation} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
-import {Recipe, SearchDoctorByPC} from '../interfaces/appInterfaces';
+import {FoodDto, Recipe, SearchDoctorByPC} from '../interfaces/appInterfaces';
 import {SearchFoodResultScreen} from '../navigator/SearchFoodNavigator';
 
 interface Props /* extends StackScreenProps<PotencialUsuarioStackParams, 'PotentialUserScreen'> */ {
-  comida: Recipe;
+  comida: FoodDto;
 }
 
 export const FindFoodCard = ({comida /* , navigation */}: Props) => {
@@ -19,10 +19,10 @@ export const FindFoodCard = ({comida /* , navigation */}: Props) => {
         navigation.navigate('SearchFoodResultScreen', {comida: comida})
       }>
       <View style={styles.cardContainer}>
-        <Text style={styles.name}>{comida.label + ' '}</Text>
+        <Text style={styles.name}>{comida.recipe.label + ' '}</Text>
         <Text style={styles.info}>
-          {comida.ingredients + ' '}
-          {comida.calories}
+          {/* {comida.ingredients + ' '} */}
+          {comida.recipe.calories}
         </Text>
         {/* <Text style={styles.info}>{'C.P. ' + doctor.postalCode}</Text> */}
       </View>
@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginHorizontal: 10,
     backgroundColor: '#4265FF9C',
-    height: 120,
+    height: 100,
+    padding: 10,
     width: 350,
     marginBottom: 25,
     borderRadius: 35,
@@ -43,11 +44,11 @@ const styles = StyleSheet.create({
   name: {
     top: 10,
     fontSize: 20,
-    fontWeight: '200',
+    fontWeight: 'bold',
   },
   info: {
     top: 10,
     fontSize: 18,
-    fontWeight: '200',
+    fontWeight: 'normal',
   },
 });

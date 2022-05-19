@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import inicioApi from '../api/inicioApi';
-import { Recipe, SearchDoctorByPC } from '../interfaces/appInterfaces';
+import { FoodDto, Recipe, SearchDoctorByPC } from '../interfaces/appInterfaces';
 import { Alert } from 'react-native';
 
 
 export const useFoodSearch = () => {
 
     const [isLoading, setisLoading] = useState(true);
-    const [foodsList, setFoodsList] = useState<Recipe[]>();
+    const [foodsList, setFoodsList] = useState<FoodDto[]>();
     const [buscarRecetas, setFood] = useState('Init');
 
 
@@ -17,13 +17,11 @@ export const useFoodSearch = () => {
         buscarRecetas: buscarRecetas
     };
 
-    const loadDoctors = async() => {
+    const loadReceta = async() => {
 
         try {
-            console.log(buscarRecetas)
             setisLoading(true);
-            const resp = await inicioApi.get<Recipe[]>(`/expediente/meals/recipes`, {params:Receta});
-            console.log(resp.data);
+            const resp = await inicioApi.get<FoodDto[]>(`/expediente/meals/recipes/${buscarRecetas}`, );
             setFoodsList([...resp.data]);
             setisLoading(false);
         } catch (error) {
@@ -34,7 +32,7 @@ export const useFoodSearch = () => {
 
     useEffect(() => {
         if(buscarRecetas !== 'Init'){
-            loadDoctors();
+            loadReceta();
         }
     }, [buscarRecetas])   
 

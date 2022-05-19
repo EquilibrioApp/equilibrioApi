@@ -24,6 +24,7 @@ export const SearchFoodScreen = ({navigation}: Props) => {
   //   return <LoadingScreen/>
   // }
 
+
   return (
     <>
       <View style={styles.container}>
@@ -49,14 +50,13 @@ export const SearchFoodScreen = ({navigation}: Props) => {
 
         <View>
           <Text style={styles.tittle}>Recetas: </Text>
-          
           <SearchBarFood
             setComida={setFood}
           />
         </View>
         <FlatList
             data={ foodsList }
-            keyExtractor={(comida) => comida.label}
+            keyExtractor={(comida) => comida.recipe.uri}
             renderItem={ ({ item }) => (<FindFoodCard comida={item}/>) }
         />
       </View>

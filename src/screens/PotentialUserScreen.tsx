@@ -47,7 +47,6 @@ export const PotentialUserScreen = ({navigation}: Props) => {
 
         <View>
           <Text style={styles.text}>Código Postal: </Text>
-          
           <SearchBarDoctor
             setPostalCode={setPostalCode}
           />
