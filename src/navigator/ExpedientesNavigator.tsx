@@ -23,11 +23,7 @@ export type ExpedientesStackParams = {
     id: string | undefined
   };
   EquivalenciaScreen: {
-    avance?: string;
-    nombre?: string;
-    birthDate?: Date;
-    sexo?: string;
-    alturaPaciente?: number;
+    id: string | undefined
   };
   AvancesScreen: {
     id?: string,

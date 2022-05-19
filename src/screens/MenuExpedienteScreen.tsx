@@ -13,9 +13,8 @@ import {
   View,
 } from 'react-native';
 import inicioApi from '../api/inicioApi';
-import {Inputstyles} from '../components/Input';
 import {useForm} from '../hooks/usForms';
-import {Avance, AvancesResponseDto} from '../interfaces/appInterfaces';
+import {AvancesDto, AvancesResponseDto} from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {Styles} from '../theme/StyleTheme';
@@ -25,11 +24,11 @@ interface Props
 
 export const MenuExpedienteScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
+  const [avances, setAvances] = useState<AvancesDto[]>([]);
 
   // const [avances, setAvances] = useState<Avance[]>([]);
 
   const {id, nombre = '', birthDate, sexo, alturaPaciente} = route.params;
-
   const altura = alturaPaciente;
 
   const actual = new Date();
@@ -81,18 +80,18 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
     abdominal: '',
     musloMedio: '',
     midaxilar: '',
-    observacion: ''
+    observacion: '',
   });
 
   var Sexo = '';
-  if (sexo === 'F') {
-    Sexo = 'Femenino';
-  } else {
-    Sexo = 'Masculino';
-  }
+  // if (sexo === 'F') {
+  //   Sexo = 'Femenino';
+  // } else {
+  //   Sexo = 'Masculino';
+  // }
+  sexo === 'F' ? (Sexo = 'Femenino') : (Sexo = 'Masculino');
 
-  const onAddAvance = async () =>{
-    
+  const onAddAvance = async () => {
     let cadera = Number(cadera1);
     let cintura = Number(cintura1);
     let brazo = Number(brazo1);
@@ -100,38 +99,83 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
     let femoral = Number(femoral1);
     let biestiloideo = Number(biestiloideo1);
     let cuello = Number(cuello1);
+    let avanceId = '';
 
     try {
-      const respNota = await inicioApi.post<AvancesResponseDto>(`/${id}/avance`, {
-        observacion,
-      });
-      if (respNota.status !== 200) {
-        Alert.alert('Algo ha salido mal, intente nuevamente');
+      if ((observacion.length && peso.length) !== 0) {
+        const respNota = await inicioApi.post<AvancesResponseDto>( `/${id}/avance`, { observacion, }, );
+        console.log('Status de la respuesta de nota: ' + respNota.status);
+        avanceId = respNota.data.id;
+
+        const respPeso = await inicioApi.post(`/peso`, {
+          avanceId, peso,
+        });
+        console.log('Status de la respuesta de Peso: ' + respPeso.status);
+
+        console.log(cadera1.length, cintura1.length, brazo1.length, pierna1.length, femoral1.length, biestiloideo1.length, cuello1.length)
+        
+        if ((cadera1.length && cintura1.length && brazo1.length && pierna1.length && femoral1.length && biestiloideo1.length && cuello1.length) !== 0) {
+          const respCircunferencias = await inicioApi.post(`/circunferencias`, {
+            avanceId, cadera, cintura, brazo, pierna, femoral, altura, sexo, biestiloideo, cuello,
+          });
+          console.log('Status de la respuesta de circunferencia: ' + respCircunferencias.status);
+        }
+        
+        console.log(cintura1.length, femoral1.length, biestiloideo1.length, cuello1.length, cadera1.length)
+        if ((cintura1.length && femoral1.length && biestiloideo1.length && cuello1.length && cadera1.length) !== 0) {
+          const respIndices = await inicioApi.post(`/indices`, {
+            avanceId, edad, sexo, peso, altura, cintura, cuello, cadera, biestiloideo, femoral,
+          });
+          console.log('Status de la respuesta de Indices: ' + respIndices.status);
+        }
+
+        console.log(tricipital.length, pectoral.length, bicipital.length, suprailiaca.length, subescupular.length, pantorrillaMedia.length, abdominal.length, musloMedio.length, midaxilar)
+        if ((tricipital.length && pectoral.length && bicipital.length && suprailiaca.length && subescupular.length && pantorrillaMedia.length && abdominal.length && musloMedio.length && midaxilar) !== 0) {
+          const respPliegues = await inicioApi.post(`/pliegues`, {
+            avanceId, tricipital, pectoral, bicipital, suprailiaca, subescupular, pantorrillaMedia, abdominal, musloMedio, midaxilar,
+          });
+          console.log('Status de la respuesta de Pliegues: ' + respPliegues.status);
+        }
+
+        Alert.alert('Avance registrado con exito!');
+        setView(false);
+
+      } else {
+        Alert.alert('Favor de ingresar una nota y un peso para continuar');
       }
-      const avanceId = respNota.data.id;
-      
-      const respCircunferencias = await inicioApi.post(`/circunferencias`, {
-        avanceId, cadera, cintura, brazo, pierna, femoral, altura, sexo, biestiloideo, cuello,
-      });
-      
-      const respIndices = await inicioApi.post(`/indices`, {
-        avanceId, edad, sexo, peso, altura, cintura, cuello, cadera, biestiloideo, femoral,
-      });
 
-      const respPeso = await inicioApi.post(`/peso`, {
-        avanceId, edad, sexo, peso, altura, cintura, cuello, cadera, biestiloideo, femoral,
-      });
+      // const respCircunferencias = await inicioApi.post(`/circunferencias`, {
+      //   avanceId, cadera, cintura, brazo, pierna, femoral, altura, sexo, biestiloideo, cuello,
+      // });
 
-      const respPliegues = await inicioApi.post(`/pliegues`, {
-        avanceId, tricipital, pectoral, bicipital, suprailiaca, subescupular, pantorrillaMedia, abdominal, musloMedio, midaxilar,
-      });
-      
-      Alert.alert('Avance registrado con exito!');
-      setView(false);
+      // const respIndices = await inicioApi.post(`/indices`, {
+      //   avanceId, edad, sexo, peso, altura, cintura, cuello, cadera, biestiloideo, femoral,
+      // });
+      // console.log('Status de la respuesta de Indices: ' + respIndices.status);
+
+      // const respPeso = await inicioApi.post(`/peso`, {
+      //   avanceId, peso,
+      // });
+      // console.log('Status de la respuesta de Peso: ' + respPeso.status);
+
+      // const respPliegues = await inicioApi.post(`/pliegues`, {
+      //   avanceId, tricipital, pectoral, bicipital, suprailiaca, subescupular, pantorrillaMedia, abdominal, musloMedio, midaxilar,
+      // });
+      // console.log('Status de la respuesta de Pliegues: ' + respPliegues.status);
+
+      // Alert.alert('Avance registrado con exito!');
+      // setView(false);
     } catch (error) {
       Alert.alert('Algo ha salido mal, intente nuevamente');
     }
-  }
+  };
+
+  const loadAvances = async (id: string | undefined) => {
+    console.log('Id que se recibe en el ExpedientesContext: ' + id);
+    const resp = await inicioApi.get<AvancesDto[]>(`/${id}/avance`); //TODO cambiar a expediente del especialist
+    console.log('Respuesta de la api loadAvances: ' + resp.data);
+    setAvances([...resp.data]);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -146,6 +190,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
         </TouchableOpacity>
       ),
     });
+    loadAvances(id);
   }, []);
 
   return (
@@ -155,14 +200,14 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
           <ScrollView>
             <View style={styles.modalContainer}>
               <View style={styles.modalView}>
-              <View style={styles.headerContainerModal}>
-                <TouchableOpacity onPress={() => setView(false)}>
-                  <Image
-                    source={require('../assets/Close.png')}
-                    style={Styles.btnClose}
-                  />
-                </TouchableOpacity>
-              </View>
+                <View style={styles.headerContainerModal}>
+                  <TouchableOpacity onPress={() => setView(false)}>
+                    <Image
+                      source={require('../assets/Close.png')}
+                      style={Styles.btnClose}
+                    />
+                  </TouchableOpacity>
+                </View>
                 <Text style={styles.modalComplianceTittle}>
                   Registrar nuevo avance
                 </Text>
@@ -320,18 +365,16 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
                 </View>
 
                 {/* -------------------------- Agregar Nota ------------------------- */}
-                
-                  <Text style={styles.tituloModalAgregarNota}>
-                    Nota del día:
-                  </Text>
-                  <TextInput
-                    style={styles.inputNotaNota}
-                    multiline={true}
-                    placeholder="Introducir una nota..."
-                    onChangeText={value => onChange(value, 'observacion')}
-                    value={observacion}
-                    // onSubmitEditing={onAddAvances}
-                  />
+
+                <Text style={styles.tituloModalAgregarNota}>Nota del día:</Text>
+                <TextInput
+                  style={styles.inputNotaNota}
+                  multiline={true}
+                  placeholder="Introducir una nota..."
+                  onChangeText={value => onChange(value, 'observacion')}
+                  value={observacion}
+                  // onSubmitEditing={onAddAvances}
+                />
                 <TouchableOpacity
                   style={styles.continueButton}
                   onPress={onAddAvance}>
@@ -359,7 +402,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
             '\nAltura: ' +
             alturaPaciente +
             ' cm' +
-            '\nPeso inicial: Peso actual:'}
+            '\nPeso inicial: Peso actual: '}
         </Text>
       </View>
 
@@ -376,8 +419,7 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
             navigation.navigate('IndicesScreen', {
               id: id,
             });
-          }}
-        >
+          }}>
           <Text style={expedienteStyles.labelSubMenu}>Antropometría</Text>
           <Image
             style={expedienteStyles.image}
@@ -400,8 +442,11 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={expedienteStyles.buttonOrange}
-          // onPress={() => navigation.navigate('EquivalenciaScreen')}\
-        >
+          onPress={() => {
+            navigation.navigate('EquivalenciaScreen', {
+              id: id,
+            });
+          }}>
           <Text style={expedienteStyles.labelSubMenu}>Equivalencia</Text>
           <Image
             style={{height: 45, width: 45, top: -15}}

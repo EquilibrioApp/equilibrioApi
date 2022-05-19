@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {Button, Image} from 'react-native-elements';
 import {Styles} from '../theme/StyleTheme';
@@ -61,17 +62,23 @@ export const SearchScreen = ({navigation}: Props) => {
     try {
 
       const doctor = await AsyncStorage.getItem('id');
-      const resp = await inicioApi.post(`/expediente`, {
-        sexo,
-        alturaPaciente,
-        nombre,
-        doctor,
-        birthDate,
-      });
-      
-      setView(false);
+      if ((sexo.length && alturaPaciente.length && nombre.length && birthDate.length) !== 0) {
+        const resp = await inicioApi.post(`/expediente`, {
+          sexo,
+          alturaPaciente,
+          nombre,
+          doctor,
+          birthDate,
+        });
+        
+        Alert.alert('Expediente registrado con exito');
+        setView(false);
+      }
+      else{
+        Alert.alert('Debe llenar todos los campos para poder ingresar un nuevo expediente');
+      }
     } catch (error) {
-      console.log('Respuesta dif de 200');
+      Alert.alert('Algo salio mal, intente de nuevo más tarde');
     }
   };
 
