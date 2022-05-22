@@ -28,7 +28,7 @@ export const PatientsMainScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientsNavigator')}>
+          onPress={() => navigation.navigate('WaterRegister')}>
           <Text style={styles.buttonText}>Agua</Text>
         </TouchableOpacity>
         <TouchableOpacity

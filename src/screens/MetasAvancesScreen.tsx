@@ -19,13 +19,13 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
   const loadExpediente = async (UserId: string) => {
     try {
       const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
-      console.log('Exp: ' + resp.data.nutriCodigo);
+      console.log('Exp: ' + resp.data);
       setUser(resp.data);
       const respAvance = await inicioApi.get<Avance[]>(
         `/${resp.data.nutriCodigo.id}/avance`,
       );
       console.log('Avance' + respAvance.data);
-      setAvance({...respAvance.data});
+      setAvance(respAvance.data);
       return respAvance;
     } catch (error) {
       throw new Error('Error al obtener los datos del Paciente.');
@@ -43,7 +43,10 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
         keyExtractor={e => e.id}
         renderItem={({item}) => (
           <View style={styles.expedienteCard}>
-            <Text style={styles.expedienteName}>{'Fecha: ' + item.createdAt}</Text>
+            <Text style={styles.expedienteName}>
+              {'Fecha: ' + item.createdAt}
+            </Text>
+            <Text style={styles.expedienteName}>{'Peso: ' + item.peso.peso+ 'kg'}</Text>
           </View>
         )}
       />
