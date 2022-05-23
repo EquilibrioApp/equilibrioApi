@@ -94,6 +94,8 @@ export const AuthProvider = ({children}: any) => {
     await AsyncStorage.setItem('token', data.token.access_token);
     await AsyncStorage.setItem('email', data.result.email);
     await AsyncStorage.setItem('id', data.result.id);
+    await AsyncStorage.setItem('userType', data.result.userType);
+
     } catch (error) {
       /* Se manejan los errores que puedan suceder en el login */
       console.log(error);
@@ -101,7 +103,9 @@ export const AuthProvider = ({children}: any) => {
         type: 'addError',
         payload: 'Información Incorrecta.',
       });
-    }
+    } 
+    // finally {  
+    // }
   };
 
   const signUp = async ({

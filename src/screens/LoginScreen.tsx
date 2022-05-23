@@ -90,9 +90,9 @@ export const LoginScreen = ({ navigation }: Props) => {
                         ]} */
                         selectionColor="grey"
 
-                        onChangeText={(value) => onChange(value, 'password')}
-                        value={password}
-                        onSubmitEditing={onLogin}
+                            onChangeText={(value) => onChange(value, 'password')}
+                            value={password}
+                            onSubmitEditing={onLogin}
 
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -115,7 +115,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                             activeOpacity={0.8}
                             /* Permite navegar a la pantalla que sea necesario */
                             onPress={() => navigation.navigate('UserTypeScreen')}
-                        >
+                            >
                             <Text style={loginStyles.bottomLinksText}>¿No tiene una cuenta?</Text>
                         </TouchableOpacity>
                     </View>
@@ -123,9 +123,10 @@ export const LoginScreen = ({ navigation }: Props) => {
                     <View style={loginStyles.bottomLinks}>
                         <TouchableOpacity
                             activeOpacity={0.8}
-                            onPress={() => console.log('press')}
+                            onPress={() => navigation.navigate('PotencialUsuarioNavigator')}
+                            // onPress={() => console.log('press')}
                         >
-                            <Text style={loginStyles.bottomLinksText}>Recuperar contraseña</Text>
+                            <Text style={loginStyles.bottomLinksText}>Buscar Especialista Cerca de Mí</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
