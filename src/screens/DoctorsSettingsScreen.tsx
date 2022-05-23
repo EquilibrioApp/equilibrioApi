@@ -18,8 +18,6 @@ export const DoctorsSettingsScreen = ({navigation}: Props) => {
           onPress={() => navigation.navigate('DoctorProfileScreen')}>
           <Text style={styles.buttonText}>Perfil</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.cardProgreso}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonConfig}
@@ -27,6 +25,14 @@ export const DoctorsSettingsScreen = ({navigation}: Props) => {
           <Text style={styles.buttonText}>Equivalencia</Text>
         </TouchableOpacity>
       </View>
+      {/* <View style={styles.cardProgreso}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.buttonConfig}
+          onPress={() => navigation.navigate('EquivalenciaDoctorScreen')}>
+          <Text style={styles.buttonText}>Equivalencia</Text>
+        </TouchableOpacity>
+      </View> */}
       <View style={styles.cardButtons}>
         <TouchableOpacity
           activeOpacity={0.8}

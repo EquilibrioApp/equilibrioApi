@@ -1,23 +1,35 @@
 import { useEffect, useState } from "react";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import inicioApi from "../api/inicioApi";
-import { Paciente, PatientNamesResponseDto } from "../interfaces/appInterfaces";
+import { Paciente, PatientNamesResponseDto, PatientsNamesDto } from "../interfaces/appInterfaces";
 
 export const useNombrePaciente = () => {
 
 
-    const [pacientes, setNames] = useState<Paciente[]>([]); 
+    const [isLoading, setIsLoading] = useState( true )
+
+    const [names, setNames] = useState<PatientsNamesDto[]>([]); 
 
     useEffect(() => {
-       getNombres();
+        getNombres();
     }, [])
     
 
     const getNombres = async () => {
-        const resp = await inicioApi.get<PatientNamesResponseDto>('/calendar/pacientes');
-        setNames(resp.data.pacientes);
+
+        const idEspecialista = await AsyncStorage.getItem('id');
+        try {
+            const resp = await inicioApi.get<PatientsNamesDto[]>(`/doctor/${idEspecialista}/pacientes`);
+            setNames(resp.data);
+            setIsLoading(false);
+        } catch (error) {
+            throw new Error("Error al obtener los nombres de los pacietnes.");
+        }
     }
     return {
-        pacientes
+        isLoading,
+        names
     }
 }
