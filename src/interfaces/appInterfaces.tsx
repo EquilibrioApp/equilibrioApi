@@ -271,3 +271,12 @@ export interface Pliegue {
     musloMedio:       string;
     midaxilar:        string;
 }
+
+export interface EquivalenciaDoctor {
+    nombre:         string;
+    grupoAlimencio: string;
+    subgrupo:       string;
+    racion:         string;
+    doctor:         string;
+    id:             string;
+}

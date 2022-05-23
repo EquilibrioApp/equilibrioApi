@@ -1,18 +1,16 @@
-import React, { useContext } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, {useContext} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import { AuthContext } from '../context/AuthContext';
+import {AuthContext} from '../context/AuthContext';
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const DoctorsSettingsScreen = ({navigation}: Props) => {
-  
   const {logOut} = useContext(AuthContext);
 
   return (
     <View style={styles.container}>
       <Text style={styles.tittle}>Ajustes</Text>
-
       <View style={styles.cardProgreso}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -21,7 +19,14 @@ export const DoctorsSettingsScreen = ({navigation}: Props) => {
           <Text style={styles.buttonText}>Perfil</Text>
         </TouchableOpacity>
       </View>
-
+      <View style={styles.cardProgreso}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.buttonConfig}
+          onPress={() => navigation.navigate('EquivalenciaDoctorScreen')}>
+          <Text style={styles.buttonText}>Equivalencia</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.cardButtons}>
         <TouchableOpacity
           activeOpacity={0.8}
@@ -62,6 +67,7 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     textAlign: 'center',
     color: '#4265FF',
+    padding: 10,
     // top: 190,
   },
   cardProgreso: {
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
     height: 350,
     borderRadius: 50,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
     fontSize: 28,
@@ -96,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: '#ff002b',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 10,

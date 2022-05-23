@@ -14,82 +14,54 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {Styles} from '../theme/StyleTheme';
 import {Picker} from '@react-native-picker/picker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {useForm} from '../hooks/usForms';
 import inicioApi from '../api/inicioApi';
 import {EquivalenciaDoctor} from '../interfaces/appInterfaces';
-import { ExpedientesStackParams } from '../navigator/ExpedientesNavigator';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface Props extends StackScreenProps<ExpedientesStackParams, 'EquivalenciaScreen'> {}
+interface Props extends StackScreenProps<any, any> {}
 
-export const EquivalenciaScreen = ({navigation, route}: Props) => {
+export const EquivalenciaDoctorScreen = ({route, navigation}: Props) => {
   const [view, setView] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState('');
   const [selectedSubGroup, setSelectedSubGroup] = useState('');
   const [selectedMeasure, setSelectedMeasure] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('');
 
-  
-  const [equivalencia, setEquivalencia] = useState<EquivalenciaDoctor[]>([]);
-  
+  const [equivalencia, setEquivalencia] = useState<EquivalenciaDoctor>();
+
   const {nombre, grupoAlimencio, subgrupo, medida, racion, form, onChange} =
-  useForm({
-    nombre: '',
-    grupoAlimencio: '',
-    subgrupo: '',
-    medida: '',
+    useForm({
+      nombre: '',
+      grupoAlimencio: '',
+      subgrupo: '',
+      medida: '',
       racion: '',
     });
 
-  const AddEquivalencia = async () => {
-    if (nombre.length !== 0) {
-      console.log('Lenght of Alimento: ' + nombre.length);
-      console.log({nombre, grupoAlimencio, subgrupo, medida, racion});
-
-      const id = AsyncStorage.getItem('id');
-      const respEx = await inicioApi.get<EquivalenciaDoctor[]>(
-        `/equivalencia/${id}`,
-      );
-      setEquivalencia(respEx.data);
-      console.log(respEx.data);
-      const resp = await inicioApi.post<EquivalenciaDoctor>(
-        `/expediente/equivalencia`,
-        {equivalencia},
-      );
-      console.log(resp.status);
-    } else {
-      Alert.alert('El campo Nombre debe estar lleno.');
-    }
-  };
-  
   const onAddEquivalencia = async () => {
-    
-    const {id} = route.params;
-    
     try {
       if (nombre.length !== 0) {
         console.log('Lenght of Alimento: ' + nombre.length);
         console.log({nombre, grupoAlimencio, subgrupo, medida, racion});
-        const expediente = id;
-        console.log(expediente);
+        const doctor = await AsyncStorage.getItem('id');
         const respEqu = await inicioApi.post<EquivalenciaDoctor>(
-          `/expediente/equivalencia`,
+          `/equivalencia`,
           {
             nombre,
             grupoAlimencio,
             subgrupo,
             racion,
-            expediente,
+            doctor
           },
         );
         console.log(respEqu.status);
-        Alert.alert('Alimento registrado de manera correcta.');
+        Alert.alert('Alimento registrado con exito.');
       } else {
         Alert.alert('El campo Nombre debe estar lleno.');
       }
     } catch (error) {
-      Alert.alert('Algo malo sucedió.');
+      Alert.alert('Algo salió mal.');
     }
   };
 
@@ -113,7 +85,6 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
         </View>
       ),
     });
-    AddEquivalencia();
   }, []);
 
   return (
