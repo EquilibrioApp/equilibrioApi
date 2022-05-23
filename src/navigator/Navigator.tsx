@@ -2,8 +2,6 @@ import React, {useContext} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {LoginScreen} from '../screens/LoginScreen';
-import {RegisterScreen} from '../screens/Register';
 import {ProtectedScreen} from '../screens/ProtectedScreen';
 import {AuthContext} from '../context/AuthContext';
 import {LoadingScreen} from '../screens/LoadingScreen';
@@ -14,11 +12,16 @@ import {PotencialUsuarioNavigator} from './PotencialUsuarioNavigator';
 import {PatientProfileScreen} from '../screens/PatientProfileScreen';
 import {PatientNavigator} from './PatientNavigator';
 import {ExcerciseMainScreen} from '../screens/ExcerciseMainScreen';
+import { LoginScreen } from '../screens/LoginScreen';
+import { RegisterScreen } from '../screens/Register';
+import { BottomDoctorTab } from './BottomDoctorBar';
 
 const Stack = createStackNavigator();
 
 export const MainNavigator = () => {
   const {status} = useContext(AuthContext);
+
+  // const idUsuario: string = 
 
   if (status === 'checking') return <LoadingScreen />;
 
@@ -49,14 +52,15 @@ export const MainNavigator = () => {
       ) : (
         <>
           <Stack.Screen name="PatientsNavigator" component={PatientNavigator} />
-          <Stack.Screen
-            name="PatientProfileScreen"
-            component={PatientProfileScreen}
-          />
-          {/* <Stack.Screen name="AppointmentsNavigator" component={AppointmentsNavigator} /> */}
+          <Stack.Screen name="PatientProfileScreen" component={PatientProfileScreen}/>
+          <Stack.Screen name="DoctorsNavigation" component={BottomDoctorTab} />
           <Stack.Screen name="ProtectedScreen" component={ProtectedScreen} />
         </>
+        
       )}
     </Stack.Navigator>
   );
 };
+
+// TODO Barra de busqueda
+// TODO Conexion con servicio de nest js

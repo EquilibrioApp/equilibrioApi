@@ -23,6 +23,8 @@
     "react-native": "0.66.3",
     "react-native-circular-progress-indicator": "^4.1.0",
     "react-native-cli": "^2.0.1",
+    "react-native-datepicker": "^1.7.2",
+    "react-native-elements": "^3.4.2",
     "react-native-gesture-handler": "^2.0.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.0",
@@ -60,7 +62,7 @@
   },
   "rnpm": {
     "assets": [
-      "./src/assets/fonts"
+      "./src/assets/fonts/"
     ]
   }
 }

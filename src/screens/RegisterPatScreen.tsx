@@ -6,14 +6,14 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import inicioApi from '../api/inicioApi';
 // import {styles} from '../components/Input'; //TODO descomentar
 import {useForm} from '../hooks/usForms';
-import {Patient, Registro} from '../interfaces/appInterfaces';
+import {Patient, RegistroDto} from '../interfaces/appInterfaces';
 import {PatientStackParams} from '../navigator/PatientNavigator';
 
 interface Props
   extends StackScreenProps<PatientStackParams, 'RegisterPatScreen'> {}
 
 export const RegisterPatScreen = ({route, navigation}: Props) => {
-  const [registro, setRegistro] = useState<Registro>();
+  const [registro, setRegistro] = useState<RegistroDto>();
   const [user, setUser] = useState<Patient>();
 
   const [view, setView] = useState(false);
@@ -74,7 +74,7 @@ export const RegisterPatScreen = ({route, navigation}: Props) => {
       setUser(respEx.data);
       onChange(expediente, 'expediente');
       console.log('pregunta ' + questionTwo);
-      const resp = await inicioApi.post<Registro>(`/registro`, {
+      const resp = await inicioApi.post<RegistroDto>(`/registro`, {
         questionOne,
         questionTwo,
         questionThree,
