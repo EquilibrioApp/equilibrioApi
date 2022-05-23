@@ -92,7 +92,6 @@ export interface Ejercicio {
 
 export interface Meta {
     expedienteId: string;
-    pesoInicial:  string;
     pesoMeta:     string;
     fechaMeta:    string;
 }

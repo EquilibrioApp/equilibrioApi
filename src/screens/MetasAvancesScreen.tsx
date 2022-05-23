@@ -1,11 +1,19 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
 import inicioApi from '../api/inicioApi';
 import {useForm} from '../hooks/usForms';
 import {Patient} from '../interfaces/appInterfaces';
-import {Avance} from '../interfaces/PatientsInterfaces';
+import {Avance, Meta} from '../interfaces/PatientsInterfaces';
 import {PatientStackParams} from '../navigator/PatientNavigator';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart,
+} from 'react-native-chart-kit';
 
 interface Props
   extends StackScreenProps<PatientStackParams, 'MetaAvancesScreen'> {}
@@ -15,6 +23,22 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
 
   const [user, setUser] = useState<Patient>();
   const [avance, setAvance] = useState<Avance[]>([]);
+  const [meta, setMeta] = useState<Meta>({ expedienteId: '1e6aaa45-989f-4405-911a-0122b77c5904',pesoMeta:  '50',
+    fechaMeta:  '05-24',});
+
+  const dataFecha = {
+    labels: [meta.fechaMeta],
+    datasets: [
+      {
+        data: [parseInt(meta.pesoMeta)],
+      },
+    ],
+  };
+
+  avance.forEach(item => {
+    dataFecha.labels.push(item.createdAt.toString().substring(5, 10));
+    dataFecha.datasets[0].data.push(parseInt(item.peso.peso));
+  });
 
   const loadExpediente = async (UserId: string) => {
     try {
@@ -32,21 +56,73 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
     }
   };
 
+  const loadMeta = async (UserId: string) => {
+    try {
+      const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
+      console.log('Exp: ' + resp.data.nutriCodigo);
+      setUser(resp.data);
+      // const expediente =resp.data.nutriCodigo;
+      // const respAvance = await inicioApi.get<Meta>(`/meta/${expediente}`);
+      // console.log('Avance' + respAvance.data);
+      // setMeta(respAvance.data);
+      return ;
+    } catch (error) {
+      throw new Error('Error al obtener los datos del Paciente.');
+    }
+  };
+
   useEffect(() => {
     loadExpediente(UserId);
+    loadMeta(UserId);
   }, []);
 
   return (
     <>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text style={styles.tittle}>Avances</Text>
+      </View>
+      <View>
+        <LineChart
+          data={dataFecha}
+          width={Dimensions.get('window').width} // from react-native
+          height={220}
+          yAxisLabel=""
+          yAxisSuffix="kg"
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: '#e26a00',
+            backgroundGradientFrom: '#fb8c00',
+            backgroundGradientTo: '#ffa726',
+            decimalPlaces: 0, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: '6',
+              strokeWidth: '2',
+              stroke: '#ffa726',
+            },
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+      </View>
       <FlatList
         data={avance}
         keyExtractor={e => e.id}
         renderItem={({item}) => (
-          <View style={styles.expedienteCard}>
-            <Text style={styles.expedienteName}>
-              {'Fecha: ' + item.createdAt}
+          <View style={Style.expedienteCard}>
+            <Text style={Style.expedienteName}>
+              {'Fecha: ' + item.createdAt.toString().substring(0, 10)}
             </Text>
-            <Text style={styles.expedienteName}>{'Peso: ' + item.peso.peso+ 'kg'}</Text>
+            <Text style={Style.expedienteName}>
+              {'Peso: ' + item.peso.peso + 'kg'}
+            </Text>
           </View>
         )}
       />
@@ -54,7 +130,7 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const Style = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 2,
@@ -156,5 +232,52 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     // marginHorizontal: 40,
     fontWeight: '100',
+  },
+});
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 40,
+    margin: 20,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+
+    elevation: 6,
+  },
+  tittle: {
+    fontSize: 40,
+    fontWeight: '100',
+    color: 'dodgerblue',
+    marginBottom: 20,
+  },
+  text: {
+    fontWeight: '100',
+    textAlign: 'justify',
+    fontSize: 20,
+  },
+  text2: {
+    fontWeight: '100',
+    textAlign: 'justify',
+    fontSize: 50,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    marginVertical: 30,
+    alignItems: 'center',
+  },
+  checkbox: {
+    width: 30,
+    height: 30,
+    marginRight: 20,
   },
 });
