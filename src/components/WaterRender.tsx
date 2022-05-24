@@ -16,7 +16,6 @@ interface fetchState {
   peso: number;
   sexo: string;
 }
-
 const [avance, setAvance] = useState<Peso>();
 // let avance1?:string;
 
@@ -79,7 +78,6 @@ export const WaterRender = ({
     </View>
   );
 };
-
 function useFetch() {
   const [state, setState] = useState<fetchState>({
     peso: 0,

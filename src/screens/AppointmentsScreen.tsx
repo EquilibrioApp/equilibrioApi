@@ -1,10 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { StackScreenProps } from '@react-navigation/stack';
 
 import {AppointmentsContext} from '../context/AppointmentsContext';
 import { AppointmentsStackParams } from '../navigator/AppointmentsNavigator';
+import inicioApi from '../api/inicioApi';
+import { AppointmentsDto } from '../interfaces/appInterfaces';
 
 
 interface Props extends StackScreenProps<AppointmentsStackParams, 'AppointmentsScreen'>{};
@@ -12,12 +15,25 @@ interface Props extends StackScreenProps<AppointmentsStackParams, 'AppointmentsS
 
 export const AppointmentsScreen = ({navigation}: Props) => {
   //FIXME Existe un error con appointments
-  const { appointments, loadAppointments } = useContext(AppointmentsContext);
+  const [ appointments, setAppointments ] = useState<AppointmentsDto[]>([]);
+
+  const loadAppointments = async(  ) => {
+
+    const idEspecialista = await AsyncStorage.getItem('id');
+
+    try {
+      const resp = await inicioApi.get<AppointmentsDto[]>(`agenda/${idEspecialista}`);
+      setAppointments(resp.data);
+      console.log('Citas extraidas: ' + resp.data);
+    } catch (error) {
+      throw new Error("Error al obtener las citas del especialista en cuestion.");
+    }
+
+  }
 
   useEffect(() => {
     navigation.setOptions({
         headerRight: () => (
-          
           <View>
             <TouchableOpacity
               activeOpacity= {0.8}
@@ -28,7 +44,8 @@ export const AppointmentsScreen = ({navigation}: Props) => {
             </TouchableOpacity>
           </View>
         )
-    })
+    });
+    loadAppointments()
   }, [])
   
   return (
@@ -52,7 +69,9 @@ export const AppointmentsScreen = ({navigation}: Props) => {
               }
             >
               <>
-                <Text style={styles.appointmentDate}>{item.start}</Text>
+                <Text style={styles.appointmentDate}>{item.end.substring(0, 10)}</Text>
+                <Text style={styles.appointmentDate}>{item.start.substring(11, 16) + ' a ' + item.end.substring(11, 16)}</Text>
+
                 <Text style={styles.patient}>{item.correoPaciente}</Text>
               </>
             </TouchableOpacity>
@@ -69,13 +88,13 @@ const styles = StyleSheet.create({
   appointmentDate: {
     fontSize: 27,
     color: 'white',
-    marginVertical: 10,
+    fontWeight: '100'
   },
   patient: {
     fontSize: 20,
     textAlign: 'center',
     color: 'white',
-    marginVertical: 10,
+    fontWeight: '100'
   },
   itemSeparator: {
     borderBottomWidth: 5,
@@ -86,13 +105,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   card: {
-    borderWidth: 2,
     alignItems: 'center',
-    borderColor: 'black',
     paddingHorizontal: 20,
     paddingVertical: 5,
     borderRadius: 20,
-    backgroundColor: '#4265FF'
+    backgroundColor: '#8FA4FF'
   },
   buttonContainer: {
     flexDirection: 'row',

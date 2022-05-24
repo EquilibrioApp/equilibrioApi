@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+
 import { useGetUserInfo } from '../hooks/useGetUserInfo';
 
 interface Props extends StackScreenProps<any, any> {}
