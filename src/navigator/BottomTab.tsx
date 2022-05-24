@@ -3,7 +3,9 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {PatientsMainScreen} from '../screens/PatientsMainScreen';
-import { PatientsSettingsScreen } from '../screens/PatientsSettingsScreen';
+import {PatientsSettingsScreen} from '../screens/PatientsSettingsScreen';
+import {PotencialUsuarioNavigator} from './PotencialUsuarioNavigator';
+import {SearchFoodNavigator} from './SearchFoodNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +34,15 @@ export const BottomTab = () => {
         options={{
           tabBarIcon: ({color, size}) => (
             <Feather name="user" color={'orange'} size={30} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Recetas"
+        component={SearchFoodNavigator}
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <Ionicons name="fast-food-outline" color={'orange'} size={30} />
           ),
         }}
       />

@@ -8,19 +8,22 @@ import {
   FlatList
 } from 'react-native';
 import { SearchBarDoctor } from '../components/SearchBarDoctor';
-import { useDoctorPCSearch } from '../hooks/useDoctorPCSearch';
 import { FindDoctorCard } from '../components/FindDoctorCard';
 import { LoadingScreen } from './LoadingScreen';
+import { useFoodSearch } from '../hooks/useFootSearch';
+import { SearchBarFood } from '../components/SearchBarFood';
+import { FindFoodCard } from '../components/FindFoodCard';
 
 interface Props extends StackScreenProps<any, any> {}
 
-export const PotentialUserScreen = ({navigation}: Props) => {
+export const SearchFoodScreen = ({navigation}: Props) => {
 
-  const { isLoading, doctorsList, setPostalCode } = useDoctorPCSearch();
+  const { isLoading, foodsList, setFood } = useFoodSearch();
 
   // if (isLoading) {
   //   return <LoadingScreen/>
   // }
+
 
   return (
     <>
@@ -40,22 +43,21 @@ export const PotentialUserScreen = ({navigation}: Props) => {
           />
         </View>
 
-        <Text style={styles.tittle}>
+        {/* <Text style={styles.tittle}>
           Introduzca los datos que se le piden para poder buscar al especialista
           más cercano.
-        </Text>
+        </Text> */}
 
         <View>
-          <Text style={styles.text}>Código Postal: </Text>
-
-          <SearchBarDoctor
-            setPostalCode={setPostalCode}
+          <Text style={styles.tittle}>Recetas: </Text>
+          <SearchBarFood
+            setComida={setFood}
           />
         </View>
         <FlatList
-            data={ doctorsList }
-            keyExtractor={(doctor) => doctor.user.id}
-            renderItem={ ({ item }) => (<FindDoctorCard doctor={item}/>) }
+            data={ foodsList }
+            keyExtractor={(comida) => comida.recipe.uri}
+            renderItem={ ({ item }) => (<FindFoodCard comida={item}/>) }
         />
       </View>
     </>

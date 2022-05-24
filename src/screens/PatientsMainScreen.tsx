@@ -8,9 +8,15 @@ import {
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
+import { useGetUserInfo } from '../hooks/useGetUserInfo';
+
 interface Props extends StackScreenProps<any, any> {}
 
-export const PatientsMainScreen = ({navigation}: Props) => {
+export const PatientsMainScreen = ({route, navigation}: Props) => {
+
+
+  const {user} = useGetUserInfo();
+  // const {} = route.params;
   // const {token, logOut} = useContext(AuthContext);
   const [value, setValue] = useState(0);
 
@@ -23,13 +29,13 @@ export const PatientsMainScreen = ({navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientsNavigator')}>
+          onPress={() => navigation.navigate('WaterRegister')}>
           <Text style={styles.buttonText}>Agua</Text>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonProgreso}
-          onPress={() => navigation.navigate('PatientsNavigator', {screen: 'ExcerciseRegister'})}>
+          onPress={() => navigation.navigate('ExcerciseRegister', {UserId: user?.id})}>
           <Text style={styles.buttonText}>Ejercicio</Text>
         </TouchableOpacity>
       </View>
@@ -38,14 +44,14 @@ export const PatientsMainScreen = ({navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
-          onPress={() => navigation.navigate('WaterMainScreen')}>
+          onPress={() => navigation.navigate('RegisterPatScreen', {UserId: user?.id})}>
           <Text style={styles.textOpciones}>Registro Rapido</Text>
           <Feather name="book-open" color={'orange'} size={60} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
-          onPress={() => navigation.navigate('PatientRegisterScreen')}>
+          onPress={() => navigation.navigate('MetaAvancesScreen', {UserId: user?.id})}>
           <Text style={styles.textOpciones}>Metas vs Avances</Text>
           
           <Feather name="pie-chart" color={'orange'} size={60} />

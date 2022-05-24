@@ -71,6 +71,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
               <>
                 <Text style={styles.appointmentDate}>{item.end.substring(0, 10)}</Text>
                 <Text style={styles.appointmentDate}>{item.start.substring(11, 16) + ' a ' + item.end.substring(11, 16)}</Text>
+
                 <Text style={styles.patient}>{item.correoPaciente}</Text>
               </>
             </TouchableOpacity>
