@@ -103,7 +103,9 @@ export const AuthProvider = ({children}: any) => {
         type: 'addError',
         payload: 'Información Incorrecta.',
       });
-    }
+    } 
+    // finally {  
+    // }
   };
 
   const signUp = async ({

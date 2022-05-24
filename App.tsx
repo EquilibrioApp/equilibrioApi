@@ -22,7 +22,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <AppState>
-        <MainNavigator />
+        <MainNavigator/>
       </AppState>
     </NavigationContainer>
   );
