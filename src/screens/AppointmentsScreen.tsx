@@ -45,7 +45,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
           </View>
         )
     });
-    loadAppointments()
+    loadAppointments();
   }, [])
   
   return (

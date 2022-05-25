@@ -26,9 +26,7 @@ export type ExpedientesStackParams = {
     id: string | undefined
   };
   AvancesScreen: {
-    id?: string,
-    observacion?: string,
-    expediente?: string,
+    id?: string | undefined,
   };
   NotasScreen: {
     id: string | undefined

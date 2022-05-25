@@ -457,8 +457,11 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={expedienteStyles.buttonBlue}
-          // onPress={() => navigation.navigate('AvanceScreen')}
-        >
+          onPress={() => {
+            navigation.navigate('AvancesScreen', {
+              id: id,
+            });
+          }}>
           <Text style={expedienteStyles.labelSubMenu}>Avance Vs Meta</Text>
           <Image
             style={{height: 45, width: 45, top: -15}}
