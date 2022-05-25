@@ -1,7 +1,15 @@
 import {Picker} from '@react-native-picker/picker';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useContext, useEffect, useState} from 'react';
-import {StyleSheet, Text, TextInput, View, ViewBase, Image, Switch} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ViewBase,
+  Image,
+  Switch,
+} from 'react-native';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import inicioApi from '../api/inicioApi';
 // import {styles} from '../components/Input'; //TODO descomentar
@@ -97,24 +105,13 @@ export const RegisterPatScreen = ({route, navigation}: Props) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={{marginRight: 20}}
-          onPress={() => {
-            //TODO guardar informacion y enviar a la pantalla de menu
-            // setView(true);
-            addRegister();
-          }}>
-          <Text>Guardar</Text>
-        </TouchableOpacity>
-      ),
+      
     });
   }, []);
 
   return (
     <>
-      <ScrollView style={{marginVertical: 5, marginLeft:20, marginRight:20}}>
+      <ScrollView style={{marginVertical: 5, marginLeft: 20, marginRight: 20}}>
         <Text style={styles.title}>
           1.- ¿Pudo comer de acuerdo al menú en el periodo de tiempo
           especificado?{' '}
@@ -132,7 +129,7 @@ export const RegisterPatScreen = ({route, navigation}: Props) => {
 
         <Text style={styles.title}>2.- ¿Cuál fue su última comida? </Text>
         <TextInput
-          style={styles.text}
+          style={styles.text2}
           placeholder=" Ej. 2 Hot dog"
           placeholderTextColor="rgba(0, 0, 0, 0.54)"
           underlineColorAndroid="black"
@@ -312,7 +309,19 @@ export const RegisterPatScreen = ({route, navigation}: Props) => {
           <Picker.Item label="Si" value={true} />
           <Picker.Item label="No" value={false} />
         </Picker>
-        <Text>{JSON.stringify(form, null, 5)}</Text>
+        {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
+        <View style={{alignItems:'center'}}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPress={() => {
+              addRegister();
+            }}>
+            <Text style={{fontSize: 20, fontWeight: '200', color: 'black'}}>
+              Guardar
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </>
   );
@@ -361,6 +370,15 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 5,
     color: '#000',
   },
+  text2: {
+    marginHorizontal: 0,
+    borderWidth: 1,
+    borderColor: '#FFF',
+    height: 50,
+    width: '100%',
+    paddingHorizontal: 5,
+    color: '#000',
+  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -368,5 +386,14 @@ export const styles = StyleSheet.create({
   },
   label: {
     margin: 8,
+  },
+  button: {
+    height: 50,
+    width: '50%',
+    marginTop: 5,
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: 'orange',
   },
 });

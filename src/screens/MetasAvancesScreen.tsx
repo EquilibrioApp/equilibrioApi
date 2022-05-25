@@ -4,7 +4,7 @@ import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
 import inicioApi from '../api/inicioApi';
 import {useForm} from '../hooks/usForms';
 import {Patient} from '../interfaces/appInterfaces';
-import {Avance, Meta} from '../interfaces/PatientsInterfaces';
+import {Avance, Meta, NutriCodigo} from '../interfaces/PatientsInterfaces';
 import {PatientStackParams} from '../navigator/PatientNavigator';
 import {
   LineChart,
@@ -23,11 +23,14 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
 
   const [user, setUser] = useState<Patient>();
   const [avance, setAvance] = useState<Avance[]>([]);
-  const [meta, setMeta] = useState<Meta>({ expedienteId: '1e6aaa45-989f-4405-911a-0122b77c5904',pesoMeta:  '50',
-    fechaMeta:  '05-24',});
+  const [meta, setMeta] = useState<Meta>({
+    expedienteId: '1e6aaa45-989f-4405-911a-0122b77c5904',
+    pesoMeta: '50',
+    fechaMeta: '05-24',
+  });
 
   const dataFecha = {
-    labels: [meta.fechaMeta],
+    labels: [meta.fechaMeta.toString().substring(5, 10)],
     datasets: [
       {
         data: [parseInt(meta.pesoMeta)],
@@ -49,37 +52,52 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
         `/${resp.data.nutriCodigo.id}/avance`,
       );
       console.log('Avance' + respAvance.data);
+      const meta = resp.data.nutriCodigo.meta;
       setAvance(respAvance.data);
+      const respMeta = await inicioApi.get<NutriCodigo>(
+        `/expediente/expe/${resp.data.nutriCodigo.id}`,
+      );
+      console.log('Meta: ' + JSON.stringify(respMeta.data.meta) );
+      setMeta(respMeta.data.meta);
       return respAvance;
     } catch (error) {
       throw new Error('Error al obtener los datos del Paciente.');
     }
   };
 
-  const loadMeta = async (UserId: string) => {
-    try {
-      const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
-      console.log('Exp: ' + resp.data.nutriCodigo);
-      setUser(resp.data);
-      // const expediente =resp.data.nutriCodigo;
-      // const respAvance = await inicioApi.get<Meta>(`/meta/${expediente}`);
-      // console.log('Avance' + respAvance.data);
-      // setMeta(respAvance.data);
-      return ;
-    } catch (error) {
-      throw new Error('Error al obtener los datos del Paciente.');
-    }
-  };
+  // const loadMeta = async () => {
+  //   try {
+  //     const {UserId} = route.params;
+  //     const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
+  //     console.log('Exp: ' + resp.data.nutriCodigo.id);
+  //     setUser(resp.data);
+  //     // const expediente = resp.data.nutriCodigo.id;
+  //     const respAvance = await inicioApi.get<Meta>(`/meta/${resp.data.nutriCodigo.id}`);
+  //     console.log('Avance' + respAvance.data.pesoMeta);
+  //     setMeta(respAvance.data);
+  //     return;
+  //   } catch (error) {
+  //     throw new Error('Error al obtener los datos del Paciente.');
+  //   }
+  // };
 
   useEffect(() => {
     loadExpediente(UserId);
-    loadMeta(UserId);
+    // loadMeta();
   }, []);
 
   return (
     <>
       <View style={{justifyContent: 'center', alignItems: 'center'}}>
         <Text style={styles.tittle}>Avances</Text>
+      </View>
+      <View style={styles.cardPatiente}>
+        <Text style={styles.label}>
+          {'Fecha meta: ' +
+            meta.fechaMeta.toString().substring(0, 10) +
+            '\nPeso meta: ' +
+            meta.pesoMeta + 'kg' }
+        </Text>
       </View>
       <View>
         <LineChart
@@ -125,6 +143,7 @@ export const MetaAvancesScreen = ({route, navigation}: Props) => {
             </Text>
           </View>
         )}
+        ItemSeparatorComponent={() => <View style={Style.itemSeparator} />}
       />
     </>
   );
@@ -279,5 +298,21 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginRight: 20,
+  },
+  label: {
+    // fontFamily: 'Comfortaa',
+    fontSize: 30,
+    fontWeight: '100',
+    color: '#000000',
+  },
+  cardPatiente: {
+    width: 370,
+    backgroundColor: '#C4C4C4',
+    marginTop: 30,
+    marginBottom: 30,
+    padding: 10,
+    borderRadius: 25,
+    flexDirection: 'row', 
+    flexWrap: 'wrap',
   },
 });
