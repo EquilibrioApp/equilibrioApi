@@ -7,6 +7,8 @@ import {SearchFoodNavigator} from './SearchFoodNavigator';
 import {BottomTab} from './BottomTab';
 import { RegisterPatScreen } from '../screens/RegisterPatScreen';
 import { MetaAvancesScreen } from '../screens/MetasAvancesScreen';
+import { NotificationScreen } from '../screens/NotificationScreen';
+import { NotificationsScreen } from '../screens/NotificationsScreen';
 
 export type PatientStackParams = {
   PatientsMainScreen: undefined;
@@ -21,6 +23,17 @@ export type PatientStackParams = {
   };
   MetaAvancesScreen: {
     UserId: string;
+  };
+  NotificationsScreen: {
+    userId: string | undefined;
+  };
+  NotificationScreen: {
+    id_agenda?: string;
+    idPaciente?: string;
+    iCalUID?: string;
+    start?: string;
+    end?: string;
+    correoPaciente?: string;
   };
 };
 
@@ -68,6 +81,16 @@ export const PatientNavigator = () => {
         name="MetaAvancesScreen"
         component={MetaAvancesScreen}
         options={{title: 'Avances'}}
+      />
+      <Stack.Screen
+        name="NotificationScreen"
+        component={NotificationScreen}
+        options={{title: 'Notificacion'}}
+      />
+      <Stack.Screen
+        name="NotificationsScreen"
+        component={NotificationsScreen}
+        options={{title: 'Notificaciones'}}
       />
       {/* <Stack.Screen name="PotentialUserResultScreen" component={PotentialUserResultScreen} /> */}
     </Stack.Navigator>

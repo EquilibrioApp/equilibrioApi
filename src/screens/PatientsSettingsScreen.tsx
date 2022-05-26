@@ -2,12 +2,15 @@ import React, { useContext } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import {StackScreenProps} from '@react-navigation/stack';
 import { AuthContext } from '../context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const PatientsSettingsScreen = ({navigation}: Props) => {
   
   const {token, logOut} = useContext(AuthContext);
+
+  const userId = AsyncStorage.getItem('id');
 
   return (
     <View style={styles.container}>
@@ -22,7 +25,14 @@ export const PatientsSettingsScreen = ({navigation}: Props) => {
         </TouchableOpacity>
       </View>
 
-    
+      <View style={styles.cardProgreso}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.buttonConfig}
+          onPress={() => navigation.navigate('NotificationsScreen', {userId:userId})}>
+          <Text style={styles.buttonText}>Mi Info</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.cardButtons}>
         <TouchableOpacity
