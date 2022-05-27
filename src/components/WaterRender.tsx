@@ -17,33 +17,16 @@ interface fetchState {
   sexo: string;
 }
 
-const [avance, setAvance] = useState<Peso>();
+
 // let avance1?:string;
 
-export const WaterRender = ({
+export const WaterRender = ({ //TODO la funcion 
   children,
   setGlassOfWater,
   setLittersOfWatter,
 }: Props) => {
   const [user, setUser] = useState<Patient>();
-  
-
-  const loadExpediente = async () => {
-    try {
-      const UserId = await AsyncStorage.getItem('id');
-      console.log(UserId);
-      const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
-      // console.log('Exp: ' + resp.data);
-      setUser(resp.data);
-      const respAvance = await inicioApi.get<Avance[]>(
-        `/${resp.data.nutriCodigo.id}/avance`,
-      );
-      // console.log('Avance' + respAvance.data[0].peso.peso);
-      setAvance(respAvance.data[0].peso);
-    } catch (error) {
-      throw new Error('Error al obtener los datos del Paciente.');
-    }
-  };
+  // const [avance, setAvance] = useState<Peso>(); //TODO la variable avance.peso
 
   // avance1=avance?.peso;
 
@@ -65,7 +48,7 @@ export const WaterRender = ({
     );
     setGlassOfWater(Math.round(numGlasses));
     setNumVasos(Math.round(numGlasses));
-    loadExpediente();
+    // loadExpediente();
   }, [peso]);
 
   return (
@@ -83,11 +66,30 @@ export const WaterRender = ({
 function useFetch() {
   const [state, setState] = useState<fetchState>({
     peso: 0,
-    sexo: '',
+    sexo: ''
   });
 
+  const loadExpediente = async () => {
+    try {
+      const UserId = await AsyncStorage.getItem('id');
+      console.log(UserId);
+      const resp = await inicioApi.get<Patient>(`/patient/${UserId}`);
+      // console.log('Exp: ' + resp.data);
+      // setUser(resp.data);
+      const respAvance = await inicioApi.get<Avance[]>(
+        `/${resp.data.nutriCodigo.id}/avance`,
+      );
+      // console.log('Avance' + respAvance.data[0].peso.peso);
+      const peso = parseInt(respAvance.data[0].peso.peso);
+      setState({peso, sexo:'M'});
+    } catch (error) {
+      throw new Error('Error al obtener los datos del Paciente.');
+    }
+  };
+
   useEffect(() => {
-    setState({peso: 80, sexo: 'H'});
+    // setState({peso: 80, sexo: 'H'});  //TODO Variable peso a igualar
+    loadExpediente();
   }, []);
 
   return state;

@@ -21,7 +21,7 @@ import inicioApi from '../api/inicioApi';
 import {AppointmentsDto} from '../interfaces/appInterfaces';
 import {Styles} from '../theme/StyleTheme';
 import {useForm} from '../hooks/usForms';
-import DatePicker from  'react-native-datepicker';
+import DatePicker from 'react-native-datepicker'
 import {useNombrePaciente} from '../hooks/useNombrePaciente';
 import {Picker} from '@react-native-picker/picker';
 import { PatientStackParams } from '../navigator/PatientNavigator';
@@ -30,7 +30,11 @@ interface Props
   extends StackScreenProps<PatientStackParams, 'NotificationsScreen'> {}
 
 export const NotificationsScreen = ({navigation}: Props) => {
-  //FIXME Existe un error con appointments
+  //FIXME Existe un error con 
+
+  const id =  AsyncStorage.getItem('id');
+
+  
   const [view, setView] = useState(false);
   const [userType, setUserType] = useState();
   const [selectedName, setSelectedName] = useState<string>('1');
@@ -53,7 +57,7 @@ export const NotificationsScreen = ({navigation}: Props) => {
       const resp = await inicioApi.get<AppointmentsDto[]>(
         `agenda/${idPaciente}`,
       );
-      setAppointments(resp.data);
+      // setAppointments(resp.data);
       console.log('Notificación extraidas: ' + resp.data);
     } catch (error) {
       throw new Error(
