@@ -21,6 +21,7 @@ import inicioApi from '../api/inicioApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from 'react-native-datepicker';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 interface Props
   extends StackScreenProps<ExpedientesStackParams, 'SearchScreen'> {}
@@ -60,9 +61,13 @@ export const SearchScreen = ({navigation}: Props) => {
   const onAddExpediente = async () => {
     console.log(form);
     try {
-
       const doctor = await AsyncStorage.getItem('id');
-      if ((sexo.length && alturaPaciente.length && nombre.length && birthDate.length) !== 0) {
+      if (
+        (sexo.length &&
+          alturaPaciente.length &&
+          nombre.length &&
+          birthDate.length) !== 0
+      ) {
         const resp = await inicioApi.post(`/expediente`, {
           sexo,
           alturaPaciente,
@@ -70,12 +75,13 @@ export const SearchScreen = ({navigation}: Props) => {
           doctor,
           birthDate,
         });
-        
+
         Alert.alert('Expediente registrado con exito');
         setView(false);
-      }
-      else{
-        Alert.alert('Debe llenar todos los campos para poder ingresar un nuevo expediente');
+      } else {
+        Alert.alert(
+          'Debe llenar todos los campos para poder ingresar un nuevo expediente',
+        );
       }
     } catch (error) {
       Alert.alert('Algo salio mal, intente de nuevo más tarde');
@@ -214,6 +220,12 @@ export const SearchScreen = ({navigation}: Props) => {
           )}
           ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
         />
+        <TouchableOpacity 
+        style={styles.search}
+        onPress={() => navigation.navigate('SearchPatientScreen')}
+        >
+          <Ionicons name="search-outline" color={'blue'} size={30} />
+        </TouchableOpacity>
       </View>
     </>
   );
@@ -321,5 +333,25 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     // marginHorizontal: 40,
     fontWeight: '100',
+  },
+  search: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    borderRadius: 30,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    padding: 30,
+    margin: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 11,
+    },
+    shadowOpacity: 0.55,
+    shadowRadius: 14.78,
+
+    elevation: 20,
   },
 });

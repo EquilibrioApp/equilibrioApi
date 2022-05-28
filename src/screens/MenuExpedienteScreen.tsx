@@ -18,6 +18,7 @@ import {AvancesDto, AvancesResponseDto} from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
 import {Styles} from '../theme/StyleTheme';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface Props
   extends StackScreenProps<ExpedientesStackParams, 'MenuExpedienteScreen'> {}
@@ -31,6 +32,10 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
   const {id, nombre = '', birthDate, sexo, alturaPaciente} = route.params;
   const altura = alturaPaciente;
 
+  const copyIdToClipboard = () => {
+    Clipboard.setString(id);
+    Alert.alert('NutriCódigo copiado al portapapeles.');
+  };
   const actual = new Date();
   let actualYear = Number(actual.getUTCFullYear());
   const cumple = Number(birthDate.toString().substring(0, 4));
@@ -103,43 +108,128 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
 
     try {
       if ((observacion.length && peso.length) !== 0) {
-        const respNota = await inicioApi.post<AvancesResponseDto>( `/${id}/avance`, { observacion, }, );
+        const respNota = await inicioApi.post<AvancesResponseDto>(
+          `/${id}/avance`,
+          {observacion},
+        );
         console.log('Status de la respuesta de nota: ' + respNota.status);
         avanceId = respNota.data.id;
 
         const respPeso = await inicioApi.post(`/peso`, {
-          avanceId, peso,
+          avanceId,
+          peso,
         });
         console.log('Status de la respuesta de Peso: ' + respPeso.status);
 
-        console.log(cadera1.length, cintura1.length, brazo1.length, pierna1.length, femoral1.length, biestiloideo1.length, cuello1.length)
-        
-        if ((cadera1.length && cintura1.length && brazo1.length && pierna1.length && femoral1.length && biestiloideo1.length && cuello1.length) !== 0) {
+        console.log(
+          cadera1.length,
+          cintura1.length,
+          brazo1.length,
+          pierna1.length,
+          femoral1.length,
+          biestiloideo1.length,
+          cuello1.length,
+        );
+
+        if (
+          (cadera1.length &&
+            cintura1.length &&
+            brazo1.length &&
+            pierna1.length &&
+            femoral1.length &&
+            biestiloideo1.length &&
+            cuello1.length) !== 0
+        ) {
           const respCircunferencias = await inicioApi.post(`/circunferencias`, {
-            avanceId, cadera, cintura, brazo, pierna, femoral, altura, sexo, biestiloideo, cuello,
+            avanceId,
+            cadera,
+            cintura,
+            brazo,
+            pierna,
+            femoral,
+            altura,
+            sexo,
+            biestiloideo,
+            cuello,
           });
-          console.log('Status de la respuesta de circunferencia: ' + respCircunferencias.status);
-        }
-        
-        console.log(cintura1.length, femoral1.length, biestiloideo1.length, cuello1.length, cadera1.length)
-        if ((cintura1.length && femoral1.length && biestiloideo1.length && cuello1.length && cadera1.length) !== 0) {
-          const respIndices = await inicioApi.post(`/indices`, {
-            avanceId, edad, sexo, peso, altura, cintura, cuello, cadera, biestiloideo, femoral,
-          });
-          console.log('Status de la respuesta de Indices: ' + respIndices.status);
+          console.log(
+            'Status de la respuesta de circunferencia: ' +
+              respCircunferencias.status,
+          );
         }
 
-        console.log(tricipital.length, pectoral.length, bicipital.length, suprailiaca.length, subescupular.length, pantorrillaMedia.length, abdominal.length, musloMedio.length, midaxilar)
-        if ((tricipital.length && pectoral.length && bicipital.length && suprailiaca.length && subescupular.length && pantorrillaMedia.length && abdominal.length && musloMedio.length && midaxilar) !== 0) {
-          const respPliegues = await inicioApi.post(`/pliegues`, {
-            avanceId, tricipital, pectoral, bicipital, suprailiaca, subescupular, pantorrillaMedia, abdominal, musloMedio, midaxilar,
+        console.log(
+          cintura1.length,
+          femoral1.length,
+          biestiloideo1.length,
+          cuello1.length,
+          cadera1.length,
+        );
+        if (
+          (cintura1.length &&
+            femoral1.length &&
+            biestiloideo1.length &&
+            cuello1.length &&
+            cadera1.length) !== 0
+        ) {
+          const respIndices = await inicioApi.post(`/indices`, {
+            avanceId,
+            edad,
+            sexo,
+            peso,
+            altura,
+            cintura,
+            cuello,
+            cadera,
+            biestiloideo,
+            femoral,
           });
-          console.log('Status de la respuesta de Pliegues: ' + respPliegues.status);
+          console.log(
+            'Status de la respuesta de Indices: ' + respIndices.status,
+          );
+        }
+
+        console.log(
+          tricipital.length,
+          pectoral.length,
+          bicipital.length,
+          suprailiaca.length,
+          subescupular.length,
+          pantorrillaMedia.length,
+          abdominal.length,
+          musloMedio.length,
+          midaxilar,
+        );
+        if (
+          (tricipital.length &&
+            pectoral.length &&
+            bicipital.length &&
+            suprailiaca.length &&
+            subescupular.length &&
+            pantorrillaMedia.length &&
+            abdominal.length &&
+            musloMedio.length &&
+            midaxilar) !== 0
+        ) {
+          const respPliegues = await inicioApi.post(`/pliegues`, {
+            avanceId,
+            tricipital,
+            pectoral,
+            bicipital,
+            suprailiaca,
+            subescupular,
+            pantorrillaMedia,
+            abdominal,
+            musloMedio,
+            midaxilar,
+          });
+          console.log(
+            'Status de la respuesta de Pliegues: ' + respPliegues.status,
+          );
         }
 
         Alert.alert('Avance registrado con exito!');
         setView(false);
-
       } else {
         Alert.alert('Favor de ingresar una nota y un peso para continuar');
       }
@@ -390,20 +480,22 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
       </Modal>
 
       <View style={expedienteStyles.cardPatiente}>
-        <Text style={expedienteStyles.label}>
-          {'Numero: ' +
-            id?.substring(0, 13) +
-            '\nNombre: ' +
-            nombre +
-            '\nNacimiento: ' +
-            birthDate.toString().substring(0, 10) +
-            '\nSexo: ' +
-            Sexo +
-            '\nAltura: ' +
-            alturaPaciente +
-            ' cm' +
-            '\nPeso inicial: Peso actual: '}
-        </Text>
+        <TouchableOpacity onPress={copyIdToClipboard}>
+          <Text style={expedienteStyles.label}>
+            {'Numero: ' +
+              id?.substring(0, 13) +
+              '\nNombre: ' +
+              nombre +
+              '\nNacimiento: ' +
+              birthDate.toString().substring(0, 10) +
+              '\nSexo: ' +
+              Sexo +
+              '\nAltura: ' +
+              alturaPaciente +
+              ' cm' +
+              '\nPeso inicial: Peso actual: '}
+          </Text>
+        </TouchableOpacity>
       </View>
 
       <View

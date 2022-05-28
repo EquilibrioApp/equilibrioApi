@@ -1,5 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useContext, useEffect } from 'react';
+import {StackScreenProps} from '@react-navigation/stack';
+import React, {useContext, useEffect} from 'react';
 import {
   Alert,
   Keyboard,
@@ -8,15 +8,15 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
-import { Background } from '../components/Background';
-import { Card } from '../components/Card';
-import { EquilibrioLogo } from '../components/EquilibrioLogo';
-import { AuthContext } from '../context/AuthContext';
-import { useForm } from '../hooks/usForms';
-import { loginStyles } from '../theme/LoginTheme';
-import { registerStyles } from '../theme/RegisterTheme';
+import {Background} from '../components/Background';
+import {Card} from '../components/Card';
+import {EquilibrioLogo} from '../components/EquilibrioLogo';
+import {AuthContext} from '../context/AuthContext';
+import {useForm} from '../hooks/usForms';
+import {loginStyles} from '../theme/LoginTheme';
+import {registerStyles} from '../theme/RegisterTheme';
 
 interface Props extends StackScreenProps<any, any> {}
 
@@ -70,8 +70,10 @@ export const RegisterScreen = ({navigation}: Props) => {
   }, [errorMessage]);
 
   const onRegister = () => {
-    console.log({ password, email});
+    console.log({password, email});
     Keyboard.dismiss(); //Oculta el tecaldo al tocar el botón loginStyles
+
+   
 
     signUp({
       name,
@@ -104,57 +106,56 @@ export const RegisterScreen = ({navigation}: Props) => {
           <Card />
           <Text style={registerStyles.title}>Registro</Text>
           <ScrollView style={registerStyles.formContainer}>
-            
             {/* Etiqueta para introducir nombre*/}
             <Text style={loginStyles.label}>Nombre</Text>
             <TextInput
-            placeholder="Primer y Segundo nombre"
-            placeholderTextColor="rgba(0, 0, 0, 0.54)"
-            underlineColorAndroid="black"
-            /* style={[
+              placeholder="Primer y Segundo nombre"
+              placeholderTextColor="rgba(0, 0, 0, 0.54)"
+              underlineColorAndroid="black"
+              /* style={[
                 loginStyles.inputField,
                 (Platform.OS === "ios") && loginStyles.inputFieldIOS
             ]} */
-            selectionColor="grey"
-            onChangeText={value => onChange(value, 'name')}
-            value={name}
-            onSubmitEditing={onRegister}
-            autoCapitalize="none"
-            autoCorrect={false}
+              selectionColor="grey"
+              onChangeText={value => onChange(value, 'name')}
+              value={name}
+              onSubmitEditing={onRegister}
+              autoCapitalize="none"
+              autoCorrect={false}
             />
             {/* Etiqueta para introducir apellido paterno*/}
             <Text style={loginStyles.label}>Apellido Paterno</Text>
             <TextInput
-                placeholder="Paterno"
-                placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                underlineColorAndroid="black"
-                /* style={[
+              placeholder="Paterno"
+              placeholderTextColor="rgba(0, 0, 0, 0.54)"
+              underlineColorAndroid="black"
+              /* style={[
                                 loginStyles.inputField,
                                 (Platform.OS === "ios") && loginStyles.inputFieldIOS
                             ]} */
-                selectionColor="grey"
-                onChangeText={value => onChange(value, 'fathersLastName')}
-                value={fathersLastName}
-                onSubmitEditing={onRegister}
-                autoCapitalize="none"
-                autoCorrect={false}
+              selectionColor="grey"
+              onChangeText={value => onChange(value, 'fathersLastName')}
+              value={fathersLastName}
+              onSubmitEditing={onRegister}
+              autoCapitalize="none"
+              autoCorrect={false}
             />
             {/* Etiqueta para introducir apellido materno*/}
             <Text style={loginStyles.label}>Apellido Materno</Text>
             <TextInput
-                placeholder="Materno"
-                placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                underlineColorAndroid="black"
-                /* style={[
+              placeholder="Materno"
+              placeholderTextColor="rgba(0, 0, 0, 0.54)"
+              underlineColorAndroid="black"
+              /* style={[
                                 loginStyles.inputField,
                                 (Platform.OS === "ios") && loginStyles.inputFieldIOS
                             ]} */
-                selectionColor="grey"
-                onChangeText={value => onChange(value, 'mothersLastName')}
-                value={mothersLastName}
-                onSubmitEditing={onRegister}
-                autoCapitalize="none"
-                autoCorrect={false}
+              selectionColor="grey"
+              onChangeText={value => onChange(value, 'mothersLastName')}
+              value={mothersLastName}
+              onSubmitEditing={onRegister}
+              autoCapitalize="none"
+              autoCorrect={false}
             />
             {/* Etiqueta para introducor el correo electrónico */}
             <Text style={loginStyles.label}>Correo Electrónico</Text>
@@ -262,7 +263,9 @@ export const RegisterScreen = ({navigation}: Props) => {
               autoCorrect={false}
             />
             {/* Etiqueta para introducir Número del consultorio*/}
-            <Text style={loginStyles.label}>Número exterior del Consultorio</Text>
+            <Text style={loginStyles.label}>
+              Número exterior del Consultorio
+            </Text>
             <TextInput
               placeholder="44120"
               placeholderTextColor="rgba(0, 0, 0, 0.54)"

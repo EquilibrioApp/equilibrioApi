@@ -34,7 +34,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
   const [userType, setUserType] = useState();
   const [selectedName, setSelectedName] = useState<string>('1');
   const [selectedEmail, setSelectedEmail] = useState('');
-  const [date, setDate] = useState('09-10-2021');
+  const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [appointments, setAppointments] = useState<AppointmentsDto[]>([]);
   const {names} = useNombrePaciente(); //Obtiene los nombres de los pacientes
   const {idPaciente, start1, start2, end1, correoPaciente, form, onChange} =
@@ -280,10 +280,12 @@ export const AppointmentsScreen = ({navigation}: Props) => {
                 navigation.navigate('AppointmentScreen', {
                   id_agenda: item.id_agenda,
                   idEspecialista: item.idEspecialista,
+                  idPaciente: item.idPaciente,
                   correoPaciente: item.correoPaciente,
+                  correoEspecialista: item.correoEspecialista,
                   start: item.start,
                   end: item.end,
-                  idPaciente: item.idPaciente,
+                  iCalUID: item.iCalUID,
                 })
               }>
               <>

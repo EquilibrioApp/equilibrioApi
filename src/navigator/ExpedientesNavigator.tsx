@@ -8,11 +8,13 @@ import {EquivalenciaScreen} from '../screens/EquivalenciaScreen';
 import {AvanceScreen} from '../screens/AvanceScreen';
 import {NotasScreen} from '../screens/NotasScreen';
 import {MenuExpedienteScreen} from '../screens/MenuExpedienteScreen';
+import { SearchPatientScreen } from '../screens/SearchPatientScreen';
 
 export type ExpedientesStackParams = {
   SearchScreen: undefined;
+  SearchPatientScreen: undefined;
   MenuExpedienteScreen: {
-    id?: string;
+    id: string;
     nombre?: string;
     birthDate: Date;
     sexo?: string;
@@ -26,7 +28,7 @@ export type ExpedientesStackParams = {
     id: string | undefined
   };
   AvancesScreen: {
-    id?: string | undefined,
+    id: string,
   };
   NotasScreen: {
     id: string | undefined
@@ -52,6 +54,7 @@ export const ExpedientesNavigator = () => {
         },
       }}>
       <Stack.Screen name="SearchScreen" component={SearchScreen} options={{title: 'Expedientes'}}/>
+      <Stack.Screen name="SearchPatientScreen" component={SearchPatientScreen} options={{title: 'Expedientes'}}/>
       <Stack.Screen name="MenuExpedienteScreen" component={MenuExpedienteScreen} options={{title: 'Menu'}}/>
       <Stack.Screen name="IndicesScreen" component={IndicesScreen} options={{title: 'Indices'}}/>
       <Stack.Screen name="EquivalenciaScreen" component={EquivalenciaScreen} options={{title: 'Equivalencia'}}/>

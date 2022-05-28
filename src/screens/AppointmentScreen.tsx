@@ -1,37 +1,50 @@
-import React, {useContext, useEffect} from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, TouchableOpacity, ColorPropType, Alert } from 'react-native';
+import React, {useContext, useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  ColorPropType,
+  Alert,
+  SafeAreaView,
+} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {Picker} from '@react-native-picker/picker';
 import {AppointmentsStackParams} from '../navigator/AppointmentsNavigator';
-import { useNombrePaciente } from '../hooks/useNombrePaciente';
-import { useForm } from '../hooks/usForms';
-import { AppointmentsContext } from '../context/AppointmentsContext';
+import {useNombrePaciente} from '../hooks/useNombrePaciente';
+import {useForm} from '../hooks/usForms';
+import {AppointmentsContext} from '../context/AppointmentsContext';
 import inicioApi from '../api/inicioApi';
+import DatePicker from 'react-native-datepicker';
 
-interface Props extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {};
+interface Props
+extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {}
 
-export const AppointmentScreen = ({ navigation, route }: Props) => {
-
+export const AppointmentScreen = ({navigation, route}: Props) => {
   //Parámetros enviados mediante otra pantalla
-  const { id_agenda, idEspecialista, start, end, correoPaciente } = route.params;
-
-  // const { names } = useNombrePaciente();//Obtiene los nombres de los pacientes
-
-  // const { loadAppointmentById } = useContext( AppointmentsContext );
-
-  const { id, correoP, idEsp, inicioC, finC, form, onChange, setFormValue } = useForm({
-      id: id_agenda,
-      idEsp: idEspecialista,
-      correoP: correoPaciente,
-      inicioC: start,
-      finC: end
-  });
-
+  const {
+    id_agenda,
+    idEspecialista,
+    idPaciente,
+    correoPaciente,
+    correoEspecialista,
+    start,
+    end,
+    iCalUID,
+  } = route.params;
   
+  const [date, setDate] = useState(start?.substring(0, 10));
+  const {dia, inicioC, finC, form, onChange} = useForm({
+    dia: '',
+    inicioC: '',
+    finC: '',
+  });
 
   useEffect(() => {
     navigation.setOptions({
-      title: (correoPaciente) ? correoPaciente : 'Nueva cita',
+      title: correoPaciente ? correoPaciente : 'Nueva cita',
     });
     // loadAppointment();
   }, []);
@@ -39,107 +52,140 @@ export const AppointmentScreen = ({ navigation, route }: Props) => {
   async function deleteAppointment() {
     console.log('Id de la cita que se va a eliminar: ' + id_agenda);
     try {
-      const resp = await inicioApi.delete(
-        `/agenda/${id_agenda}`
-      );
+      const resp = await inicioApi.delete(`/agenda/${id_agenda}`);
       console.log(resp.status);
-      if(resp.status === 200) {
+      if (resp.status === 200) {
         () => navigation.navigate('AppointmentsScreen', {idEspecialista});
         Alert.alert('Cita eliminada con exito.');
-      }
-      else{
+      } else {
         Alert.alert('Algo a salido mal al eliminar la cita.');
       }
-      
     } catch (error) {
       Alert.alert('No se pudo eliminar la cita');
     }
-  } 
-  // const loadAppointment = async () => {
-  //   //Previene error en petición si el id es vacío (nueva cita)
-  //   if (id_agenda.length === 0) return;
-  //   const appointment = await loadAppointmentById( id_agenda );
-  //   console.log(form);
-  //   setFormValue({
-  //     id:  id_agenda,
-  //     // nombreP: appointment.nombrePaciente,
-  //     idEsp: /* appointment. */idEspecialista, 
-  //     correoP: /* appointment. */correoPaciente,
-  //     inicioC: /* appointment. */start,
-  //     finC: /* appointment. */end
-  //   });
-  //   console.log(form);
-  //   console.log(appointment);
-  // }
-  //TODO Función para revisar primer onChange del Picker 
+  }
+  async function updateAppointment() {
+    // try {
+    //   const resp = await inicioApi.delete(`/agenda/${id_agenda}`);
+    //   console.log(resp.status);
+    //   if (resp.status === 200) {
+    //     () => navigation.navigate('AppointmentsScreen', {idEspecialista});
+    //     Alert.alert('Cita eliminada con exito.');
+    //   } else {
+    //     Alert.alert('Algo a salido mal al eliminar la cita.');
+    //   }
+    // } catch (error) {
+    //   Alert.alert('No se pudo eliminar la cita');
+    // }
+    let start = dia + 'T' + inicioC.substring(0, 2) + ':' + inicioC.substring(2, 4) + ':00';
+    let end = dia + 'T' + finC.substring(0, 2) + ':' + finC.substring(2, 4) + ':00';
+
+    try {
+      const resp = await inicioApi.put(`/agenda/${id_agenda}`,  {
+        id_agenda,
+        idPaciente,
+        idEspecialista,
+        start,
+        end,
+        correoEspecialista,
+        correoPaciente,
+      });
+      console.log(resp.status);
+      if (resp.status === 200) {
+        Alert.alert('Cita reagendada con exito.');
+      } else {
+        Alert.alert('Algo a salido mal al reagendar la cita.');
+      }
+    } catch (error) {
+      Alert.alert('No se pudo reagendar la cita');
+    }
+    console.log(start, end);
+  }
 
   return (
     <View style={styles.container}>
-      <View style={styles.cardButtons}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.buttonOpciones}
-          onPress={deleteAppointment}>
-          <Text style={styles.textOpciones}>Eliminar cita</Text>
-        </TouchableOpacity>
-      </View>
-      {/* <Text>{JSON.stringify(form, null, 5)}</Text> */}
-      {/* <ScrollView>
-        // TODO Elegir el nombre del paciente mediante una consulta a la BD
-        <Text style={styles.label}>Nombre del Paciente:</Text>
+      <ScrollView>
+        {/* // TODO Elegir el nombre del paciente mediante una consulta a la BD */}
 
-        <Picker
-          selectedValue={correoPaciente}
-          onValueChange={(value) => {
-              // console.log(value);
-              // setSelectedValue(value)
-              onChange(value, 'correoP')
-            }}
-            
-            >
-          {
-            names.map( (paciente) => (
-              <Picker.Item 
-              //TODO Generalizar las variables
-              label={paciente.name}
-                    // value={[paciente.email, paciente.id]}
-                    value={paciente.email}
-                    key = {paciente.email} />
-              ))
-          }
-        </Picker>
-
+        <SafeAreaView style={styles.container}>
+          <View style={styles.container}>
+            <Text style={styles.title}>Fecha de la cita:</Text>
+            <DatePicker
+              style={styles.datePickerStyle}
+              date={date}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="2022-01-01"
+              maxDate="2036-12-31"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  marginHorizontal: 20,
+                  position: 'absolute',
+                  right: -5,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginHorizontal: 30,
+                  height: 40,
+                  width: '90%',
+                  paddingHorizontal: 30,
+                  borderColor: 'gray',
+                  alignItems: 'flex-start',
+                  borderWidth: 0,
+                  borderBottomWidth: 1,
+                },
+                placeholderText: {
+                  fontSize: 17,
+                  color: 'gray',
+                },
+                dateText: {
+                  fontSize: 17,
+                },
+              }}
+              onDateChange={date => {
+                setDate(date);
+                onChange(date, 'dia');
+              }}
+            />
+          </View>
+        </SafeAreaView>
         <Text style={styles.label}>Hora Inicio:</Text>
         <TextInput
-          placeholder="AAAA-MM-DD"
+          placeholder="1800"
           style={styles.textInput}
-          value = {inicioC}
-          onChangeText={( value )=> onChange( value, 'inicioC')}
-          underlineColorAndroid="black"
+          keyboardType="number-pad"
+          value={inicioC}
+          onChangeText={value => onChange(value, 'inicioC')}
         />
         <Text style={styles.label}>Hora Fin:</Text>
         <TextInput
-          placeholder="AAAA-MM-DD"
+          placeholder="1830"
           style={styles.textInput}
-          value = {finC}
-          onChangeText={( value )=> onChange( value, 'finC')}
-          underlineColorAndroid="black"
+          keyboardType="number-pad"
+          value={finC}
+          onChangeText={value => onChange(value, 'finC')}
         />
 
         <View style={styles.agendar}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.button}
-            /* Permite navegar a la pantalla que sea necesario
-            onPress={() => {}}>
-            <Text style={styles.buttonText}>Agendar Cita</Text>
+            onPress={updateAppointment}>
+            <Text style={styles.buttonText}>Reagendar Cita</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.buttonCancelar}
+            onPress={deleteAppointment}>
+            <Text style={styles.textOpciones}>Eliminar cita</Text>
           </TouchableOpacity>
         </View>
-
-        <Text>
-          {JSON.stringify(form, null, 5)}
-        </Text>
-      </ScrollView> */}
+      </ScrollView>
+      <Text>{JSON.stringify(form, null, 5)}</Text>
     </View>
   );
 };
@@ -148,10 +194,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 10,
+  },
+  title: {
+    color: '#000',
+    fontSize: 20,
+    // fontWeight: 'bold',
+    marginVertical: 10,
+    // marginHorizontal: 40,
+    fontWeight: '100',
   },
   label: {
-    fontSize: 30,
+    fontSize: 20,
+    fontWeight: '100',
+    alignSelf: 'center',
     color: 'black',
   },
   textInput: {
@@ -159,20 +216,33 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginTop: 5,
     marginBottom: 10,
+    alignSelf: 'center',
+    borderWidth: 0.3,
+    justifyContent: 'center',
+    borderRadius: 10,
+    // height: 200,
+    width: '20%',
+
   },
   agendar: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 85,
+    flexWrap: 'wrap',
   },
   button: {
-    borderWidth: 2,
-    borderColor: 'rgb(36, 255, 0)',
-    paddingHorizontal: 20,
-    paddingVertical: 5,
-    borderTopRightRadius: 20,
-    borderBottomRightRadius: 20,
+    backgroundColor: '#F5F5F5',
+    margin: 10,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+  buttonCancelar: {
+    backgroundColor: 'red',
+    margin: 10,
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
   },
@@ -208,6 +278,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  datePickerStyle: {
+    width: 230,
   },
   text: {
     fontSize: 28,

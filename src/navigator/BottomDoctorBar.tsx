@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { AppointmentsNavigator } from './AppointmentsNavigator';
 import { ExpedientesNavigator } from './ExpedientesNavigator';
 import { DoctorNavigator } from './DoctorNavigator';
+import { SearchPatientScreen } from '../screens/SearchPatientScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ export const BottomDoctorTab = () => {
         component={ExpedientesNavigator}
         options={{
           tabBarIcon: ({color, size}) => (
-            <Ionicons name="albums-outline" color={'blue'} size={30} />
+            <Ionicons name="file-tray-full-outline" color={'blue'} size={30} />
           ),
         }}
       />
