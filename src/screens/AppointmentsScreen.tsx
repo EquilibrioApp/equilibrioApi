@@ -241,6 +241,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
                     style={styles.inputNota}
                     placeholder="1830"
                     keyboardType="number-pad"
+                    maxLength={4}
                     placeholderTextColor="rgba(0, 0, 0, 0.54)"
                     onChangeText={value => onChange(value, 'start2')}
                     value={start2}
