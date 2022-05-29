@@ -20,7 +20,7 @@ import inicioApi from '../api/inicioApi';
 import DatePicker from 'react-native-datepicker';
 
 interface Props
-extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {}
+  extends StackScreenProps<AppointmentsStackParams, 'AppointmentScreen'> {}
 
 export const AppointmentScreen = ({navigation, route}: Props) => {
   //Parámetros enviados mediante otra pantalla
@@ -34,7 +34,7 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
     end,
     iCalUID,
   } = route.params;
-  
+
   const [date, setDate] = useState(start?.substring(0, 10));
   const {dia, inicioC, finC, form, onChange} = useForm({
     dia: '',
@@ -51,17 +51,34 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
 
   async function deleteAppointment() {
     console.log('Id de la cita que se va a eliminar: ' + id_agenda);
-    try {
-      const resp = await inicioApi.delete(`/agenda/${id_agenda}`);
-      console.log(resp.status);
-      if (resp.status === 200) {
-        () => navigation.navigate('AppointmentsScreen', {idEspecialista});
-        Alert.alert('Cita eliminada con exito.');
-      } else {
-        Alert.alert('Algo a salido mal al eliminar la cita.');
+
+    const actual = new Date();
+    let actualYear = actual.toISOString();
+    const fecha = start;
+    console.log('actualYear = '+actualYear);
+    console.log('fecha = '+fecha);
+    const hoy = new Date(actualYear).getTime();
+    console.log('const hoy = '+hoy);
+    const termino = new Date(fecha).getTime();
+    console.log('const termino = '+termino);
+    const hoursRemaining = ((termino - hoy) / (1000 * 60 * 60)) + 5;
+    console.log('hoursRemaining = '+hoursRemaining);
+    if (hoursRemaining < 1) {
+      Alert.alert('La cita no puede ser cancelada con menos de una hora de anticipacion.')
+    }
+    else{
+      try {
+        const resp = await inicioApi.delete(`/agenda/${id_agenda}`);
+        console.log(resp.status);
+        if (resp.status === 200) {
+          () => navigation.navigate('AppointmentsScreen', {idEspecialista});
+          Alert.alert('Cita eliminada con exito.');
+        } else {
+          Alert.alert('Algo a salido mal al eliminar la cita.');
+        }
+      } catch (error) {
+        Alert.alert('No se pudo eliminar la cita');
       }
-    } catch (error) {
-      Alert.alert('No se pudo eliminar la cita');
     }
   }
   async function updateAppointment() {
@@ -77,11 +94,18 @@ export const AppointmentScreen = ({navigation, route}: Props) => {
     // } catch (error) {
     //   Alert.alert('No se pudo eliminar la cita');
     // }
-    let start = dia + 'T' + inicioC.substring(0, 2) + ':' + inicioC.substring(2, 4) + ':00';
-    let end = dia + 'T' + finC.substring(0, 2) + ':' + finC.substring(2, 4) + ':00';
+    let start =
+      dia +
+      'T' +
+      inicioC.substring(0, 2) +
+      ':' +
+      inicioC.substring(2, 4) +
+      ':00';
+    let end =
+      dia + 'T' + finC.substring(0, 2) + ':' + finC.substring(2, 4) + ':00';
 
     try {
-      const resp = await inicioApi.put(`/agenda/${id_agenda}`,  {
+      const resp = await inicioApi.put(`/agenda/${id_agenda}`, {
         id_agenda,
         idPaciente,
         idEspecialista,
@@ -222,7 +246,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     // height: 200,
     width: '20%',
-
   },
   agendar: {
     flexDirection: 'row',

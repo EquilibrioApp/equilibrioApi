@@ -36,6 +36,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
   const [selectedEmail, setSelectedEmail] = useState('');
   const [date, setDate] = useState(new Date().toISOString().substring(0, 10));
   const [appointments, setAppointments] = useState<AppointmentsDto[]>([]);
+  const [dayAppointments, setDayAppointments] = useState<AppointmentsDto[]>([]);
   const {names} = useNombrePaciente(); //Obtiene los nombres de los pacientes
   const {idPaciente, start1, start2, end1, correoPaciente, form, onChange} =
     useForm({
@@ -128,7 +129,11 @@ export const AppointmentsScreen = ({navigation}: Props) => {
     });
     loadAppointments();
     getTypeOfUser();
+    setDayAppointments(
+      appointments.filter(mapedAppointments => mapedAppointments.start.substring(0, 10).includes(new Date().toISOString().substring(0, 10))));
   }, [view]);
+
+  console.log('Nuevo arreglo de citas'+dayAppointments);
 
   return (
     
@@ -270,7 +275,7 @@ export const AppointmentsScreen = ({navigation}: Props) => {
           </View>
         </Modal>
         <FlatList
-          data={appointments}
+          data={dayAppointments}
           keyExtractor={appointment => appointment.id_agenda} //id viene del JSON del back
           renderItem={({item}) => (
             <TouchableOpacity

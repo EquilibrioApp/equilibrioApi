@@ -182,7 +182,7 @@ export const RegisterScreen = ({navigation}: Props) => {
               onChangeText={value => onChange(value, 'name')}
               value={name}
               onSubmitEditing={onRegister}
-              autoCapitalize="none"
+              autoCapitalize="words"
               autoCorrect={false}
             />
             {/* Etiqueta para introducir apellido paterno*/}
@@ -199,7 +199,7 @@ export const RegisterScreen = ({navigation}: Props) => {
               onChangeText={value => onChange(value, 'fathersLastName')}
               value={fathersLastName}
               onSubmitEditing={onRegister}
-              autoCapitalize="none"
+              autoCapitalize="words"
               autoCorrect={false}
             />
             {/* Etiqueta para introducir apellido materno*/}
@@ -212,7 +212,7 @@ export const RegisterScreen = ({navigation}: Props) => {
               onChangeText={value => onChange(value, 'mothersLastName')}
               value={mothersLastName}
               onSubmitEditing={onRegister}
-              autoCapitalize="none"
+              autoCapitalize="words"
               autoCorrect={false}
             />
             {/* Etiqueta para introducor el correo electrónico */}
@@ -222,10 +222,6 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               keyboardType="email-address"
               underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
               selectionColor="grey"
               onChangeText={value => onChange(value, 'email')}
               value={email}
@@ -240,10 +236,6 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
               secureTextEntry
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
               selectionColor="grey"
               onChangeText={value => onChange(value, 'password')}
               value={password}
@@ -267,7 +259,7 @@ export const RegisterScreen = ({navigation}: Props) => {
             />
             <SafeAreaView style={styles.container}>
               <View style={styles.container}>
-                <Text style={styles.title}>Fecha de la cita:</Text>
+                <Text style={styles.title}>Fecha de nacimiento:</Text>
                 <DatePicker
                   style={styles.datePickerStyle}
                   date={date}
@@ -364,10 +356,7 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholder="Av..."
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
+              keyboardType="number-pad"
               selectionColor="grey"
               onChangeText={value => onChange(value, 'streetName')}
               value={streetName}
@@ -381,10 +370,7 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholder="C.P."
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
-              /* style={[
-                    loginStyles.inputField,
-                    (Platform.OS === "ios") && loginStyles.inputFieldIOS
-                ]} */
+              keyboardType="number-pad"
               selectionColor="grey"
               onChangeText={value => onChange(value, 'postalCode')}
               value={postalCode}
