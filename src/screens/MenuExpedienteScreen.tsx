@@ -522,7 +522,11 @@ export const MenuExpedienteScreen = ({route, navigation}: Props) => {
         <TouchableOpacity
           activeOpacity={0.8}
           style={expedienteStyles.buttonRed}
-          // onPress={() => navigation.navigate('CitaScreen')}
+          onPress={() => {
+            navigation.navigate('CitaScreen', {
+              id: id,
+            });
+          }}
         >
           <Text style={expedienteStyles.labelSubMenu}>Registros</Text>
           <Image

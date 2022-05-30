@@ -26,7 +26,6 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 import DatePicker from 'react-native-datepicker';
-import {Picker} from '@react-native-picker/picker';
 import {Styles} from '../theme/StyleTheme';
 
 interface Props

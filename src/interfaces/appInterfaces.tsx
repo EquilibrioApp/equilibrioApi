@@ -185,6 +185,7 @@ export interface Ejercicio {
     createdAt: string;
     updatedAt: string;
     exercises: string;
+    time:number;
 }
 
 export interface Meta {

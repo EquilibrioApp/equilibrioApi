@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  FlatList,
   Image,
   Modal,
   SafeAreaView,
@@ -19,9 +20,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useForm} from '../hooks/usForms';
 import inicioApi from '../api/inicioApi';
 import {EquivalenciaDoctor} from '../interfaces/appInterfaces';
-import { ExpedientesStackParams } from '../navigator/ExpedientesNavigator';
+import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 
-interface Props extends StackScreenProps<ExpedientesStackParams, 'EquivalenciaScreen'> {}
+interface Props
+  extends StackScreenProps<ExpedientesStackParams, 'EquivalenciaScreen'> {}
 
 export const EquivalenciaScreen = ({navigation, route}: Props) => {
   const [view, setView] = useState(false);
@@ -30,15 +32,15 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
   const [selectedMeasure, setSelectedMeasure] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('');
 
-  
   const [equivalencia, setEquivalencia] = useState<EquivalenciaDoctor[]>([]);
-  
+  const [equivalenciaDoctor, setEquivalenciaDoctor] = useState<EquivalenciaDoctor[]>([]);
+
   const {nombre, grupoAlimencio, subgrupo, medida, racion, form, onChange} =
-  useForm({
-    nombre: '',
-    grupoAlimencio: '',
-    subgrupo: '',
-    medida: '',
+    useForm({
+      nombre: '',
+      grupoAlimencio: '',
+      subgrupo: '',
+      medida: '',
       racion: '',
     });
 
@@ -62,11 +64,10 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
       Alert.alert('El campo Nombre debe estar lleno.');
     }
   };
-  
+
   const onAddEquivalencia = async () => {
-    
     const {id} = route.params;
-    
+
     try {
       if (nombre.length !== 0) {
         console.log('Lenght of Alimento: ' + nombre.length);
@@ -93,6 +94,27 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
     }
   };
 
+  const loadEquivalencia = async () => {
+    // const idEspecialista = await AsyncStorage.getItem('id');
+    const {id} = route.params;
+    console.log('idExpediente: ' + id);
+    const resp = await inicioApi.get<EquivalenciaDoctor[]>(
+      `/expediente/equivalencia/expediente/${id}`,
+    ); //TODO cambiar a expediente del especialist
+    console.log('Equivalencia: ' + JSON.stringify(resp.data));
+    setEquivalencia([...resp.data]);
+  };
+
+  const loadEquivalenciaDoctor = async () => {
+    const idEspecialista = await AsyncStorage.getItem('id');
+    console.log('idEspecialista: ' + idEspecialista);
+    const resp = await inicioApi.get<EquivalenciaDoctor[]>(
+      `/equivalencia/doctor/${idEspecialista}`,
+    ); //TODO cambiar a expediente del especialist
+    console.log('Equivalencia: ' + JSON.stringify(resp.data));
+    setEquivalenciaDoctor([...resp.data]);
+  };
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -113,8 +135,10 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
         </View>
       ),
     });
-    AddEquivalencia();
-  }, []);
+    // AddEquivalencia();
+    loadEquivalencia();
+    loadEquivalenciaDoctor();
+  }, [view]);
 
   return (
     <View style={styles.container}>
@@ -284,11 +308,71 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
           </ScrollView>
         </SafeAreaView>
       </Modal>
+
+      <FlatList
+        data={equivalencia}
+        keyExtractor={e => e.id}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            // onPress={() =>}
+          >
+            <View style={styles.expedienteCard}>
+              <Text style={styles.expedienteName}>
+                {'Grupo alimenticio: ' + item.grupoAlimencio}
+              </Text>
+              <Text style={styles.expedienteName}>
+                {'Alimento: ' + item.nombre}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+      />
+
+      <FlatList
+        data={equivalenciaDoctor}
+        keyExtractor={e => e.id}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            // onPress={() =>}
+          >
+            <View style={styles.expedienteCard}>
+              <Text style={styles.expedienteName}>
+                {'Grupo alimenticio: ' + item.grupoAlimencio}
+              </Text>
+              <Text style={styles.expedienteName}>
+                {'Alimento: ' + item.nombre}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  expedienteName: {
+    fontSize: 20,
+    marginHorizontal: 20,
+  },
+  itemSeparator: {
+    borderBottomWidth: 2,
+    marginVertical: 5,
+    borderBottomColor: 'white',
+  },
+  expedienteCard: {
+    marginHorizontal: 10,
+    backgroundColor: '#F5F5F8',
+    height: 90,
+    width: 350,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

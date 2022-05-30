@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  FlatList,
   Image,
   Modal,
   SafeAreaView,
@@ -28,7 +29,7 @@ export const EquivalenciaDoctorScreen = ({route, navigation}: Props) => {
   const [selectedMeasure, setSelectedMeasure] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState('');
 
-  const [equivalencia, setEquivalencia] = useState<EquivalenciaDoctor>();
+  const [equivalencia, setEquivalencia] = useState<EquivalenciaDoctor[]>([]);
 
   const {nombre, grupoAlimencio, subgrupo, medida, racion, form, onChange} =
     useForm({
@@ -65,6 +66,14 @@ export const EquivalenciaDoctorScreen = ({route, navigation}: Props) => {
     }
   };
 
+  const loadEquivalencia = async () =>{
+    const idEspecialista = await AsyncStorage.getItem('id');
+    console.log('idEspecialista: ' + idEspecialista);
+    const resp = await inicioApi.get<EquivalenciaDoctor[]>(`/equivalencia/doctor/${idEspecialista}`); //TODO cambiar a expediente del especialist
+    console.log('Equivalencia: '+ JSON.stringify(resp.data));
+    setEquivalencia([...resp.data]);
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -85,7 +94,8 @@ export const EquivalenciaDoctorScreen = ({route, navigation}: Props) => {
         </View>
       ),
     });
-  }, []);
+    loadEquivalencia();
+  }, [view]);
 
   return (
     <View style={styles.container}>
@@ -255,11 +265,47 @@ export const EquivalenciaDoctorScreen = ({route, navigation}: Props) => {
           </ScrollView>
         </SafeAreaView>
       </Modal>
+
+      <FlatList
+          data={equivalencia}
+          keyExtractor={e => e.id}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              // onPress={() =>}
+              >
+              <View style={styles.expedienteCard}>
+                <Text style={styles.expedienteName}>{'Grupo alimenticio: ' + item.grupoAlimencio}</Text>
+                <Text style={styles.expedienteName}>{'Alimento: '+item.nombre}</Text>
+                
+              </View>
+            </TouchableOpacity>
+          )}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+        />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  expedienteName: {
+    fontSize: 20,
+    marginHorizontal: 20,
+  },
+  itemSeparator: {
+    borderBottomWidth: 2,
+    marginVertical: 5,
+    borderBottomColor: 'white',
+  },
+  expedienteCard: {
+    marginHorizontal: 10,
+    backgroundColor: '#F5F5F8',
+    height: 90,
+    width: 350,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',

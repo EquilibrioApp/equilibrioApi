@@ -33,10 +33,10 @@ export type ExpedientesStackParams = {
   NotasScreen: {
     id: string | undefined
   };
-  // CitaScreen: {
-  //   id?: string;
-  //   exercises?: string, expediente?: string
-  // };
+  CitaScreen: {
+    id?: string| undefined
+    // exercises?: string, expediente?: string
+  };
 };
 
 const Stack = createStackNavigator<ExpedientesStackParams>();
@@ -60,6 +60,7 @@ export const ExpedientesNavigator = () => {
       <Stack.Screen name="EquivalenciaScreen" component={EquivalenciaScreen} options={{title: 'Equivalencia'}}/>
       <Stack.Screen name="AvancesScreen" component={AvanceScreen} options={{title: 'AvancesVsMeta'}}/>
       <Stack.Screen name="NotasScreen" component={NotasScreen} options={{title: 'Notas'}}/>
+      <Stack.Screen name="CitaScreen" component={CitaScreen} options={{title: ''}}/>
     </Stack.Navigator>
   );
 };

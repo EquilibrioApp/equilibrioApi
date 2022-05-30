@@ -29,7 +29,7 @@ interface Props
 export const SearchScreen = ({navigation}: Props) => {
   const [view, setView] = useState(false);
   const [date, setDate] = useState('09-10-2021');
-  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValue, setSelectedValue] = useState('F');
   const {expediente, loadExpediente} = useContext(ExpedientesContext);
 
   const {id, nombre, sexo, birthDate, alturaPaciente, form, onChange} = useForm(
@@ -56,7 +56,7 @@ export const SearchScreen = ({navigation}: Props) => {
       ),
     });
     loadExpediente();
-  }, []);
+  }, [view]);
 
   const onAddExpediente = async () => {
     console.log(form);
@@ -125,6 +125,7 @@ export const SearchScreen = ({navigation}: Props) => {
                     setSelectedValue(itemValue);
                     onChange(itemValue, 'sexo');
                   }}>
+                  <Picker.Item label="Seleccione una opcion" value="F" />
                   <Picker.Item label="Feminino" value="F" />
                   <Picker.Item label="Maculino" value="M" />
                 </Picker>
