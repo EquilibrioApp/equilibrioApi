@@ -63,11 +63,10 @@ export const AppointmentsScreen = ({navigation}: Props) => {
   }
   async function getTypeOfUser() {
     let userType = await AsyncStorage.getItem('userType');
-    console.log('userType en la funcion: '+userType);
+    console.log('userType en la funcion: ' + userType);
     // setUserType(userType);
-    
   }
-  console.log('userType fuera de la funcion: '+userType);
+  console.log('userType fuera de la funcion: ' + userType);
   async function createAppointment() {
     const idEspecialista = await AsyncStorage.getItem('id');
     const correoEspecialista =
@@ -130,188 +129,191 @@ export const AppointmentsScreen = ({navigation}: Props) => {
     loadAppointments();
     getTypeOfUser();
     setDayAppointments(
-      appointments.filter(mapedAppointments => mapedAppointments.start.substring(0, 10).includes(new Date().toISOString().substring(0, 10))));
+      appointments.filter(mapedAppointments =>
+        mapedAppointments.start
+          .substring(0, 10)
+          .includes(new Date().toISOString().substring(0, 10)),
+      ),
+    );
+    names;
   }, [view]);
 
-  console.log('Nuevo arreglo de citas'+dayAppointments);
+  console.log('Nuevo arreglo de citas' + dayAppointments);
 
   return (
-    
-      <View style={{flex: 1, marginHorizontal: 10}}>
-        <Modal animationType="fade" visible={view} transparent={true}>
-          <View style={styles.containerModal}>
-            <View style={styles.subcontainerModal}>
-              <View style={styles.headerContainerModal}>
-                <TouchableOpacity onPress={() => setView(false)}>
-                  <Image
-                    source={require('../assets/Close.png')}
-                    style={Styles.btnClose}
-                  />
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  // justifyContent: 'center',
-                  alignItems: 'center',
+    <View style={{flex: 1, marginHorizontal: 10}}>
+      <Modal animationType="fade" visible={view} transparent={true}>
+        <View style={styles.containerModal}>
+          <View style={styles.subcontainerModal}>
+            <View style={styles.headerContainerModal}>
+              <TouchableOpacity onPress={() => setView(false)}>
+                <Image
+                  source={require('../assets/Close.png')}
+                  style={Styles.btnClose}
+                />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                // justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.titleT}>Agendar nueva cita</Text>
+              <Text style={styles.title}>Nombre del paciente</Text>
+
+              <Picker
+                selectedValue={correoPaciente}
+                style={{height: 50, width: 300, marginLeft: 50}}
+                onValueChange={value => {
+                  setSelectedName(value);
+                  onChange(value, 'correoPaciente');
                 }}>
-                <Text style={styles.titleT}>Agendar nueva cita</Text>
-                <Text style={styles.title}>Nombre del paciente</Text>
-
-                <Picker
-                  selectedValue={correoPaciente}
-                  style={{height: 50, width: 300, marginLeft: 50}}
-                  onValueChange={value => {
-                    setSelectedName(value);
-                    onChange(value, 'correoPaciente');
-                  }}>
-                  <Picker.Item label="Seleccione un paciente" value="" />
-                  {names.map((paciente /* , index */) => (
-                    <Picker.Item
-                      //TODO Generalizar las variables
-                      label={paciente.name}
-                      value={paciente.email}
-                      key={paciente.email}
-                    />
-                  ))}
-                </Picker>
-
-                <Text style={styles.title}>Correo del paciente</Text>
-                <Picker
-                  selectedValue={idPaciente}
-                  style={{height: 50, width: 300, marginLeft: 50}}
-                  onValueChange={value => {
-                    setSelectedEmail(value);
-                    onChange(value, 'idPaciente');
-                  }}>
-                  <Picker.Item label="Seleccione un correo" value="" />
-                  {names.map((paciente /* , index */) => (
-                    <Picker.Item
-                      //TODO Generalizar las variables
-                      label={paciente.email}
-                      value={paciente.id}
-                      key={paciente.id}
-                    />
-                  ))}
-                </Picker>
-                <SafeAreaView style={styles.container}>
-                  <View style={styles.container}>
-                    <Text style={styles.title}>Fecha de la cita:</Text>
-                    <DatePicker
-                      style={styles.datePickerStyle}
-                      date={date}
-                      mode="date"
-                      placeholder="select date"
-                      format="YYYY-MM-DD"
-                      minDate="2022-01-01"
-                      maxDate="2036-12-31"
-                      confirmBtnText="Confirm"
-                      cancelBtnText="Cancel"
-                      customStyles={{
-                        dateIcon: {
-                          marginHorizontal: 20,
-                          position: 'absolute',
-                          right: -5,
-                          top: 4,
-                          marginLeft: 0,
-                        },
-                        dateInput: {
-                          marginHorizontal: 30,
-                          height: 40,
-                          width: '90%',
-                          paddingHorizontal: 30,
-                          borderColor: 'gray',
-                          alignItems: 'flex-start',
-                          borderWidth: 0,
-                          borderBottomWidth: 1,
-                        },
-                        placeholderText: {
-                          fontSize: 17,
-                          color: 'gray',
-                        },
-                        dateText: {
-                          fontSize: 17,
-                        },
-                      }}
-                      onDateChange={date => {
-                        setDate(date);
-                        onChange(date, 'start1');
-                      }}
-                    />
-                  </View>
-                </SafeAreaView>
-                <Text style={styles.title}>Hora de la cita:</Text>
-                <View style={{flexDirection: 'row'}}>
-                  <TextInput
-                    style={styles.inputNota}
-                    placeholder="1830"
-                    keyboardType="number-pad"
-                    maxLength={4}
-                    placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                    onChangeText={value => onChange(value, 'start2')}
-                    value={start2}
+                <Picker.Item label="Seleccione un paciente" value="" />
+                {names.map((paciente /* , index */) => (
+                  <Picker.Item
+                    //TODO Generalizar las variables
+                    label={paciente.name}
+                    value={paciente.email}
+                    key={paciente.email}
                   />
-                  <Text style={styles.title}>a</Text>
-                  <TextInput
-                    style={styles.inputNota}
-                    placeholder="1845"
-                    maxLength={4}
-                    keyboardType="number-pad"
-                    placeholderTextColor="rgba(0, 0, 0, 0.54)"
-                    onChangeText={value => onChange(value, 'end1')}
-                    value={end1}
+                ))}
+              </Picker>
+
+              <Text style={styles.title}>Correo del paciente</Text>
+              <Picker
+                selectedValue={idPaciente}
+                style={{height: 50, width: 300, marginLeft: 50}}
+                onValueChange={value => {
+                  setSelectedEmail(value);
+                  onChange(value, 'idPaciente');
+                }}>
+                <Picker.Item label="Seleccione un correo" value="" />
+                {names.map((paciente /* , index */) => (
+                  <Picker.Item
+                    //TODO Generalizar las variables
+                    label={paciente.email}
+                    value={paciente.id}
+                    key={paciente.id}
+                  />
+                ))}
+              </Picker>
+              <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                  <Text style={styles.title}>Fecha de la cita:</Text>
+                  <DatePicker
+                    style={styles.datePickerStyle}
+                    date={date}
+                    mode="date"
+                    placeholder="select date"
+                    format="YYYY-MM-DD"
+                    minDate="2022-01-01"
+                    maxDate="2036-12-31"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                      dateIcon: {
+                        marginHorizontal: 20,
+                        position: 'absolute',
+                        right: -5,
+                        top: 4,
+                        marginLeft: 0,
+                      },
+                      dateInput: {
+                        marginHorizontal: 30,
+                        height: 40,
+                        width: '90%',
+                        paddingHorizontal: 30,
+                        borderColor: 'gray',
+                        alignItems: 'flex-start',
+                        borderWidth: 0,
+                        borderBottomWidth: 1,
+                      },
+                      placeholderText: {
+                        fontSize: 17,
+                        color: 'gray',
+                      },
+                      dateText: {
+                        fontSize: 17,
+                      },
+                    }}
+                    onDateChange={date => {
+                      setDate(date);
+                      onChange(date, 'start1');
+                    }}
                   />
                 </View>
-                <TouchableOpacity
-                  activeOpacity={0.2}
-                  style={styles.touchableCrearExpediente}
-                  onPress={createAppointment /* () => console.log(form) */}>
-                  <Text style={styles.touchableCrearExpedienteTexto}>
-                    Agendar Cita
-                  </Text>
-                </TouchableOpacity>
+              </SafeAreaView>
+              <Text style={styles.title}>Hora de la cita:</Text>
+              <View style={{flexDirection: 'row'}}>
+                <TextInput
+                  style={styles.inputNota}
+                  placeholder="1830"
+                  keyboardType="number-pad"
+                  maxLength={4}
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  onChangeText={value => onChange(value, 'start2')}
+                  value={start2}
+                />
+                <Text style={styles.title}>a</Text>
+                <TextInput
+                  style={styles.inputNota}
+                  placeholder="1845"
+                  maxLength={4}
+                  keyboardType="number-pad"
+                  placeholderTextColor="rgba(0, 0, 0, 0.54)"
+                  onChangeText={value => onChange(value, 'end1')}
+                  value={end1}
+                />
               </View>
+              <TouchableOpacity
+                activeOpacity={0.2}
+                style={styles.touchableCrearExpediente}
+                onPress={createAppointment /* () => console.log(form) */}>
+                <Text style={styles.touchableCrearExpedienteTexto}>
+                  Agendar Cita
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
-        <FlatList
-          data={dayAppointments}
-          keyExtractor={appointment => appointment.id_agenda} //id viene del JSON del back
-          renderItem={({item}) => (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.card}
-              // Paso de la informacion al hacer click para otra pantalla
-              onPress={() =>
-                navigation.navigate('AppointmentScreen', {
-                  id_agenda: item.id_agenda,
-                  idEspecialista: item.idEspecialista,
-                  idPaciente: item.idPaciente,
-                  correoPaciente: item.correoPaciente,
-                  correoEspecialista: item.correoEspecialista,
-                  start: item.start,
-                  end: item.end,
-                  iCalUID: item.iCalUID,
-                })
-              }>
-              <>
-                <Text style={styles.appointmentDate}>
-                  {item.end.substring(0, 10)}
-                </Text>
-                <Text style={styles.appointmentDate}>
-                  {item.start.substring(11, 16) +
-                    ' a ' +
-                    item.end.substring(11, 16)}
-                </Text>
-                <Text style={styles.patient}>{item.correoPaciente}</Text>
-              </>
-            </TouchableOpacity>
-          )}
-          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        />
-      </View>
-    
-      
+        </View>
+      </Modal>
+      <FlatList
+        data={dayAppointments}
+        keyExtractor={appointment => appointment.id_agenda} //id viene del JSON del back
+        renderItem={({item}) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.card}
+            // Paso de la informacion al hacer click para otra pantalla
+            onPress={() =>
+              navigation.navigate('AppointmentScreen', {
+                id_agenda: item.id_agenda,
+                idEspecialista: item.idEspecialista,
+                idPaciente: item.idPaciente,
+                correoPaciente: item.correoPaciente,
+                correoEspecialista: item.correoEspecialista,
+                start: item.start,
+                end: item.end,
+                iCalUID: item.iCalUID,
+              })
+            }>
+            <>
+              <Text style={styles.appointmentDate}>
+                {item.end.substring(0, 10)}
+              </Text>
+              <Text style={styles.appointmentDate}>
+                {item.start.substring(11, 16) +
+                  ' a ' +
+                  item.end.substring(11, 16)}
+              </Text>
+              <Text style={styles.patient}>{item.correoPaciente}</Text>
+            </>
+          </TouchableOpacity>
+        )}
+        ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+      />
+    </View>
   );
 };
 

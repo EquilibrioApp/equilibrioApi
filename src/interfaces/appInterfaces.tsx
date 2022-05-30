@@ -52,7 +52,7 @@ export interface RegisterData{
     postalCode?: string;
 
     //Info en caso de ser paciente
-    nutriCodigo?: string;
+    nutriCodigoId?: string;
 }
 
 export interface RegisterResponse{

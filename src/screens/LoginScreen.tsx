@@ -119,15 +119,6 @@ export const LoginScreen = ({ navigation }: Props) => {
                             <Text style={loginStyles.bottomLinksText}>¿No tiene una cuenta?</Text>
                         </TouchableOpacity>
                     </View>
-                    {/* Recuperar contraseña */}
-                    <View style={loginStyles.bottomLinks}>
-                        <TouchableOpacity
-                            activeOpacity={0.8}
-                            onPress={() => console.log('press')}
-                        >
-                            <Text style={loginStyles.bottomLinksText}>Recuperar contraseña</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
             </KeyboardAvoidingView>
         </>

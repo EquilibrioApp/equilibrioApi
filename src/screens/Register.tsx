@@ -42,7 +42,7 @@ export const RegisterScreen = ({navigation}: Props) => {
     houseNumber,
     streetName,
     postalCode,
-    nutriCodigo,
+    nutriCodigoId,
     onChange,
   } = useForm({
     name: '',
@@ -58,7 +58,7 @@ export const RegisterScreen = ({navigation}: Props) => {
     houseNumber: '',
     streetName: '',
     postalCode: '',
-    nutriCodigo: '',
+    nutriCodigoId: '',
   });
 
   useEffect(() => {
@@ -107,7 +107,7 @@ export const RegisterScreen = ({navigation}: Props) => {
                     houseNumber,
                     streetName,
                     postalCode,
-                    nutriCodigo,
+                    nutriCodigoId,
                   });
                 } else {
                   Alert.alert(
@@ -356,12 +356,11 @@ export const RegisterScreen = ({navigation}: Props) => {
               placeholder="Av..."
               placeholderTextColor="rgba(0, 0, 0, 0.54)"
               underlineColorAndroid="black"
-              keyboardType="number-pad"
               selectionColor="grey"
               onChangeText={value => onChange(value, 'streetName')}
               value={streetName}
               onSubmitEditing={onRegister}
-              autoCapitalize="none"
+              autoCapitalize="sentences"
               autoCorrect={false}
             />
             {/* Etiqueta para introducir CP*/}
