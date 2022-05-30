@@ -113,7 +113,6 @@ export const EquivalenciaScreen = ({navigation, route}: Props) => {
         </View>
       ),
     });
-    AddEquivalencia();
   }, []);
 
   return (

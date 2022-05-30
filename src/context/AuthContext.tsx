@@ -119,7 +119,7 @@ export const AuthProvider = ({children}: any) => {
     houseNumber,
     streetName,
     postalCode,
-    nutriCodigo,
+    nutriCodigoId,
   }: RegisterData) => {
     try {
       const {data} = await inicioApi.post<LoginResponse>('/user/create', {
@@ -136,7 +136,7 @@ export const AuthProvider = ({children}: any) => {
         houseNumber,
         streetName,
         postalCode,
-        nutriCodigo,
+        nutriCodigoId,
       });
       dispatch({
         type: 'signUp',
@@ -167,6 +167,9 @@ export const AuthProvider = ({children}: any) => {
 
   const logOut = async () => {
     await AsyncStorage.removeItem('token');
+    // await AsyncStorage.removeItem('email');
+    // await AsyncStorage.removeItem('id');
+    // await AsyncStorage.removeItem('userType');
     dispatch({type: 'logOut'});
   };
 
