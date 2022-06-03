@@ -2,14 +2,10 @@ import {Picker} from '@react-native-picker/picker';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View, ViewBase, Image} from 'react-native';
-import {CheckBox} from 'react-native-elements';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {Inputstyles} from '../components/Input';
-import {ExpedientesContext} from '../context/ExpedientesContext';
 import {useForm} from '../hooks/usForms';
 import {PacienteStackParams} from '../navigator/PacienteNavigator';
-import {Styles} from '../theme/StyleTheme';
-
 interface Props
   extends StackScreenProps<PacienteStackParams, 'RegisterPatScreen'> {}
 

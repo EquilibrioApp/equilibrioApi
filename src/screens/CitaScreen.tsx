@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import inicioApi from '../api/inicioApi';
+import { RegistrosCard } from '../components/RegistrosCard';
 import {Ejercicio, Registro} from '../interfaces/appInterfaces';
 import {ExpedientesStackParams} from '../navigator/ExpedientesNavigator';
 import {expedienteStyles} from '../theme/ExpedienteTheme';
@@ -47,26 +48,30 @@ export const CitaScreen = ({route, navigation}: Props) => {
 
   return (
     <>
-      <Text> Registro cuestionario </Text>
+      <Text style={lyricsStyle.labelBold}> Registro cuestionario </Text>
       <FlatList
         data={preguntas}
         keyExtractor={e => e.id}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            // onPress={() =>}
-          >
-            <View style={styles.expedienteCard}>
-              <Text style={styles.expedienteName}>
-                {'Registro fecha : ' + item.createdAt}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        renderItem={({item}) => <RegistrosCard preguntas={item} />}
+        // renderItem={({item}) => (
+        //   <TouchableOpacity
+        //     activeOpacity={0.8}
+        //     // onPress={() =>}
+        //   >
+        //     <View style={styles.expedienteCard}>
+        //       <Text style={styles.expedienteName}>
+        //         {'Registro fecha : ' + item.createdAt}
+        //       </Text>
+        //     </View>
+        //   </TouchableOpacity>
+        // )}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
       />
 
-      <Text> Registro ejercicio</Text>
+      
+
+
+      <Text style={lyricsStyle.labelBold}> Registro ejercicio</Text>
       <FlatList
         data={ejercicio}
         keyExtractor={e => e.id}
