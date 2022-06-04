@@ -57,7 +57,7 @@ export const AuthProvider = ({children}: any) => {
       if (resp.status !== 200) {
         return dispatch({type: 'notAuthenticated'});
       }
-  
+
       dispatch({
         type: 'signIn',
         payload: {
@@ -84,17 +84,17 @@ export const AuthProvider = ({children}: any) => {
         type: 'signIn',
         payload: {
           token: data.token.access_token,
-          response: data.result
-        }
-    });
-    
-    console.log(data);
-    console.log(data.result.id);
-    /* En esta sección se guarda el token en el dispositivo */
-    await AsyncStorage.setItem('token', data.token.access_token);
-    await AsyncStorage.setItem('email', data.result.email);
-    await AsyncStorage.setItem('id', data.result.id);
-    await AsyncStorage.setItem('userType', data.result.userType);
+          response: data.result,
+        },
+      });
+
+      console.log(data);
+      console.log(data.result.id);
+      /* En esta sección se guarda el token en el dispositivo */
+      await AsyncStorage.setItem('token', data.token.access_token);
+      await AsyncStorage.setItem('email', data.result.email);
+      await AsyncStorage.setItem('id', data.result.id);
+      await AsyncStorage.setItem('userType', data.result.userType);
     } catch (error) {
       /* Se manejan los errores que puedan suceder en el login */
       console.log(error);
@@ -102,9 +102,7 @@ export const AuthProvider = ({children}: any) => {
         type: 'addError',
         payload: 'Información Incorrecta.',
       });
-    } 
-    // finally {  
-    // }
+    }
   };
 
   const signUp = async ({
@@ -121,7 +119,7 @@ export const AuthProvider = ({children}: any) => {
     houseNumber,
     streetName,
     postalCode,
-    nutriCodigo,
+    nutriCodigoId,
   }: RegisterData) => {
     try {
       const {data} = await inicioApi.post<LoginResponse>('/user/create', {
@@ -138,7 +136,7 @@ export const AuthProvider = ({children}: any) => {
         houseNumber,
         streetName,
         postalCode,
-        nutriCodigo,
+        nutriCodigoId,
       });
       dispatch({
         type: 'signUp',
@@ -150,6 +148,9 @@ export const AuthProvider = ({children}: any) => {
 
       /* En esta sección se guarda el token en el dispositivo */
       await AsyncStorage.setItem('token', data.token.access_token);
+      await AsyncStorage.setItem('email', data.result.email);
+      await AsyncStorage.setItem('id', data.result.id);
+      await AsyncStorage.setItem('userType', data.result.userType);
 
       /* En esta sección se guarda el token en el dispositivo 
             await AsyncStorage.setItem('token', resp.data.token);*/
@@ -166,6 +167,9 @@ export const AuthProvider = ({children}: any) => {
 
   const logOut = async () => {
     await AsyncStorage.removeItem('token');
+    // await AsyncStorage.removeItem('email');
+    // await AsyncStorage.removeItem('id');
+    // await AsyncStorage.removeItem('userType');
     dispatch({type: 'logOut'});
   };
 

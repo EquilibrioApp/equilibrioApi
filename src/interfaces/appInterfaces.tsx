@@ -52,7 +52,7 @@ export interface RegisterData{
     postalCode?: string;
 
     //Info en caso de ser paciente
-    nutriCodigo?: string;
+    nutriCodigoId?: string;
 }
 
 export interface RegisterResponse{
@@ -324,4 +324,13 @@ export interface Ejercicio {
     updatedAt: string;
     exercises: string;
     time:      number;
+}
+
+export interface EquivalenciaDoctor {
+    nombre:         string;
+    grupoAlimencio: string;
+    subgrupo:       string;
+    racion:         string;
+    doctor:         string;
+    id:             string;
 }

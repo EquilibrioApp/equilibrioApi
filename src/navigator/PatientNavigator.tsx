@@ -9,6 +9,7 @@ import { RegisterPatScreen } from '../screens/RegisterPatScreen';
 import { MetaAvancesScreen } from '../screens/MetasAvancesScreen';
 import { NotificationScreen } from '../screens/NotificationScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
+import { EquivalenciaPatScreen } from '../screens/EquivalenciaPatScreen';
 
 export type PatientStackParams = {
   PatientsMainScreen: undefined;
@@ -35,6 +36,7 @@ export type PatientStackParams = {
     end?: string;
     correoPaciente?: string;
   };
+  EquivalenciaPatScreen: undefined;
 };
 
 const Stack = createStackNavigator<PatientStackParams>();
@@ -91,6 +93,11 @@ export const PatientNavigator = () => {
         name="NotificationsScreen"
         component={NotificationsScreen}
         options={{title: 'Notificaciones'}}
+      />
+      <Stack.Screen
+        name="EquivalenciaPatScreen"
+        component={EquivalenciaPatScreen}
+        options={{title: 'Hoja de equivalenicia'}}
       />
       {/* <Stack.Screen name="PotentialUserResultScreen" component={PotentialUserResultScreen} /> */}
     </Stack.Navigator>

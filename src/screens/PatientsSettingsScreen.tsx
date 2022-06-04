@@ -1,13 +1,13 @@
-import React, { useContext } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, {useContext} from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import { AuthContext } from '../context/AuthContext';
+import {AuthContext} from '../context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ScrollView} from 'react-native-gesture-handler';
 
 interface Props extends StackScreenProps<any, any> {}
 
 export const PatientsSettingsScreen = ({navigation}: Props) => {
-  
   const {token, logOut} = useContext(AuthContext);
 
   const userId = AsyncStorage.getItem('id');
@@ -15,33 +15,41 @@ export const PatientsSettingsScreen = ({navigation}: Props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.tittle}>Configuración</Text>
+      {/* <ScrollView> */}
+        <View style={styles.cardProgreso}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.buttonConfig}
+            onPress={() => navigation.navigate('PatientProfileScreen')}>
+            <Text style={styles.buttonText}>Mi Info</Text>
+          </TouchableOpacity>
 
-      <View style={styles.cardProgreso}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.buttonConfig}
-          onPress={() => navigation.navigate('PatientProfileScreen')}>
-          <Text style={styles.buttonText}>Mi Info</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.buttonConfig}
+            onPress={() =>
+              navigation.navigate('NotificationsScreen', {userId: userId})
+            }>
+            <Text style={styles.buttonText}>Notificaciones</Text>
+          </TouchableOpacity>
 
-      <View style={styles.cardProgreso}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.buttonConfig}
-          onPress={() => navigation.navigate('NotificationsScreen', {userId:userId})}>
-          <Text style={styles.buttonText}>Mi Info</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.buttonConfig}
+            onPress={() =>
+              navigation.navigate('EquivalenciaPatScreen')
+            }>
+            <Text style={styles.buttonText}>Hoja de equivalencia</Text>
+          </TouchableOpacity>
 
-      <View style={styles.cardButtons}>
-        <TouchableOpacity
+          <TouchableOpacity
           activeOpacity={0.8}
           style={styles.buttonOpciones}
           onPress={logOut}>
           <Text style={styles.textOpciones}>Cerrar Sesión</Text>
         </TouchableOpacity>
-      </View>
+        </View>
+      {/* </ScrollView> */}
     </View>
   );
 };
@@ -61,9 +69,9 @@ const styles = StyleSheet.create({
   },
   buttonConfig: {
     fontSize: 30,
-    margin: 9,
+    margin: 5,
     width: 370,
-    height: 150,
+    height: 100,
     borderRadius: 40,
     top: 70,
     backgroundColor: '#FFAB2480',
@@ -78,11 +86,13 @@ const styles = StyleSheet.create({
   },
   cardProgreso: {
     // backgroundColor: '#FFE8C3',
+    margin: 30,
+    top: -50,
     width: 375,
     height: 350,
     borderRadius: 50,
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   text: {
     fontSize: 28,
@@ -101,14 +111,14 @@ const styles = StyleSheet.create({
     top: 150,
   },
   buttonOpciones: {
-    margin: 5,
+    margin: 75,
     width: 200,
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
     backgroundColor: '#ff002b',
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 10,
