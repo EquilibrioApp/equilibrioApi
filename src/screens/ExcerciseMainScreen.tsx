@@ -77,7 +77,7 @@ export const ExcerciseMainScreen = ({route, navigation}: Props) => {
     addExercises()
     stopTimer();
     setSeconds(0);
-    setMinutes(0);
+    setMinutes(79);
   };
 
   const changeTime = () => {

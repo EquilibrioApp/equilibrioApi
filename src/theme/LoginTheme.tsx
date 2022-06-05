@@ -14,12 +14,15 @@ export const loginStyles = StyleSheet.create({
     },
     title: {
         color: 'black',
-        fontSize: 32,
+        fontSize: 28,
         justifyContent: 'center',
         fontWeight: 'bold',
-        fontFamily: 'Comfortaa'
+        fontFamily: 'Comfortaa', 
+        top: 25
     },
     label: {
+        top: 5,
+        marginVertical: -5,
         color: 'black',
         marginTop: 35,
         fontSize: 18,
@@ -69,7 +72,7 @@ export const loginStyles = StyleSheet.create({
     },
     bottomLinksText: {
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 12,
         color: 'black',
         alignItems: 'center',
         justifyContent: 'center'

@@ -78,7 +78,7 @@ export const LoginScreen = ({ navigation }: Props) => {
 
                     />
                     {/* Etiqueta para introducir la contraseña*/}
-                    <Text style={loginStyles.label}>Coontraseña</Text>
+                    <Text style={loginStyles.label}>Contraseña</Text>
                     <TextInput
                         placeholder="************"
                         placeholderTextColor="rgba(0, 0, 0, 0.54)"

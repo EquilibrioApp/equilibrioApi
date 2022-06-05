@@ -97,7 +97,7 @@ export const PatientNavigator = () => {
       <Stack.Screen
         name="EquivalenciaPatScreen"
         component={EquivalenciaPatScreen}
-        options={{title: 'Hoja de equivalenicia'}}
+        options={{title: 'Hoja de equivalencia'}}
       />
       {/* <Stack.Screen name="PotentialUserResultScreen" component={PotentialUserResultScreen} /> */}
     </Stack.Navigator>

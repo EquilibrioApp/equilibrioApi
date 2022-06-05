@@ -53,6 +53,7 @@ export const PatientsSettingsScreen = ({navigation}: Props) => {
     </View>
   );
 };
+//C:\Users\estel\Desktop\equilibrioVisual\src\screens\PatientsMainScreen.tsx
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   tittle: {
-    fontSize: 55,
+    fontSize: 50,
     paddingHorizontal: 20,
     textAlignVertical: 'top',
     fontWeight: '100',

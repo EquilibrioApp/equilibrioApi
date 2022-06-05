@@ -74,8 +74,8 @@ export const RegisterPatScreen = ({route, navigation}: Props) => {
   });
 
   const addRegister = async () => {
+    const {UserId} = route.params;
     try {
-      const {UserId} = route.params;
       const respEx = await inicioApi.get<Patient>(`/patient/${UserId}`);
       console.log('Exp: ' + respEx.data.nutriCodigo.id);
       const expediente = respEx.data.nutriCodigo.id;
